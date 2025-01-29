@@ -1,0 +1,152 @@
+architecture DynamicVM {
+    registers:
+        storage R0[32];
+        storage R1[32];
+        storage R2[32];
+        storage R3[32];
+        storage R4[32];
+        storage R5[32];
+        storage R6[32];
+        storage R7[32];
+        storage PC[32];                        // Счетчик команд (Program Counter)
+        storage SP[32];                        // Указатель стека (Stack Pointer)
+        storage FLAGS[4];                      // Регистр флагов (Zero, Negative, Carry, Overflow)
+        storage IN[8];                      // Регистр для ввода 
+        storage OUT[8];                      // Регистр для вывода
+
+        view gp0 = R0;        // Регистр общего назначения
+        view gp1 = R1;        // Регистр общего назначения
+        view gp2 = R2;        // Регистр общего назначения
+        view gp3 = R3;        // Регистр общего назначения
+        view gp4 = R4;        // Регистр общего назначения
+        view gp5 = R5;        // Регистр общего назначения
+        view gp6 = R6;        // Регистр общего назначения
+        view gp7 = R7;        // Регистр общего назначения
+        view ZeroFlag = FLAGS[0];              // Флаг нуля
+        view NegativeFlag = FLAGS[1];          // Флаг отрицания
+        view CarryFlag = FLAGS[2];             // Флаг переноса
+        view OverflowFlag = FLAGS[3];          // Флаг переполнения
+        view sp = SP;
+        view iv = IN;
+        view ov = OUT;
+
+    memory:
+        range code [0x0000..0x3FFF] {
+            cell = 8;
+            endianess = little-endian;
+            granularity = 1;
+        }
+
+        range data_bank [0x4000..0x7FFF] {
+            cell = 8;
+            endianess = little-endian;
+            granularity = 0;
+        }
+
+    instructions:
+        encode reg field = register {
+            gp0 = 000,
+            gp1 = 001,
+            gp2 = 010,
+            gp3 = 011,
+            gp4 = 100,
+            gp5 = 101,
+            gp6 = 110,
+            gp7 = 111
+        };
+
+        encode in_out field = register {
+            iv = 0,
+            ov = 1
+        };
+
+        encode port field = immediate[8] data;
+
+        encode imm32 field = immediate[32] data;
+        encode imm8 field = immediate[8] data;
+
+        instruction load = { 0 0000 0000 0000 0000 0000 0000 0001, reg as dest, imm32 as value } {
+            dest = value;
+            PC = PC + 8;
+        };
+
+        instruction store = { 0 0000 0000 0000 0000 0000 0000 0010, reg as src, imm32 as address } {
+            data_bank[address] = src;
+            SP = SP + 4;
+            PC = PC + 8;
+        };
+
+        instruction mov = { 00 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 1001, reg as dest, reg as src } {
+            dest = src;
+            PC = PC + 8;
+        };
+
+        instruction add = { 000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0011, reg as dest, reg as src1, reg as src2 } {
+            let result = src1 + src2;
+            dest = result;
+            if result == 0 then
+                ZeroFlag = 1;
+            if result < 0 then
+                NegativeFlag = 1;
+            PC = PC + 8;
+        };
+
+        instruction sub = { 000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0100, reg as dest, reg as src1, reg as src2 } {
+            let result = src1 - src2;
+            dest = result;
+            if result == 0 then
+                ZeroFlag = 1;
+            if result < 0 then
+                NegativeFlag = 1;
+            PC = PC + 8;
+        };
+
+        instruction jmp = { 0000 0000 0000 0000 0000 0000 0000 0101, imm32 as address } {
+            PC = address;
+        };
+
+        instruction jz = { 0000 0000 0000 0000 0000 0000 0000 0110, imm32 as address } {
+            if (ZeroFlag) then PC = address;
+        };
+
+        instruction push = { 0000 0000 0000 0000 0000 0000 0000 0111, imm32 as value } {
+            sp = sp - 8;
+            data_bank[sp] = value;
+            PC = PC + 8;
+        };
+
+        instruction pop = { 0 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 1000, reg as dest} {
+            dest = data_bank[sp];
+            sp = sp + 8;
+            PC = PC + 8;
+        };
+
+        instruction in = { 000 0000 1110 0100, in_out as dest } {
+            dest = iv;
+        };
+        instruction out = { 0 0000 1110 1110, reg as src } {
+            ov = src;
+        };
+
+        instruction ret = { 0000 1111 } {
+            
+        }
+
+    mnemonics:
+        format reg_only is "{1}";
+        format reg_imm is "{1}, {2}";
+        format reg_reg is "{1}, {2}";
+        format reg_reg_reg is "{1}, {2}, {3}";
+
+        mnemonic in(dest) reg_only;
+        mnemonic out(src) reg_only;
+        mnemonic load(dest, value) reg_imm;
+        mnemonic store(src, address) reg_imm;
+        mnemonic mov(dest, src) reg_reg;
+        mnemonic add(dest, src1, src2) reg_reg_reg;
+        mnemonic sub(dest, src1, src2) reg_reg_reg;
+        mnemonic jmp(address);
+        mnemonic jz(address);
+        mnemonic push(value);
+        mnemonic pop(dest);
+}

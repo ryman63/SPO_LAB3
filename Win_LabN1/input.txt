@@ -1,0 +1,24 @@
+def checkArrayValues(arr of int array[10])
+		{
+            if arr[i] > 0 
+			then
+                arr[i] = arr[i] * 2;
+            else
+                arr[i] = 0;
+		}
+		while i < 10;
+		print(arr);
+end
+
+def main(argc of int, argv of int array[1], matrix of int array[2]) of int
+	print(argv[1]);
+	checkArrayValues();
+	while j < 10
+			matrix[i, j, k] = i * j + 1;	
+
+			c = (a + b) * y;
+			break;
+			++j;
+		end
+	++i;
+end

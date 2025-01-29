@@ -1,0 +1,146 @@
+architecture DynamicVM {
+    registers:
+        storage R0[32];
+        storage R1[32];
+        storage R2[32];
+        storage R3[32];
+        storage R4[32];
+        storage R5[32];
+        storage R6[32];
+        storage R7[32];
+        storage PC[32];                        // Счетчик команд (Program Counter)
+        storage SP[32];                        // Указатель стека (Stack Pointer)
+        storage FLAGS[4];                      // Регистр флагов (Zero, Negative, Carry, Overflow)
+        storage IN[8];                      // Регистр для ввода 
+        storage OUT[8];                      // Регистр для вывода
+
+        view gp0 = R0;        // Регистр общего назначения
+        view gp1 = R1;        // Регистр общего назначения
+        view gp2 = R2;        // Регистр общего назначения
+        view gp3 = R3;        // Регистр общего назначения
+        view gp4 = R4;        // Регистр общего назначения
+        view gp5 = R5;        // Регистр общего назначения
+        view gp6 = R6;        // Регистр общего назначения
+        view gp7 = R7;        // Регистр общего назначения
+        view ZeroFlag = FLAGS[0];              // Флаг нуля
+        view NegativeFlag = FLAGS[1];          // Флаг отрицания
+        view CarryFlag = FLAGS[2];             // Флаг переноса
+        view OverflowFlag = FLAGS[3];          // Флаг переполнения
+        view sp = SP;
+        view in = IN;
+        view out = OUT;
+
+    memory:
+        range code [0x0000..0x3FFF] {
+            cell = 8;
+            endianess = little-endian;
+            granularity = 1;
+        }
+
+        range data [0x4000..0x7FFF] {
+            cell = 8;
+            endianess = little-endian;
+            granularity = 0;
+        }
+
+    instructions:
+        encode reg field = register {
+            gp0 = 000,
+            gp1 = 001,
+            gp2 = 010,
+            gp3 = 011,
+            gp4 = 100,
+            gp5 = 101,
+            gp6 = 110,
+            gp7 = 111
+        };
+
+        encode in_out field = register {
+            in = 1000,
+            out = 1001
+        }
+
+        encode imm32 field = immediate[32] data;
+
+        instruction nop = { 000000 };          // Пустая инструкция
+
+        instruction load = { 000001, reg as dest, imm32 as value } {
+            dest = value;
+            PC = PC + 9;
+        };
+
+        instruction store = { 000010, reg as src, imm32 as address } {
+            data[address] = src;
+            SP = SP + 4;
+            PC = PC + 9;
+        };
+
+        instruction mov = { 001001, reg as dest, reg as src } {
+            dest = src;
+            PC = PC + 9;
+        };
+
+        instruction add = { 000011, reg as dest, reg as src1, reg as src2 } {
+            let result = src1 + src2;
+            dest = result;
+            if result == 0 then
+                ZeroFlag = 1;
+            if result < 0 then
+                NegativeFlag = 1;
+            PC = PC + 13;
+        };
+
+        instruction sub = { 000100, reg as dest, reg as src1, reg as src2 } {
+            let result = src1 - src2;
+            dest = result;
+            if result == 0 then
+                ZeroFlag = 1;
+            if result < 0 then
+                NegativeFlag = 1;
+            PC = PC + 13;
+        };
+
+        instruction jmp = { 000101, imm32 as address } {
+            PC = address;
+        };
+
+        instruction jz = { 000110, imm32 as address } {
+            if (ZeroFlag) then PC = address;
+        };
+
+        instruction push = { 000111, imm32 as value } {
+            sp = sp - 8;
+            data[sp] = value;
+            PC = PC + 5;
+        }
+
+        instruction pop = { 001000, reg as dest} {
+            dest = data[sp];
+            sp = sp + 8;
+            PC = PC + 5;
+        }
+
+        instruction in = { 001010, in_out as dest, imm32 as port} {
+            dest = port;
+            PC = PC + 9;
+        }
+
+        instruction out = { 001011, in_out as src, imm32 as port} {
+            port = src;
+            PC = PC + 9;
+        }
+
+    mnemonics:
+        mnemonic nop();
+        mnemonic load(reg dest, imm32 value) "LOAD {dest}, {value}";
+        mnemonic store(reg src, imm32 address) "STORE {src}, {address}";
+        mnemonic mov(reg dest, reg src) "MOV {dest}, {src}";
+        mnemonic add(reg dest, reg src1, reg src2) "ADD {dest}, {src1}, {src2}";
+        mnemonic sub(reg dest, reg src1, reg src2) "SUB {dest}, {src1}, {src2}";
+        mnemonic jmp(imm32 address) "JMP {address}";
+        mnemonic jz(imm32 address) "JZ {address}";
+        mnemonic push(imm32 value) "PUSH {value}";
+        mnemonic pop(reg dest) "PUSH {dest}";
+        mnemonic in(in_out dest imm32 port) "IN {dest, port}";
+        mnemonic out(in_out src, imm32 port) "OUT {src, port}";
+}
