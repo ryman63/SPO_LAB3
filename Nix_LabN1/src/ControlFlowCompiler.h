@@ -11,4 +11,4 @@ static SymbolTable _symbolTable;
 
 void compile(CallGraphNode* callGraph);
 
-void generateOpTreeCode(OpNode* opNode, BasicBlock* block);
+int32_t generateOpTreeCode(OpNode* opNode, BasicBlock* block);

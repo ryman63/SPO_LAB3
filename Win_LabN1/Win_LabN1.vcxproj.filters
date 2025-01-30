@@ -18,6 +18,7 @@
     <None Include="packages.config" />
     <None Include="..\Nix_LabN1\src\custom_lang.tokens" />
     <None Include="ast.dgml" />
+    <None Include="CallGraph\output.dgml" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Nix_LabN1\src\custom_langParser.h">
@@ -128,5 +129,6 @@
   <ItemGroup>
     <Text Include="input.txt" />
     <Text Include="input2.txt" />
+    <Text Include="73gmcz2w.txt" />
   </ItemGroup>
 </Project>

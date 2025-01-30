@@ -138,6 +138,7 @@
   <ItemGroup>
     <None Include="..\Nix_LabN1\src\custom_lang.tokens" />
     <None Include="ast.dgml" />
+    <None Include="CallGraph\output.dgml" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +180,7 @@
     <ClCompile Include="..\Nix_LabN1\src\VM.c" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="73gmcz2w.txt" />
     <Text Include="input.txt" />
     <Text Include="input2.txt" />
   </ItemGroup>

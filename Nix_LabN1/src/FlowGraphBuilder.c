@@ -106,6 +106,8 @@ CfgNode* handleFunctionBody(AstNode* functionBodyAst) {
 		CfgNode* statementNode = handleStatement(statement, &lastCfgNode);
 
 		if (statementNode) {
+			if (!strcmp(statementNode->label, "loop statement"))
+				lastCfgNode->uncondJump = statementNode;
 			currentNode->condJump = statementNode;
 			currentNode = lastCfgNode;
 		}
@@ -166,6 +168,11 @@ CfgNode* handleBlockStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode) 
 		for (size_t i = 0; i < statementNodeAst->children->size; i++) {
 			AstNode* childStatement = getItem(statementNodeAst->children, i);
 			CfgNode* result = handleStatement(childStatement, lastCfgNode);
+			if (!strcmp(result->label, "loop statement"))
+			{
+				CfgNode* lstNode = *lastCfgNode;
+				lstNode->uncondJump = result;
+			}
 			currentBlock->condJump = result;
 			currentBlock = *lastCfgNode;
 		}
@@ -212,9 +219,12 @@ CfgNode* handleConditionStatement(AstNode* statementNodeAst, CfgNode** lastCfgNo
 
 	if(children->size == 2)
 		newBlock->uncondJump = emptyBlock;
-	condLastBlock->condJump = emptyBlock;
-	if(children->size == 3)
+	else {
 		unCondLastBlock->condJump = emptyBlock;
+	}
+
+	condLastBlock->condJump = emptyBlock;
+
 
 	*lastCfgNode = emptyBlock;
 
@@ -241,10 +251,12 @@ CfgNode* handleLoopStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode) {
 			}
 		}
 	}
-	if (strcmp(currentBlock->label, "exit loop"))
+
 		currentBlock->condJump = exitBlock;
 
-	newBlock->uncondJump = exitBlock;
+	//newBlock->uncondJump = exitBlock;
+
+	exitBlock->condJump = newBlock;
 
 	*lastCfgNode = exitBlock;
 

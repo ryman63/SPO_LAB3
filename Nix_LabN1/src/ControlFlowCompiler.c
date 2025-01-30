@@ -147,17 +147,17 @@ int32_t generatePlaceOpCode(OpNode* opNode, BasicBlock* block) {
 int32_t generateReadOpCode(OpNode* opNode, BasicBlock* block) {
 
     int reg = allocateRegister();
-    if (reg == -1) {
-        printf("PUSH R0 ; No registers available, saving R0\n");
-        reg = 0;
-        addInstruction(block, createInstruction(OC_PUSH, reg, 0, 0, 0, NULL));
-    }
+  ///*  if (reg == -1) {
+  //      printf("PUSH R0 ; No registers available, saving R0\n");
+  //      reg = 0;
+  //      addInstruction(block, createInstruction(OC_PUSH, reg, 0, 0, 0, NULL));
+  //  }
 
-    printf("LOAD R%d, %s ; Read value from memory\n", reg, opNode->value);
+  //  printf("LOAD R%d, %s ; Read value from memory\n", reg, opNode->value);
 
 
 
-    addInstruction(block, createInstruction(OC_LOAD, reg, 0, 0, , NULL));
+  //  addInstruction(block, createInstruction(OC_LOAD, reg, 0, 0, , NULL));*/
     return reg; // ¬озвращаем регистр с загруженным значением
 }
 
@@ -165,11 +165,11 @@ int32_t generateSetOpCode(OpNode* opNode, BasicBlock* block) {
     const L_VALUE_INDEX = 0;
     const R_VALUE_INDEX = 1;
 
-    int32_t address = generateOpTreeCode(getItem(opNode->args, L_VALUE_INDEX), block);
+    ////int32_t address = generateOpTreeCode(getItem(opNode->args, L_VALUE_INDEX), block);
     uint8_t reg = generateOpTreeCode(getItem(opNode->args, R_VALUE_INDEX), block);
-    printf("STORE %d, R%d ; Store value into variable %s\n", address, reg, reg);
-    
-    addInstruction(block, createInstruction(OC_STORE, 0, reg, 0, address, NULL));
+    ////printf("STORE %d, R%d ; Store value into variable %s\n", address, reg, reg);
+    //
+    //addInstruction(block, createInstruction(OC_STORE, 0, reg, 0, address, NULL));
     freeRegister(reg);
 }
 
