@@ -1,1 +1,0 @@
-Portable.RemoteTasks.Manager.exe -g d3f3ad15-1a05-4542-ba55-cb3cb4c7839f -r out.bin > util\assmfile

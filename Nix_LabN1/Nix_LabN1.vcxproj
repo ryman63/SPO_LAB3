@@ -240,6 +240,7 @@
     <ClInclude Include="src\stack.h" />
     <ClInclude Include="src\SymbolTable.h" />
     <ClInclude Include="src\ValueType.h" />
+    <ClInclude Include="src\Variable.h" />
     <ClInclude Include="src\VM.h" />
   </ItemGroup>
   <ItemGroup>
@@ -259,6 +260,7 @@
     <ClCompile Include="src\stack.c" />
     <ClCompile Include="src\SymbolTable.c" />
     <ClCompile Include="src\ValueType.c" />
+    <ClCompile Include="src\Variable.c" />
     <ClCompile Include="src\VM.c" />
   </ItemGroup>
   <ItemGroup>

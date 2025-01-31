@@ -157,6 +157,7 @@
     <ClInclude Include="..\Nix_LabN1\src\stack.h" />
     <ClInclude Include="..\Nix_LabN1\src\SymbolTable.h" />
     <ClInclude Include="..\Nix_LabN1\src\ValueType.h" />
+    <ClInclude Include="..\Nix_LabN1\src\Variable.h" />
     <ClInclude Include="..\Nix_LabN1\src\VM.h" />
     <ClInclude Include="ErrorCollector.h" />
   </ItemGroup>
@@ -177,6 +178,7 @@
     <ClCompile Include="..\Nix_LabN1\src\stack.c" />
     <ClCompile Include="..\Nix_LabN1\src\SymbolTable.c" />
     <ClCompile Include="..\Nix_LabN1\src\ValueType.c" />
+    <ClCompile Include="..\Nix_LabN1\src\Variable.c" />
     <ClCompile Include="..\Nix_LabN1\src\VM.c" />
   </ItemGroup>
   <ItemGroup>

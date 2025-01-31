@@ -18,6 +18,7 @@
     <ClCompile Include="src\CallGraph.c" />
     <ClCompile Include="src\Instruction.c" />
     <ClCompile Include="src\SymbolTable.c" />
+    <ClCompile Include="src\Variable.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Array.h" />
@@ -279,6 +280,7 @@
     <ClInclude Include="src\CallGraph.h" />
     <ClInclude Include="src\Instruction.h" />
     <ClInclude Include="src\SymbolTable.h" />
+    <ClInclude Include="src\Variable.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

@@ -13,6 +13,7 @@ architecture DynamicVM {
         storage FLAGS[4];                      // Регистр флагов (Zero, Negative, Carry, Overflow)
         storage IN[8];                      // Регистр для ввода 
         storage OUT[8];                      // Регистр для вывода
+        storage HALT_FLAG[1];                  // Флаг остановки (для инструкции hlt)
 
         view gp0 = R0;        // Регистр общего назначения
         view gp1 = R1;        // Регистр общего назначения
@@ -29,6 +30,7 @@ architecture DynamicVM {
         view sp = SP;
         view iv = IN;
         view ov = OUT;
+        view halt_flag = HALT_FLAG;            // Флаг остановки
 
     memory:
         range code [0x0000..0x3FFF] {
@@ -65,6 +67,10 @@ architecture DynamicVM {
         encode imm32 field = immediate[32] data;
         encode imm8 field = immediate[8] data;
 
+        instruction nop = { 0000 0000 } {
+
+        };
+ 
         instruction load = { 0 0000 0000 0000 0000 0000 0000 0001, reg as dest, imm32 as value } {
             dest = value;
             PC = PC + 8;
@@ -76,9 +82,9 @@ architecture DynamicVM {
             PC = PC + 8;
         };
 
-        instruction mov = { 00 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 1001, reg as dest, reg as src } {
+        instruction mov = {00 0000 1001, reg as dest, reg as src } {
             dest = src;
-            PC = PC + 8;
+            PC = PC + 2;
         };
 
         instruction add = { 000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0011, reg as dest, reg as src1, reg as src2 } {
@@ -88,7 +94,7 @@ architecture DynamicVM {
                 ZeroFlag = 1;
             if result < 0 then
                 NegativeFlag = 1;
-            PC = PC + 8;
+            PC = PC + 7;
         };
 
         instruction sub = { 000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0100, reg as dest, reg as src1, reg as src2 } {
@@ -115,22 +121,41 @@ architecture DynamicVM {
             PC = PC + 8;
         };
 
-        instruction pop = { 0 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 1000, reg as dest} {
+        instruction pop = { 0 1000, reg as dest} {
             dest = data_bank[sp];
             sp = sp + 8;
-            PC = PC + 8;
+            PC = PC + 1;
         };
 
         instruction in = { 000 0000 1110 0100, in_out as dest } {
             dest = iv;
+            PC = PC + 2;
         };
         instruction out = { 0 0000 1110 1110, reg as src } {
-            ov = src;
+            ov = src & 0xFF;
+            PC = PC + 2;
+        };
+
+        instruction call = { 0000 1100, imm32 as address } {
+            // Сохраняем адрес возврата (PC + 4) в стеке
+            sp = sp - 4;
+            data_bank[sp] = PC + 4;
+            // Переходим к адресу подпрограммы
+            PC = PC + address;
         };
 
         instruction ret = { 0000 1111 } {
-            
-        }
+            // Извлекаем адрес возврата из стека
+            PC = data_bank[sp];
+            sp = sp + 4;
+        };
+
+        instruction hlt = { 0000 1010 } {
+            // Устанавливаем флаг остановки
+            halt_flag = 1;
+            // Останавливаем выполнение программы
+            PC = PC;  // Оставляем PC без изменений
+        };
 
     mnemonics:
         format reg_only is "{1}";
@@ -149,4 +174,7 @@ architecture DynamicVM {
         mnemonic jz(address);
         mnemonic push(value);
         mnemonic pop(dest);
+        mnemonic call(address);
+        mnemonic ret();
+        mnemonic hlt();
 }

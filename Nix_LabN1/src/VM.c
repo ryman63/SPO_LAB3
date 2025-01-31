@@ -15,73 +15,33 @@ void setFlags(VM* vm, int32_t result) {
     if (result < 0) vm->flags |= 2;   // Negative flag
 }
 
-void executeInstruction(VM* vm, Instruction* instr) {
-    switch (instr->opcode) {
-    case OC_NOP:
-        break;
 
-    case OC_LOAD:
-        vm->registers[instr->dest] = instr->imm;
-        break;
+void runVM(VM* vm, Instruction* program) {
 
-    case OC_STORE:
-        vm->memory[instr->imm] = vm->registers[instr->src1];
-        break;
+    FILE* asmListing = fopen("program.asm", "w");
 
-    case OC_MOV:
-        vm->registers[instr->dest] = vm->registers[instr->src1];
-        break;
-
-    case OC_ADD:
-        vm->registers[instr->dest] = vm->registers[instr->src1] + vm->registers[instr->src2];
-        setFlags(vm, vm->registers[instr->dest]);
-        break;
-
-    case OC_SUB:
-        vm->registers[instr->dest] = vm->registers[instr->src1] - vm->registers[instr->src2];
-        setFlags(vm, vm->registers[instr->dest]);
-        break;
-
-    case OC_JMP:
-        vm->pc = instr->imm;
-        return;
-
-    case OC_JZ:
-        if (vm->flags & 1) {
-            vm->pc = instr->imm;
-            return;
-        }
-        break;
-
-    case OC_IN:
-        printf("Введите значение для регистра R%d: ", instr->dest);
-        //scanf("%d", &vm->registers[instr->dest]);
-        break;
-
-    case OC_OUT:
-        printf("Вывод R%d: %d\n", instr->src1, vm->registers[instr->src1]);
-        break;
-
-    default:
-        printf("Неизвестная инструкция!\n");
-        exit(1);
-    }
-    vm->pc++; // Переход к следующей инструкции
-}
-
-void runVM(VM* vm, Instruction* program, int programSize) {
-    while (vm->pc < programSize) {
+    for (size_t i = 0; i < (size_t)vm->pc; i++) {
         Instruction* instr = &program[vm->pc];
-        executeInstruction(vm, instr);
+        char* linearCode = parseInstructionInLinearCode(instr, vm);
+        strcat_s(linearCode, INSTRUCTION_MAX_SIZE, "\n");
+        fwrite(linearCode, sizeof(char), INSTRUCTION_MAX_SIZE, asmListing);
+        free(linearCode);
     }
+
+    fclose(asmListing);
 }
 
-void loadProgram(Instruction* program) {
-    program[0] = (Instruction){ OC_LOAD, 0, 0, 0, 42 };   // R0 <- 42
-    program[1] = (Instruction){ OC_LOAD, 1, 0, 0, 10 };   // R1 <- 10
-    program[2] = (Instruction){ OC_ADD, 2, 0, 1, 0 };     // R2 <- R0 + R1
-    program[3] = (Instruction){ OC_OUT, 0, 2, 0, 0 };     // Вывод R2
-    program[4] = (Instruction){ OC_JMP, 0, 0, 0, 4 };     // Переход на себя (бесконечный цикл)
+void loadProgram(Instruction* program, BasicBlock* blocks, size_t countBlocks) {
+
+    for (size_t i = 0; i < countBlocks; i++) {
+        BasicBlock currentBlock = blocks[i];
+        Instruction* currentInstruction = currentBlock.instructions;
+        size_t instructionCounter = 0;
+        while (currentInstruction) {
+            program[instructionCounter] = *currentInstruction;
+            currentInstruction = currentInstruction->next;
+        }
+    }
 }
 
 int32_t allocateRegister()
@@ -102,4 +62,77 @@ void freeRegister()
     else {
         // нет используемых регистров
     }
+}
+
+char* parseInstructionInLinearCode(VM* vm, Instruction* instr)
+{
+    char* resultString = (char*)malloc(64);
+    if (!resultString) {
+        printf("Ошибка выделения памяти!\n");
+        return NULL;
+    }
+
+    switch (instr->opcode) {
+    case OC_NOP:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "NOP");
+        break;
+
+    case OC_LOAD:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "LOAD R%d, %s", instr->dest, instr->imm);
+        break;
+
+    case OC_STORE:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "STORE R%d, %s", instr->dest, instr->imm);
+        break;
+
+    case OC_MOV:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "MOV R%d, R%d", instr->dest, instr->src1);
+        break;
+
+    case OC_ADD:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "ADD R%d, R%d, R%d", instr->dest, instr->src1, instr->src2);
+        break;
+
+    case OC_SUB:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "SUB R%d, R%d, R%d", instr->dest, instr->src1, instr->src2);
+        break;
+
+    case OC_JMP:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "JMP %s", instr->imm);
+        break;
+
+    case OC_JZ:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "JZ R%d, %s", instr->src1, instr->imm);
+        break;
+
+    case OC_IN:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "IN R%d", instr->dest);
+        break;
+
+    case OC_OUT:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "OUT R%d", instr->dest);
+        break;
+
+    case OC_RET:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "RET");
+        break;
+
+    case OC_CALL:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "CALL %s", instr->imm);
+        break;
+
+    case OC_HALT:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "HALT");
+        break;
+
+    case OC_MARK:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "%s:", instr->marker);
+    default:
+        // обработка ошибки
+        break;
+    }
+
+    vm->pc += 1;
+
+    return resultString;
 }

@@ -9,15 +9,15 @@
             "logging": { "trace": true, "engineLogging": true },
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/YOURBINARY.ptptb",
+            "program": "${workspaceFolder}/util/assmfile",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [ ],
             "externalConsole": false,
             "MIMode": "gdb",
-            "miDebuggerArgs": "-ul YOURLOGIN -up YOURPASSWORD -il -q -w -s MachineDebugBinary definitionFile YOUR.target.pdsl archName YOURARCH binaryFileToRun YOURBINARY.ptptb codeRamBankName RAMRANGENAME ipRegStorageName RSTNAME finishMnemonicName HLTMNEMONIC",
-            "miDebuggerPath": "C:/PATH/TO/Portable.RemoteTasks.Manager.exe"
+            "miDebuggerArgs": "-ul u472446 -up 62462b19-2cb8-48c3-90ce-572a8952379a -il -q -w -s MachineDebugBinary definitionFile target.pdsl archName DynamicVM binaryFileToRun util/assmfile codeRamBankName code ipRegStorageName PC finishMnemonicName hlt breakpoint 17",
+            "miDebuggerPath": "C:/SPO_LAB3/architecture/Portable.RemoteTasks.Manager.exe"
         }
     ]
 }

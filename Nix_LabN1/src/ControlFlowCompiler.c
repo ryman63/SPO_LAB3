@@ -3,29 +3,72 @@
 void compile(CallGraphNode* callGraph) {
     initVM(&_virtualMachine);
     initSymbolTable(&_symbolTable);
+    initCallStack(&_callStack);
 
+    traverseCallGraph(callGraph);
+
+    size_t countInstr = calculateCountInstr();
+
+    Instruction* programLinearCode = malloc(sizeof(Instruction) * countInstr);
+
+    loadProgram(programLinearCode, blocks, counter_blocks);
+
+    parseInstructionInLinearCode(&_virtualMachine, programLinearCode);
+
+    free(programLinearCode);
+
+    // free всех структур
+}
+
+size_t calculateCountInstr() {
+    size_t resultCount = 0;
+    for (size_t i = 0; i < counter_blocks; i++) {
+        resultCount += blocks[i]->countInstructions;
+    }
+    return resultCount;
+}
+
+void traverseCallGraph(CallGraphNode* root) {
+    if (root == NULL) return;
+
+    // Генерируем код для текущей функции
+    generateFunctionCode(root->unit);
+
+    // Рекурсивно вызываем для детей
+    for (size_t i = 0; i < root->children->size; i++) {
+        CallGraphNode* child = getItem(root->children, i);
+        traverseCallGraph(child);
+    }
 }
 
 void generateFunctionCode(ProgramUnit* unit) {
-    printf("; Function: %s\n", unit->funcSignature->name);
+    // создаём блок для пролога функции
+    BasicBlock* prologueBlock = createBasicBlock();
 
-    // Пролог функции: сохраняем контекст, если нужно
-    printf("; Function prologue\n");
+    // создание метки
+    addInstruction(prologueBlock, createInstruction(OC_MARK, 0, 0, 0, NULL, unit->funcSignature->name));
 
+    // Пролог функции: сохраняем контекст
     // Загружаем аргументы функции в регистры или стек
     for (size_t i = 0; i < unit->funcSignature->FuncArgs->size; i++) {
+        
         FuncArg* arg = (FuncArg*)getItem(unit->funcSignature->FuncArgs, i);
         int reg = allocateRegister();
-        printf("LOAD R%d, %s ; Load argument %s\n", reg, arg->name, arg->name);
+        addInstruction(prologueBlock, createInstruction(OC_LOAD, reg, 0, 0, NULL, NULL));
     }
 
-    // Пример обработки графа потока управления (CFG)
-    printf("; Control Flow Graph (CFG) processing for %s\n", unit->funcSignature->name);
+    //помещаем блок пролога в массив
+    blocks[counter_blocks] = prologueBlock;
+    counter_blocks++;
     
-    //generateCfgCode(unit->cfg);
+    traverseCfg(unit->cfg);
 
     // Завершаем функцию инструкцией возврата
-    printf("ret ; Return from function\n");
+    BasicBlock* finalBlock = createBasicBlock();
+    addInstruction(finalBlock, createInstruction(OC_RET, 0, 0, 0, NULL, NULL));
+   
+    blocks[counter_blocks] = finalBlock;
+    counter_blocks++;
 
     // Освобождаем регистры после завершения работы функции
     while (usedRegisters > 0) {
@@ -34,53 +77,43 @@ void generateFunctionCode(ProgramUnit* unit) {
 }
 
 void generateFunctionCall(ProgramUnit* unit) {
-    printf("; Call to function: %s\n", unit->funcSignature->name);
+    BasicBlock* callBlock = createBasicBlock();
 
     // Генерация кода передачи аргументов
     for (size_t i = 0; i < unit->funcSignature->FuncArgs->size; i++) {
         FuncArg* arg = (FuncArg*)getItem(unit->funcSignature->FuncArgs, i);
-        printf("push %s ; Push argument %s to stack\n", arg->name, arg->name);
+        Symbol* symbol = findSymbol(&_symbolTable, arg->name);
+        addInstruction(callBlock, createInstruction(OC_PUSH, 0, 0, 0, symbol->address, NULL));
     }
 
     // Вызов функции
-    printf("call %s ; Call function %s\n", unit->funcSignature->name, unit->funcSignature->name);
+    addInstruction(callBlock, createInstruction(OC_CALL, 0, 0, 0, unit->funcSignature->name, NULL));
 
-    // Освобождение аргументов из стека после вызова
-    for (size_t i = 0; i < unit->funcSignature->FuncArgs->size; i++) {
-        printf("pop ; Clean up argument from stack\n");
-    }
+
+
+    //// Освобождение аргументов из стека после вызова
+    //for (size_t i = 0; i < unit->funcSignature->FuncArgs->size; i++) {
+    //    addInstruction(callBlock, createInstruction(OC_POP, ))
+    //}
 }
 
-// Генерация кода для графа вызовов
-void generateCallGraphCode(CallGraphNode* node) {
-    if (node == NULL) return;
-
-    // Генерируем код для текущей функции
-    generateFunctionCode(node->unit);
-
-    // Рекурсивно вызываем для детей
-    for (size_t i = 0; i < node->children->size; i++) {
-        CallGraphNode* child = getItem(node->children, i);
-        generateFunctionCall(child->unit);
-        generateCallGraphCode(child);
-    }
-}
-
-void generateCfgCode(CfgNode* cfg) {
-
+BasicBlock* traverseCfg(CfgNode* cfg) {
+    BasicBlock* block = NULL;
     if (cfg->opTree) {
-        BasicBlock* block = createBasicBlock();
+        block = createBasicBlock();
 
         generateOpTreeCode(cfg->opTree, block);
     }
 
     if (cfg->condJump) {
-        generateCfgCode(cfg->condJump);
+        traverseCfg(cfg->condJump);
     }
-    if (cfg->uncondJump)
-    {
-        generateCfgCode(cfg->uncondJump);
+    if (cfg->uncondJump) {
+        traverseCfg(cfg->uncondJump);
     }
+    if (block)
+        return block;
+    else return NULL;
 }
 
 void generateBinaryOpCode(OpNode* opNode, BasicBlock* block) {
@@ -121,14 +154,15 @@ void generateBinaryOpCode(OpNode* opNode, BasicBlock* block) {
     freeRegister(reg2);
 }
 
-int32_t generateLiteralOpCode(OpNode* opNode, BasicBlock* block) {
-    int reg = allocateRegister();
+char* getLiteral(OpNode* opNode) {
+    /*int reg = allocateRegister();
     if (reg == -1) {  
         reg = 0;
         printf("PUSH R0 ; No registers available, saving R0\n");
         addInstruction(block, createInstruction(OC_PUSH, reg, 0, 0, 0, NULL));
     }
-    freeRegister(reg);
+    freeRegister(reg);*/
+    return strCpy(opNode->value);
 }
 
 int32_t generatePlaceOpCode(OpNode* opNode, BasicBlock* block) {
@@ -136,7 +170,7 @@ int32_t generatePlaceOpCode(OpNode* opNode, BasicBlock* block) {
     if (reg == -1) {
         reg = 0;
         printf("PUSH R0 ; No registers available, saving R0\n");
-        addInstruction(block, createInstruction(OC_PUSH, reg, 0, 0, 0, NULL));
+        addInstruction(block, createInstruction(OC_PUSH, reg, 0, 0, NULL, NULL));
     }
 
     freeRegister(reg);
@@ -147,17 +181,18 @@ int32_t generatePlaceOpCode(OpNode* opNode, BasicBlock* block) {
 int32_t generateReadOpCode(OpNode* opNode, BasicBlock* block) {
 
     int reg = allocateRegister();
-  ///*  if (reg == -1) {
-  //      printf("PUSH R0 ; No registers available, saving R0\n");
-  //      reg = 0;
-  //      addInstruction(block, createInstruction(OC_PUSH, reg, 0, 0, 0, NULL));
-  //  }
+    if (reg == -1) {
+        reg = 0;
+        addInstruction(block, createInstruction(OC_PUSH, reg, 0, 0, NULL, NULL));
+    }
 
-  //  printf("LOAD R%d, %s ; Read value from memory\n", reg, opNode->value);
+    OpNode* arg = getItem(opNode->args, 0);
 
+    StackFrame frame = peekFrame(&_callStack);
 
+    Symbol* symbol = findSymbol(&_symbolTable, arg->value);
 
-  //  addInstruction(block, createInstruction(OC_LOAD, reg, 0, 0, , NULL));*/
+    addInstruction(block, createInstruction(OC_LOAD, reg, 0, 0, symbol->address, NULL));
     return reg; // Возвращаем регистр с загруженным значением
 }
 
@@ -165,7 +200,7 @@ int32_t generateSetOpCode(OpNode* opNode, BasicBlock* block) {
     const L_VALUE_INDEX = 0;
     const R_VALUE_INDEX = 1;
 
-    ////int32_t address = generateOpTreeCode(getItem(opNode->args, L_VALUE_INDEX), block);
+    
     uint8_t reg = generateOpTreeCode(getItem(opNode->args, R_VALUE_INDEX), block);
     ////printf("STORE %d, R%d ; Store value into variable %s\n", address, reg, reg);
     //
@@ -178,9 +213,6 @@ int32_t generateOpTreeCode(OpNode* opNode, BasicBlock* block) {
     case OT_BINARY:
         generateBinaryOpCode(opNode, block);
         break;
-    case OT_LITERAL:
-        generateLiteralOpCode(opNode, block);
-        break;
     case OT_PLACE:
         generatePlaceOpCode(opNode, block);
         break;
@@ -189,6 +221,12 @@ int32_t generateOpTreeCode(OpNode* opNode, BasicBlock* block) {
         break;
     case OT_SET:
         generateSetOpCode(opNode, block);
+        break;
+    case OT_CALL: {
+            OpNode* arg = getItem(opNode->args, 0);
+            Symbol* symbol = findSymbol(&_symbolTable, arg->value);
+            generateFunctionCall(symbol->name);
+        }
         break;
     }
 }

@@ -1,0 +1,2 @@
+echo off
+Portable.RemoteTasks.Manager.exe -ul u472446 -up 62462b19-2cb8-48c3-90ce-572a8952379a -il -q -w -s MachineDebugBinary definitionFile architecture.pdsl archName DynamicVM binaryFileToRun util/out.ptptb codeRamBankName data_bank ipRegStorageName PC finishMnemonicName hlt

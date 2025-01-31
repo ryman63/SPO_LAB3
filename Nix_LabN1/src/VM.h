@@ -19,8 +19,8 @@ static uint8_t usedRegisters = 0;
 
 void initVM(VM* vm); // Инициализация виртуальной машины
 void setFlags(VM* vm, int32_t result); // Вспомогательная функция: установка флагов
-void executeInstruction(VM* vm, Instruction* instr); // Выполнение инструкции
-void runVM(VM* vm, Instruction* program, int programSize); // Интерпретатор виртуальной машины
-void loadProgram(Instruction* program); // Пример программы для ВМ
+void loadProgram(Instruction* program, BasicBlock* blocks, size_t countBlocks);
+void runVM(VM* vm, Instruction* program);
 int32_t allocateRegister();
 void freeRegister();
+char* parseInstructionInLinearCode(VM* vm, Instruction* instr);

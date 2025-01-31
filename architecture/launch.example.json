@@ -1,0 +1,23 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(gdb) remote launch",
+            "logging": { "trace": true, "engineLogging": true },
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/out.ptptb",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [ ],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerArgs": "-ul u472446 -up 62462b19-2cb8-48c3-90ce-572a8952379a -il -q -w -s MachineDebugBinary definitionFile architecture.pdsl archName Dynamic_VM binaryFileToRun /util/out.ptptb codeRamBankName data_bank ipRegStorageName PC finishMnemonicName hlt",
+            "miDebuggerPath": "C:/SPO_LAB3/architecture/Portable.RemoteTasks.Manager.exe"
+        }
+    ]
+}

@@ -1,1 +1,0 @@
-Portable.RemoteTasks.Manager.exe -ul uXXXXXX -up 62462b19-2cb8-48c3-90ce-572a8952379a -il -w -s ExecuteBinaryWithInteractiveInput definitionFile architecture.pdsl archName my_arch binaryFileToRun output.bin ipRegStorageName ip_st finishMnemonicName hlt codeRamBankName ram stdinRegStName inp_st stdoutRegStName outp_st

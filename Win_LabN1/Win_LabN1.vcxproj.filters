@@ -72,6 +72,9 @@
     <ClInclude Include="..\Nix_LabN1\src\SymbolTable.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="..\Nix_LabN1\src\Variable.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Nix_LabN1\src\main.c">
@@ -123,6 +126,9 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="..\Nix_LabN1\src\SymbolTable.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Nix_LabN1\src\Variable.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

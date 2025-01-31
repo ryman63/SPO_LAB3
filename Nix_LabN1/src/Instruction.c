@@ -20,17 +20,22 @@ void addInstruction(BasicBlock* block, Instruction* instruction) {
         }
         current->next = instruction;
     }
+
+    block->countInstructions++;
 }
 
 
-Instruction* createInstruction(Opcode opCode, uint8_t dest, uint8_t src1, uint8_t src2, int32_t imm, Instruction* next) {
+Instruction* createInstruction(Opcode opCode, uint8_t dest, uint8_t src1, uint8_t src2, char* imm, char* marker) {
     Instruction* instr = malloc(sizeof(Instruction));
     instr->opcode = opCode;
     instr->dest = dest;
     instr->src1 = src1;
     instr->src2 = src2;
     instr->imm = imm;
-    instr->next = next;
+    instr->marker = marker;
+    instr->next = NULL;
 
     return instr;
 }
+
+

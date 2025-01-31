@@ -16,7 +16,7 @@ int isFull(CallStack* stack) {
 }
 
 // Добавление нового кадра в стек вызовов (вызов функции)
-void pushFrame(CallStack* stack, const char* function_name, int return_address, int* params, int param_count) {
+void pushFrame(CallStack* stack, int return_address, ProgramUnit* programUnit) {
     if (isFull(stack)) {
         printf("Ошибка: стек вызовов переполнен!\n");
         return;
@@ -24,19 +24,9 @@ void pushFrame(CallStack* stack, const char* function_name, int return_address, 
 
     // Создаём новый кадр
     StackFrame frame;
-    //strncpy(frame.function_name, function_name, 32); // Имя функции
-    frame.return_address = return_address;           // Адрес возврата
 
-    // Инициализация параметров
-    for (int i = 0; i < param_count && i < 4; i++) {
-        frame.parameters[i] = params[i];
-    }
-
-    // Инициализация локальных переменных (обнуляем)
-    for (int i = 0; i < 8; i++) {
-        frame.local_variables[i] = 0;
-    }
-
+    frame.return_address = return_address;
+    frame.programUnit = programUnit;
     // Добавляем кадр в стек
     stack->frames[++stack->top] = frame;
 }
