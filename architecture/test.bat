@@ -105,6 +105,19 @@ IF "%~1" neq "" (
 		exit /b
 	)
 
+	IF "%~1" == "run" (
+		Portable.RemoteTasks.Manager.exe -w -id -s ExecuteBinaryWithInteractiveInput asmListing !asmListing! definitionFile !defFile! binaryFileToRun util/assmfile archName !archName! finishMnemonicName hlt codeRamBankName code ipRegStorageName PC stdinRegStName IN stdoutRegStName OUT > util\tmp.txt 
+		for /F %%i in (util\tmp.txt) do set id=%%i
+
+		Portable.RemoteTasks.Manager.exe -g !id!
+		Portable.RemoteTasks.Manager.exe -g !id! -r stdout.txt > util\out.txt
+
+		
+		exit /b
+	
+	)
+
+
 	echo invalid argument
 	
 
