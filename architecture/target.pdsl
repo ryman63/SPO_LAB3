@@ -11,8 +11,8 @@ architecture DynamicVM {
         storage PC[32];                        // Счетчик команд (Program Counter)
         storage SP[15];                        // Указатель стека (Stack Pointer)
         storage FLAGS[4];                      // Регистр флагов (Zero, Negative, Carry, Overflow)
-        storage IN[8];                      // Регистр для ввода 
-        storage OUT[8];                      // Регистр для вывода
+        storage IN[8];                          // Регистр для ввода 
+        storage OUT[8];                         // Регистр для вывода
         storage HALT_FLAG[1];                  // Флаг остановки (для инструкции hlt)
 
         view gp0 = R0;        // Регистр общего назначения
@@ -71,15 +71,15 @@ architecture DynamicVM {
 
         };
  
-        instruction load = { 0 0000 0000 0000 0000 0000 0000 0001, reg as dest, imm32 as value } {
+        instruction load = { 0 0000 0000 0001, reg as dest, imm32 as value } {
             dest = value;
-            PC = PC + 8;
+            PC = PC + 6;
         };
 
-        instruction store = { 0 0000 0000 0000 0000 0000 0000 0010, reg as src, imm32 as address } {
+        instruction store = { 0 0000 0000 0010, reg as src, imm32 as address } {
             data_bank[address] = src;
             SP = SP + 4;
-            PC = PC + 8;
+            PC = PC + 6;
         };
 
         instruction mov = {00 0000 1001, reg as dest, reg as src } {
@@ -87,7 +87,9 @@ architecture DynamicVM {
             PC = PC + 2;
         };
 
-        instruction add = { 000 0011, reg as src1, reg as src2, reg as dest } {
+        //                  0000 011, 000, 001, 000
+        //                  0000 011, 010, 001, 000
+        instruction add = { 0000 011, reg as dest, reg as src1, reg as src2 } {
             let result = src1 + src2;
             dest = result;
             if result == 0 then
@@ -97,28 +99,28 @@ architecture DynamicVM {
             PC = PC + 2;
         };
 
-        instruction sub = { 000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0100, reg as dest, reg as src1, reg as src2 } {
+        instruction sub = { 000 0100, reg as dest, reg as src1, reg as src2 } {
             let result = src1 - src2;
             dest = result;
             if result == 0 then
                 ZeroFlag = 1;
             if result < 0 then
                 NegativeFlag = 1;
-            PC = PC + 8;
+            PC = PC + 2;
         };
 
-        instruction jmp = { 0000 0000 0000 0000 0000 0000 0000 0101, imm32 as address } {
+        instruction jmp = { 0000 0101, imm32 as address } {
             PC = address;
         };
 
-        instruction jz = { 0000 0000 0000 0000 0000 0000 0000 0110, imm32 as address } {
+        instruction jz = { 0000 0110, imm32 as address } {
             if (ZeroFlag) then PC = address;
         };
 
-        instruction push = { 0000 0000 0000 0000 0000 0000 0000 0111, imm32 as value } {
+        instruction push = { 0000 0111, imm32 as value } {
             sp = sp - 8;
             data_bank[sp] = value;
-            PC = PC + 8;
+            PC = PC + 5;
         };
 
         instruction pop = { 0 1000, reg as dest} {
@@ -151,8 +153,6 @@ architecture DynamicVM {
         instruction hlt = { 0000 1010 } {
             // Устанавливаем флаг остановки
             halt_flag = 1;
-            // Останавливаем выполнение программы
-            PC = PC;  // Оставляем PC без изменений
         };
 
     mnemonics:
@@ -161,18 +161,21 @@ architecture DynamicVM {
         format reg_reg is "{1}, {2}";
         format reg_reg_reg is "{1}, {2}, {3}";
 
+        format imm_only is "{1}";
+
+        mnemonic nop();
         mnemonic in(dest) reg_only;
         mnemonic out(src) reg_only;
         mnemonic load(dest, value) reg_imm;
         mnemonic store(src, address) reg_imm;
         mnemonic mov(dest, src) reg_reg;
-        mnemonic add(src1, src2, dest) reg_reg_reg;
+        mnemonic add(dest, src1, src2) reg_reg_reg;
         mnemonic sub(dest, src1, src2) reg_reg_reg;
-        mnemonic jmp(address);
-        mnemonic jz(address);
-        mnemonic push(value) reg_only;
-        mnemonic pop(dest);
-        mnemonic call(address) reg_only;
+        mnemonic jmp(address) imm_only;
+        mnemonic jz(address) imm_only;
+        mnemonic push(value) imm_only;
+        mnemonic pop(dest) reg_only;
+        mnemonic call(address) imm_only;
         mnemonic ret();
         mnemonic hlt();
 }

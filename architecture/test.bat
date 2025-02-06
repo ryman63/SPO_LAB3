@@ -30,15 +30,15 @@ IF "%~1" neq "" (
 	
 	)
 
-	IF "%~1" == "assm" (
-		Portable.RemoteTasks.Manager.exe -w -id -s Assemble asmListing !asmListing! definitionFile !defFile! archName !archName! > util\tmp.txt
+	IF "%~1" == "asm" (
+		Portable.RemoteTasks.Manager.exe -w -id -s AssembleDebug asmListing !asmListing! definitionFile !defFile! archName !archName! sourcesDir "C:/Users/TBG/source/repos/SPO_LAB3/architecture"  > util\tmp.txt
 		for /F %%i in (util\tmp.txt) do set id=%%i
 		echo TaskID: !id!
 
 		echo. 
 		echo RESULTS:
 		Portable.RemoteTasks.Manager.exe -g !id!
-		Portable.RemoteTasks.Manager.exe -g !id! -r out.ptptb > util\assmfile
+		Portable.RemoteTasks.Manager.exe -g !id! -r out.ptptb -o util\assmfile2
 		echo. 
 		echo out file been writen in util\outfile
 
@@ -61,14 +61,14 @@ IF "%~1" neq "" (
 	)
 
 	IF "%~1" == "diss" (
-		Portable.RemoteTasks.Manager.exe -w -id -s Disassemble in.ptptb util\assmfile definitionFile !defFile! archName !archName! > util\tmp.txt
+		Portable.RemoteTasks.Manager.exe -w -id -s Disassemble in.ptptb util\assmfile2 definitionFile !defFile! archName !archName! > util\tmp.txt
 		
 		for /F %%i in (util\tmp.txt) do set id=%%i
 		echo TaskID: %id% 
 		echo. 
 		echo RESULTS:
 		Portable.RemoteTasks.Manager.exe -g !id!
-		Portable.RemoteTasks.Manager.exe -g !id! -r disasmListing.txt  > util\dissfile		
+		Portable.RemoteTasks.Manager.exe -g !id! -r disasmListing.txt -o util\dissfile2		
 		echo. 
 
 		exit /b
