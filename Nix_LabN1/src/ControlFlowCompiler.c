@@ -54,6 +54,8 @@ void generateFunctionCode(ProgramUnit* unit) {
     // создаём блок для пролога функции
     BasicBlock* prologueBlock = createBasicBlock();
 
+    pushFrame(&_callStack, unit);
+
     // создание метки
     addInstruction(prologueBlock, createInstruction(OC_MARK, 0, 0, 0, NULL, unit->funcSignature->name));
 
@@ -84,22 +86,6 @@ void generateFunctionCode(ProgramUnit* unit) {
     }
 }
 
-void generateFunctionCall(Array* args, BasicBlock* block) {
-    const int FUNC_NAME_INDEX = 0;
-
-    OpNode* funcNameOp = getItem(args, FUNC_NAME_INDEX);
-
-    // Генерация кода передачи аргументов
-    for (size_t i = FUNC_NAME_INDEX + 1; i < args->size; i++) {
-        OpNode* funcArg = (OpNode*)getItem(args, i);
-        Symbol* symbol = findSymbol(&_symbolTable, funcArg->value);
-        addInstruction(block, createInstruction(OC_PUSH, 0, 0, 0, symbol->address, NULL));
-    }
-
-    // Вызов функции
-    addInstruction(block, createInstruction(OC_CALL, 0, 0, 0, funcNameOp->value, NULL));
-}
-
 BasicBlock* traverseCfg(CfgNode* cfg) {
     BasicBlock* block = NULL;
     if (cfg->opTree) {
@@ -120,6 +106,26 @@ BasicBlock* traverseCfg(CfgNode* cfg) {
     if (block)
         return block;
     else return NULL;
+}
+
+void generateFunctionCall(OpNode* opNode, BasicBlock* block) {
+    const int FUNC_NAME_INDEX = 0;
+
+    StackFrame frame = peekFrame(&_callStack);
+
+    ProgramUnit* unit = frame.programUnit;
+
+    Array* funcArgs = unit->funcSignature->funcArgs;
+
+    // Генерация кода передачи аргументов
+    for (size_t i = FUNC_NAME_INDEX + 1; i < funcArgs->size; i++) {
+        FuncArg* funcArg = (FuncArg*)getItem(funcArgs, i);
+        Symbol* symbol = findSymbol(&_symbolTable, funcArg->name);
+        addInstruction(block, createInstruction(OC_PUSH, 0, 0, 0, symbol->address, NULL));
+    }
+
+    // Вызов функции
+    addInstruction(block, createInstruction(OC_CALL, 0, 0, 0, unit->funcSignature->name, NULL));
 }
 
 void generateBinaryOpCode(OpNode* opNode, BasicBlock* block) {
@@ -251,7 +257,7 @@ int32_t generateOpTreeCode(OpNode* opNode, BasicBlock* block) {
         return generateConstOpCode(opNode, block);
         break;
     case OT_CALL:
-        generateFunctionCall(opNode->args, block);
+        generateFunctionCall(opNode, block);
         break;
     }
 }

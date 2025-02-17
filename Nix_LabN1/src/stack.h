@@ -10,7 +10,7 @@
 
 // Структура для хранения кадра стека
 typedef struct {
-    int return_address;     // Адрес возврата
+    //int return_address;     // Адрес возврата
     Variable localVars[MAX_LOCAL_VARIABLE];
     ProgramUnit* programUnit;
 } StackFrame;
@@ -24,6 +24,6 @@ typedef struct {
 void initCallStack(CallStack* stack);
 int isEmpty(CallStack* stack);
 int isFull(CallStack* stack);
-void pushFrame(CallStack* stack, int return_address, ProgramUnit* programUnit);
+void pushFrame(CallStack* stack, ProgramUnit* programUnit);
 StackFrame popFrame(CallStack* stack);
 StackFrame peekFrame(CallStack* stack);
