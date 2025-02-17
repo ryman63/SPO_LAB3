@@ -1,43 +1,64 @@
-﻿  FlowGraphBuilder.c
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\cfg.h(26,2): warning C4091: typedef : пропускается слева от "OpType", когда ни одна переменная не объявлена
-  (компиляция исходного файла "../Nix_LabN1/src/FlowGraphBuilder.c")
-  
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\ProgramUnit.h(12,2): warning C4091: typedef : пропускается слева от "Type", когда ни одна переменная не объявлена
-  (компиляция исходного файла "../Nix_LabN1/src/FlowGraphBuilder.c")
-  
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\ProgramUnit.h(17,2): warning C4091: typedef : пропускается слева от "CustomType", когда ни одна переменная не объявлена
-  (компиляция исходного файла "../Nix_LabN1/src/FlowGraphBuilder.c")
-  
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\ProgramUnit.h(27,2): warning C4091: typedef : пропускается слева от "ArrayType", когда ни одна переменная не объявлена
-  (компиляция исходного файла "../Nix_LabN1/src/FlowGraphBuilder.c")
-  
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\libantlr3c-3.4\include\antlr3convertutf.h(121,9): warning C4005: false: изменение макроопределения
-  (компиляция исходного файла "../Nix_LabN1/src/FlowGraphBuilder.c")
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\stdbool.h(16,9):
-      см. предыдущее определение "false"
-  
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\libantlr3c-3.4\include\antlr3convertutf.h(122,9): warning C4005: true: изменение макроопределения
-  (компиляция исходного файла "../Nix_LabN1/src/FlowGraphBuilder.c")
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\stdbool.h(17,9):
-      см. предыдущее определение "true"
-  
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(23,4): warning C4033: "analysis" должен возвращать значение
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(28,15): warning C4456: объявление "i" скрывает предыдущее локальное объявление
-      C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(4,14):
-       см. объявление "i"
-  
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(36,9): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(249,22): warning C4130: ==: логическая операция с адресом строковой константы
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(281,22): warning C4130: ==: логическая операция с адресом строковой константы
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(4,1): warning C4702: недостижимый код
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(56,1): warning C4715: analysis: значение возвращается не при всех путях выполнения
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(162,1): warning C4715: handleStatement: значение возвращается не при всех путях выполнения
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(360,1): warning C4702: недостижимый код
-  antlr3c.lib(antlr3lexer.obj) : найден .netmodule MSIL или модуль, откомпилированный с параметром /GL; перезапускается компоновка с параметром /LTCG; добавьте /LTCG в командную строку компоновки для повышения производительности компоновщика
-LINK : warning LNK4075: не учитывается "/INCREMENTAL" из-за спецификации "/LTCG"
-     Создается библиотека C:\Users\TBG\source\repos\SPO_LAB3\x64\Debug\Win_LabN3.lib и объект C:\Users\TBG\source\repos\SPO_LAB3\x64\Debug\Win_LabN3.exp
-LINK : warning LNK4098: библиотека по умолчанию "LIBCMTD" конфликтует с использованием других библиотек; используйте /NODEFAULTLIB:library
-LINK : warning LNK4098: библиотека по умолчанию "MSVCRT" конфликтует с использованием других библиотек; используйте /NODEFAULTLIB:library
-  Создание кода
-  Создание кода завершено
-  Win_LabN1.vcxproj -> C:\Users\TBG\source\repos\SPO_LAB3\x64\Debug\Win_LabN3.exe
+﻿Сборка начата 16.02.2025 2:50:29.
+Уровень детализации журнала: Normal.     1>Проект "C:\SPO_LAB3\Win_LabN1\Win_LabN1.vcxproj" в узле 2 (целевые объекты Build).
+     1>PrepareForBuild:
+         Структурированный вывод включен. Форматирование диагностики компилятора будет отражать иерархию ошибок. Подробнее см. https://aka.ms/cpp/structured-output.
+       InitializeBuildStatus:
+         Создание "x64\Debug\Win_LabN3.tlog\unsuccessfulbuild", так как было задано "AlwaysCreate".
+         Обращение к "x64\Debug\Win_LabN3.tlog\unsuccessfulbuild".
+       ClCompile:
+         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\bin\HostX64\x64\CL.exe /c /I"C:\SPO_LAB3\packages\libxml2-vc140-static-32_64.2.9.4.1\build\native\..\..\lib\native\include\\" /I"C:\SPO_LAB3\Win_LabN1\\..\Nix_LabN1\libantlr3c-3.4\include" /ZI /JMC /nologo /W4 /WX- /diagnostics:column /sdl /Od /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c11 /permissive- /Fo"x64\Debug\\" /Fd"x64\Debug\vc143.pdb" /external:W4 /Gd /TC /FC /errorReport:prompt ..\Nix_LabN1\src\ValueType.c
+         ValueType.c
+     1>C:\SPO_LAB3\Nix_LabN1\src\ValueType.c(42,9): warning C4189: intValue: локальная переменная инициализирована, но не использована
+     1>C:\SPO_LAB3\Nix_LabN1\src\ValueType.c(36,12): warning C4189: floatValue: локальная переменная инициализирована, но не использована
+     1>C:\SPO_LAB3\Nix_LabN1\src\ValueType.c(68): warning C4715: getTypeSize: значение возвращается не при всех путях выполнения
+       Link:
+         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\bin\HostX64\x64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\SPO_LAB3\x64\Debug\Win_LabN3.exe" /INCREMENTAL /ILK:"x64\Debug\Win_LabN3.ilk" /NOLOGO /LIBPATH:"C:\SPO_LAB3\packages\libxml2-vc140-static-32_64.2.9.4.1\build\native\..\..\lib\native\libs\x64\static\Debug" /LIBPATH:"C:\SPO_LAB3\Win_LabN1\\..\Nix_LabN1\libantlr3c-3.4\x64\Release" libxml2.lib antlr3c.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\SPO_LAB3\x64\Debug\Win_LabN3.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\SPO_LAB3\x64\Debug\Win_LabN3.lib" /MACHINE:X64 x64\Debug\Array.obj
+         x64\Debug\ast.obj
+         x64\Debug\CallGraph.obj
+         x64\Debug\cfg.obj
+         x64\Debug\ControlFlowCompiler.obj
+         x64\Debug\custom_langLexer.obj
+         x64\Debug\custom_langParser.obj
+         x64\Debug\FlowGraphBuilder.obj
+         x64\Debug\Instruction.obj
+         x64\Debug\main.obj
+         x64\Debug\myParser.obj
+         x64\Debug\ProgramUnit.obj
+         x64\Debug\SourceFile.obj
+         x64\Debug\stack.obj
+         x64\Debug\SymbolTable.obj
+         x64\Debug\ValueType.obj
+         x64\Debug\Variable.obj
+         x64\Debug\VM.obj
+         antlr3c.lib(antlr3lexer.obj) : найден .netmodule MSIL или модуль, откомпилированный с параметром /GL; перезапускается компоновка с параметром /LTCG; добавьте /LTCG в командную строку компоновки для повышения производительности компоновщика
+     1>LINK : warning LNK4075: не учитывается "/INCREMENTAL" из-за спецификации "/LTCG"
+            Создается библиотека C:\SPO_LAB3\x64\Debug\Win_LabN3.lib и объект C:\SPO_LAB3\x64\Debug\Win_LabN3.exp
+     1>LINK : warning LNK4098: библиотека по умолчанию "LIBCMTD" конфликтует с использованием других библиотек; используйте /NODEFAULTLIB:library
+     1>LINK : warning LNK4098: библиотека по умолчанию "MSVCRT" конфликтует с использованием других библиотек; используйте /NODEFAULTLIB:library
+         Создание кода
+         Создание кода завершено
+         Win_LabN1.vcxproj -> C:\SPO_LAB3\x64\Debug\Win_LabN3.exe
+       FinalizeBuildStatus:
+         Файл "x64\Debug\Win_LabN3.tlog\unsuccessfulbuild" удаляется.
+         Обращение к "x64\Debug\Win_LabN3.tlog\Win_LabN3.lastbuildstate".
+     1>Сборка проекта "C:\SPO_LAB3\Win_LabN1\Win_LabN1.vcxproj" завершена (целевые объекты Build).
+
+Сборка успешно завершена.
+
+       "C:\SPO_LAB3\Win_LabN1\Win_LabN1.vcxproj" (целевой объект Build ) (1) ->
+       (Целевой объект ClCompile) -> 
+         C:\SPO_LAB3\Nix_LabN1\src\ValueType.c(42,9): warning C4189: intValue: локальная переменная инициализирована, но не использована
+         C:\SPO_LAB3\Nix_LabN1\src\ValueType.c(36,12): warning C4189: floatValue: локальная переменная инициализирована, но не использована
+         C:\SPO_LAB3\Nix_LabN1\src\ValueType.c(68): warning C4715: getTypeSize: значение возвращается не при всех путях выполнения
+
+
+       "C:\SPO_LAB3\Win_LabN1\Win_LabN1.vcxproj" (целевой объект Build ) (1) ->
+       (Целевой объект Link) -> 
+         LINK : warning LNK4075: не учитывается "/INCREMENTAL" из-за спецификации "/LTCG"
+         LINK : warning LNK4098: библиотека по умолчанию "LIBCMTD" конфликтует с использованием других библиотек; используйте /NODEFAULTLIB:library
+         LINK : warning LNK4098: библиотека по умолчанию "MSVCRT" конфликтует с использованием других библиотек; используйте /NODEFAULTLIB:library
+
+    Предупреждений: 6
+    Ошибок: 0
+
+Прошло времени 00:00:01.04

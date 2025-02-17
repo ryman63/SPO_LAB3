@@ -16,13 +16,13 @@ void setFlags(VM* vm, int32_t result) {
 }
 
 
-void runVM(VM* vm, Instruction* program) {
+void runVM(VM* vm, Instruction* program, size_t instrCount) {
 
     FILE* asmListing = fopen("program.asm", "w");
 
-    for (size_t i = 0; i < (size_t)vm->pc; i++) {
-        Instruction* instr = &program[vm->pc];
-        char* linearCode = parseInstructionInLinearCode(instr, vm);
+    for (size_t i = 0; i < instrCount; i++) {
+        Instruction* instr = &program[i];
+        char* linearCode = parseInstructionInLinearCode(vm, instr);
         strcat_s(linearCode, INSTRUCTION_MAX_SIZE, "\n");
         fwrite(linearCode, sizeof(char), INSTRUCTION_MAX_SIZE, asmListing);
         free(linearCode);
@@ -31,15 +31,16 @@ void runVM(VM* vm, Instruction* program) {
     fclose(asmListing);
 }
 
-void loadProgram(Instruction* program, BasicBlock* blocks, size_t countBlocks) {
-
+void loadProgram(Instruction* program, BasicBlock** blocks, size_t countBlocks) {
+    size_t instructionCounter = 0;
     for (size_t i = 0; i < countBlocks; i++) {
-        BasicBlock currentBlock = blocks[i];
-        Instruction* currentInstruction = currentBlock.instructions;
-        size_t instructionCounter = 0;
+        BasicBlock* currentBlock = blocks[i];
+        Instruction* currentInstruction = currentBlock->instructions;
+        
         while (currentInstruction) {
             program[instructionCounter] = *currentInstruction;
             currentInstruction = currentInstruction->next;
+            instructionCounter++;
         }
     }
 }
@@ -66,11 +67,15 @@ void freeRegister()
 
 char* parseInstructionInLinearCode(VM* vm, Instruction* instr)
 {
-    char* resultString = (char*)malloc(64);
+    char* resultString = (char*)malloc(INSTRUCTION_MAX_SIZE);
     if (!resultString) {
         printf("Ошибка выделения памяти!\n");
         return NULL;
     }
+
+    char* dest = getRegisterName(instr->dest);
+    char* src1 = getRegisterName(instr->src1);
+    char* src2 = getRegisterName(instr->src2);
 
     switch (instr->opcode) {
     case OC_NOP:
@@ -78,51 +83,51 @@ char* parseInstructionInLinearCode(VM* vm, Instruction* instr)
         break;
 
     case OC_LOAD:
-        snprintf(resultString, INSTRUCTION_MAX_SIZE, "LOAD R%d, %s", instr->dest, instr->imm);
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "load %s, %s", dest, instr->imm);
         break;
 
     case OC_STORE:
-        snprintf(resultString, INSTRUCTION_MAX_SIZE, "STORE R%d, %s", instr->dest, instr->imm);
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "store %s, %s", dest, instr->imm);
         break;
 
     case OC_MOV:
-        snprintf(resultString, INSTRUCTION_MAX_SIZE, "MOV R%d, R%d", instr->dest, instr->src1);
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "mov %s, %s", dest, src1);
         break;
 
     case OC_ADD:
-        snprintf(resultString, INSTRUCTION_MAX_SIZE, "ADD R%d, R%d, R%d", instr->dest, instr->src1, instr->src2);
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "add %s, %s, %s", dest, src1, src2);
         break;
 
     case OC_SUB:
-        snprintf(resultString, INSTRUCTION_MAX_SIZE, "SUB R%d, R%d, R%d", instr->dest, instr->src1, instr->src2);
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "sub %s, %s, %s", dest, src1, src2);
         break;
 
     case OC_JMP:
-        snprintf(resultString, INSTRUCTION_MAX_SIZE, "JMP %s", instr->imm);
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "jmp %s", instr->imm);
         break;
 
     case OC_JZ:
-        snprintf(resultString, INSTRUCTION_MAX_SIZE, "JZ R%d, %s", instr->src1, instr->imm);
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "jz %s", instr->imm);
         break;
 
     case OC_IN:
-        snprintf(resultString, INSTRUCTION_MAX_SIZE, "IN R%d", instr->dest);
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "in %s", dest);
         break;
 
     case OC_OUT:
-        snprintf(resultString, INSTRUCTION_MAX_SIZE, "OUT R%d", instr->dest);
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "out %s", dest);
         break;
 
     case OC_RET:
-        snprintf(resultString, INSTRUCTION_MAX_SIZE, "RET");
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "ret");
         break;
 
     case OC_CALL:
-        snprintf(resultString, INSTRUCTION_MAX_SIZE, "CALL %s", instr->imm);
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "call %s", instr->imm);
         break;
 
     case OC_HALT:
-        snprintf(resultString, INSTRUCTION_MAX_SIZE, "HALT");
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "halt");
         break;
 
     case OC_MARK:
@@ -135,4 +140,31 @@ char* parseInstructionInLinearCode(VM* vm, Instruction* instr)
     vm->pc += 1;
 
     return resultString;
+}
+
+char* getRegisterName(reg reg) {
+    switch (reg)
+    {
+    case gp0: return "gp0";
+        break;
+    case gp1: return "gp1";
+        break;
+    case gp2: return "gp2";
+        break;
+    case gp3: return "gp3";
+        break;
+    case gp4: return "gp4";
+        break;
+    case gp5: return "gp5";
+        break;
+    case gp6: return "gp6";
+        break;
+    case gp7: return "gp7";
+        break;
+    case sp: return "sp";
+        break;
+    case rag: return "rar";
+        break;
+    default: return NULL;
+    }
 }

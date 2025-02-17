@@ -4,6 +4,7 @@ BasicBlock* createBasicBlock() {
     BasicBlock* block = malloc(sizeof(BasicBlock));
     block->id = block_idCounter;
     block->instructions = NULL;
+    block->countInstructions = 0;
 
     block_idCounter++;
     return block;
@@ -14,8 +15,8 @@ void addInstruction(BasicBlock* block, Instruction* instruction) {
         block->instructions = instruction;
     }
     else {
-        Instruction* current = block->instructions->next;
-        while (current) {
+        Instruction* current = block->instructions;
+        while (current->next) {
             current = current->next;
         }
         current->next = instruction;

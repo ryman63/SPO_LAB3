@@ -19,7 +19,7 @@ typedef struct Symbol {
     enum SymbolType type;            // Тип символа
     int scope;                  // Уровень области видимости
     int address;                // Адрес или смещение в памяти
-    char dataType[MAX_NAME_LENGTH]; // Тип данных (например, int, float)
+    enum ValueType valueType; // Тип данных (например, int, float)
 } Symbol;
 
 // Таблица символов
@@ -30,6 +30,6 @@ typedef struct SymbolTable {
 } SymbolTable;
 
 void initSymbolTable(SymbolTable* table);
-void addSymbol(SymbolTable* table, const char* name, SymbolType type, int scope, int address, const char* dataType);
+void addSymbol(SymbolTable* table, const char* name, SymbolType type, int scope, int address, enum ValueType valueType);
 Symbol* findSymbol(SymbolTable* table, const char* name);
 void freeSymbolTable(SymbolTable* table);

@@ -5,7 +5,6 @@
 #include "ValueType.h"
 #include "SourceFile.h"
 
-
 typedef struct FuncArg {
 	char* name;
 	enum ValueType type;
@@ -13,13 +12,13 @@ typedef struct FuncArg {
 
 typedef struct FuncSignature {
 	char* name;
-	struct Array* FuncArgs;
+	struct Array* funcArgs;
+	enum ValueType returnType;
 } FuncSignature;
 
 typedef struct ProgramUnit {
 	struct FuncSignature* funcSignature;
 	struct CfgNode* cfg;
-	struct TypeRef* typeRef;
 
 	struct SourceFile* sourceFile;
 } ProgramUnit;

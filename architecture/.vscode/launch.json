@@ -6,10 +6,10 @@
     "configurations": [
         {
             "name": "(gdb) remote launch",
-           // "logging": { "trace": true, "engineLogging": true },
+            "logging": { "trace": true, "engineLogging": true },
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/util/assmfile",
+            "program": "${workspaceFolder}/util/assmfile2",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -17,7 +17,7 @@
             "externalConsole": false,
             "MIMode": "gdb",
             "miDebuggerArgs": "-ul u472446 -up 62462b19-2cb8-48c3-90ce-572a8952379a -il -q -w -s MachineDebugBinary definitionFile target.pdsl archName DynamicVM binaryFileToRun util/assmfile2 codeRamBankName code ipRegStorageName PC finishMnemonicName hlt",
-            "miDebuggerPath": "C:/Users/TBG/source/repos/SPO_LAB3/architecture/Portable.RemoteTasks.Manager.exe"
+            "miDebuggerPath": "C:/SPO_LAB3/architecture/Portable.RemoteTasks.Manager.exe"
         }
     ]
 }

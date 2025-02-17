@@ -55,8 +55,30 @@ CallGraphNode* analysis(Array* srcFiles, char* outputDir) {
 	}
 }
 
-TypeRef* buildTypeRef(AstNode* rootTypeRefAst) {
-	return NULL;
+ValueType getType(AstNode* rootTypeRefAst) {
+	AstNode* typeOfType = getItem(rootTypeRefAst->children, 0);
+	if (!strcmp(typeOfType->token, "BUILTIN")) {
+		AstNode* builtInType = getItem(typeOfType->children, 0);
+		if (!strcmp(builtInType->token, "int")) {
+			return TYPE_INT;
+		}
+		else if (!strcmp(builtInType->token, "float")) {
+			return TYPE_FLOAT;
+		}
+		else if (!strcmp(builtInType->token, "bool")) {
+			return TYPE_BOOL;
+		}
+		else if (!strcmp(builtInType->token, "string")) {
+			return TYPE_STRING;
+		}
+	}
+	else if (!strcmp(typeOfType->token, "ARRAY")) {
+		return TYPE_ARRAY;
+	}
+	else if (!strcmp(typeOfType->token, "CUSTOM")) {
+		return TYPE_CUSTOM;
+	}
+	return TYPE_ERROR;
 }
 
 FuncSignature* buildFuncSignature(AstNode* rootFuncAst) {
@@ -78,12 +100,22 @@ FuncSignature* buildFuncSignature(AstNode* rootFuncAst) {
 				AstNode* ArgNameNode = getItem(argChildren, 0);
 				
 				funcArg->name = strCpy(ArgNameNode->token);
-				funcArg->typeRef = buildTypeRef(getItem(argChildren, 1));
+				
+				AstNode* argType = getItem(argChildren, 1);
+				
+				getType(argType);
 
-				pushBack(signature->FuncArgs, funcArg);
+				pushBack(signature->funcArgs, funcArg);
 			}
 		}
 	}
+
+	if (funcSignNode->children->size > 2)
+	{
+		AstNode* returnTypeNode = getItem(funcSignNode->children, 2);
+		signature->returnType = getType(returnTypeNode);
+	}
+	
 
 	return signature;
 }
@@ -168,7 +200,7 @@ CfgNode* handleBlockStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode) 
 		for (size_t i = 0; i < statementNodeAst->children->size; i++) {
 			AstNode* childStatement = getItem(statementNodeAst->children, i);
 			CfgNode* result = handleStatement(childStatement, lastCfgNode);
-			if (!strcmp(result->label, "loop statement"))
+			if (result && !strcmp(result->label, "loop statement"))
 			{
 				CfgNode* lstNode = *lastCfgNode;
 				lstNode->uncondJump = result;
@@ -364,7 +396,7 @@ OpNode* handleSet(AstNode* opNodeAst) {
 	AstNode* lValue = getItem(opNodeAst->children, 0);
 	AstNode* rValue = getItem(opNodeAst->children, 1);
 
-	OpNode* resultOp = createOpNode("set", OT_SET);
+	OpNode* resultOp = createOpNode("set", OT_WRITE);
 
 	OpNode* lValueOp = NULL;
 	if (!strcmp(lValue->token, "SLICE_EXPR"))
@@ -408,12 +440,16 @@ OpNode* handleBinaryOp(AstNode* opNodeAst) {
 }
 
 OpNode* handleLiteralOp(AstNode* varOrLit) {
+	OpNode* resultOp = createOpNode("const", OT_CONST);
 
 	OpNode* litOp = createOpNode(strCpy(varOrLit->token), OT_LITERAL);
 
-	litOp->valueType = typeIdentify(varOrLit->token);
+	pushBack(resultOp->args, litOp);
 
-	return litOp;
+	litOp->valueType = typeIdentify(varOrLit->token);
+	resultOp->valueType = litOp->valueType;
+
+	return resultOp;
 }
 
 OpNode* handleVarOp(AstNode* varOrLit) {

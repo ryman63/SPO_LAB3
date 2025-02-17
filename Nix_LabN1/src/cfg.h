@@ -18,11 +18,12 @@ typedef enum OpType {
 	OT_PLACE,
 	OT_LITERAL,
 	OT_INDEX,
-	OT_SET,
+	OT_WRITE,
 	OT_READ,
 	OT_BINARY,
 	OT_UNARY,
-	OT_CALL
+	OT_CALL,
+	OT_CONST
 };
 
 typedef struct OpNode {

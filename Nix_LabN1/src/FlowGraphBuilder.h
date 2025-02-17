@@ -8,7 +8,7 @@ Array* breakTargets;
 
 CallGraphNode* analysis(Array* srcFiles, char* outputDir);
 
-TypeRef* buildTypeRef(AstNode* rootTypeRefAst);
+ValueType getType(AstNode* rootAstNode);
 
 FuncSignature* buildFuncSignature(AstNode* rootFuncAst);
 

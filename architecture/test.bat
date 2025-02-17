@@ -31,7 +31,7 @@ IF "%~1" neq "" (
 	)
 
 	IF "%~1" == "asm" (
-		Portable.RemoteTasks.Manager.exe -w -id -s AssembleDebug asmListing !asmListing! definitionFile !defFile! archName !archName! sourcesDir "C:/Users/TBG/source/repos/SPO_LAB3/architecture"  > util\tmp.txt
+		Portable.RemoteTasks.Manager.exe -w -id -s AssembleDebug asmListing !asmListing! definitionFile !defFile! archName !archName! sourcesDir "C:\SPO_LAB3\architecture"  > util\tmp.txt
 		for /F %%i in (util\tmp.txt) do set id=%%i
 		echo TaskID: !id!
 
@@ -106,7 +106,7 @@ IF "%~1" neq "" (
 	)
 
 	IF "%~1" == "run" (
-		Portable.RemoteTasks.Manager.exe -w -id -s ExecuteBinaryWithInteractiveInput asmListing !asmListing! definitionFile !defFile! binaryFileToRun util/assmfile archName !archName! finishMnemonicName hlt codeRamBankName code ipRegStorageName PC stdinRegStName IN stdoutRegStName OUT > util\tmp.txt 
+		Portable.RemoteTasks.Manager.exe -w -id -s ExecuteBinaryWithInteractiveInput asmListing !asmListing! definitionFile !defFile! binaryFileToRun util/assmfile2 archName !archName! finishMnemonicName hlt codeRamBankName code ipRegStorageName PC stdinRegStName IN stdoutRegStName OUT > util\tmp.txt 
 		for /F %%i in (util\tmp.txt) do set id=%%i
 
 		Portable.RemoteTasks.Manager.exe -g !id!

@@ -2,7 +2,13 @@
 
 CallGraphNode* createCGNode(ProgramUnit* unit) {
 	CallGraphNode* createNode = (CallGraphNode*)malloc(sizeof(CallGraphNode));
-	createNode->unit = unit;
+	ProgramUnit* copyUnit = malloc(sizeof(ProgramUnit));
+	copyUnit->cfg = unit->cfg;
+	copyUnit->funcSignature = unit->funcSignature;
+	copyUnit->sourceFile = unit->sourceFile;
+
+	createNode->unit = copyUnit;
+
 	createNode->children = NULL;
 	createNode->id = callGraph_id_counter;
 	callGraph_id_counter++;
@@ -26,7 +32,11 @@ CallGraphNode* buildCallGraph(Array* programUnitStorage) {
 	if (mainUnit)
 	{
 		CallGraphNode* mainCall = createCGNode(mainUnit);
+		
+		int i = 0;
+
 		mainCall->children = VisitProgramUnit(mainUnit, programUnitStorage);
+
 		return mainCall;
 	}
 	else

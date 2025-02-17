@@ -50,4 +50,21 @@ ValueType typeIdentify(char* value) {
     return TYPE_ERROR;
 }
 
+size_t getTypeSize(ValueType type)
+{
+    switch (type)
+    {
+    case TYPE_INT: return SIZE_OF_INT;
+        break;
+    case TYPE_FLOAT: return SIZE_OF_FLOAT;
+        break;
+    case TYPE_BOOL: return SIZE_OF_BOOL;
+        break;
+    case TYPE_ARRAY: return SIZE_OF_ARRAY;
+        break;
+    case TYPE_STRING: return SIZE_OF_STRING;
+        break;
+    }
+}
+
 
