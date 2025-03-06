@@ -24,19 +24,17 @@ void traverseCallGraph(CallGraphNode* root);
 
 void generateFunctionCode(ProgramUnit* unit);
 
-void generateFunctionCall(Array* args, BasicBlock* block);
+reg generateFunctionCall(OpNode* opNode, BasicBlock* block, SymbolTable* table);
 
-BasicBlock* traverseCfg(CfgNode* cfg);
+reg traverseCfg(CfgNode* cfg, SymbolTable* table, reg returnReg);
 
-void generateBinaryOpCode(OpNode* opNode, BasicBlock* block);
+reg generateBinaryOpCode(OpNode* opNode, BasicBlock* block, SymbolTable* table);
 
-char* getLiteral(OpNode* opNode);
+int32_t generateStackPlaceCode(OpNode* opNode, BasicBlock* block, SymbolTable* table, reg src);
 
-int32_t generatePlaceOpCode(OpNode* opNode, BasicBlock* block);
+reg generateReadOpCode(OpNode* opNode, BasicBlock* block, SymbolTable* table);
 
-int32_t generateReadOpCode(OpNode* opNode, BasicBlock* block);
+reg generateSetOpCode(OpNode* opNode, BasicBlock* block, SymbolTable* table);
 
-int32_t generateSetOpCode(OpNode* opNode, BasicBlock* block);
-
-int32_t generateOpTreeCode(OpNode* opNode, BasicBlock* block);
+reg generateOpTreeCode(OpNode* opNode, BasicBlock* block, SymbolTable* table);
 

@@ -2,6 +2,16 @@ def main()
 {
 	a = 5;
 	b = 10;
-	c = a * b;
+	c = 15;
+	d = 20;
+	e = 25;
+	f = sum(a + 1, b);
+	f = a + b;
+}
+end
+
+def sum(a of int, b of int) of int
+{
+	c = a + b;
 }
 end

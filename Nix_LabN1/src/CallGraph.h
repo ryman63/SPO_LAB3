@@ -27,7 +27,7 @@ ProgramUnit* searchUnit(char* unitName, Array* programUnitStorage);
 
 void VisitCfg(CfgNode* cfg, Array* callOps);
 
-OpNode* findOp(OpNode* opHead);
+void findOp(OpNode* opHead, Array* callOps);
 
 void addNodesAndLinksCallGraph(xmlNodePtr nodes, xmlNodePtr links, CallGraphNode* node);
 

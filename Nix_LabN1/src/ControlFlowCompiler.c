@@ -42,6 +42,7 @@ void traverseCallGraph(CallGraphNode* root) {
 }
 
 void generateFunctionCode(ProgramUnit* unit) {
+
     if (findSymbol(&_symbolTable, unit->funcSignature->name))
     {
         // обработка ошибки
@@ -63,138 +64,172 @@ void generateFunctionCode(ProgramUnit* unit) {
     // Выгружаем аргументы функции в регистры из стека
     for (size_t i = 0; i < unit->funcSignature->funcArgs->size; i++) {
         FuncArg* arg = (FuncArg*)getItem(unit->funcSignature->funcArgs, i);
-        int reg = allocateRegister();
+        int reg = allocateRegister(&_virtualMachine.allocator);
         addInstruction(prologueBlock, createInstruction(OC_POP, reg, 0, 0, NULL, NULL));
+        Symbol* argSymbol = findSymbol(unit->currentTable, arg->name);
+        if (argSymbol) {
+            argSymbol->location = LOC_REG;
+            argSymbol->address = reg;
+        }
+        else {
+            // обработка ошибки
+            printf("Не найден аргумент функции");
+        }
     }
 
     //помещаем блок пролога в массив
     blocks[counter_blocks] = prologueBlock;
     counter_blocks++;
-    
-    traverseCfg(unit->cfg);
+    reg returnReg = -1;
+    returnReg = traverseCfg(unit->cfg, unit->currentTable, returnReg);
 
-    // Завершаем функцию инструкцией возврата
+    // Завершаем функцию инструкцией возврата и пушим последний вычисленный элемент
     BasicBlock* finalBlock = createBasicBlock();
-    addInstruction(finalBlock, createInstruction(OC_RET, 0, 0, 0, NULL, NULL));
+
+    if(unit->funcSignature->returnType != TYPE_VOID)
+        addInstruction(finalBlock, createInstruction(OC_PUSHR, 0, returnReg, 0, NULL, NULL));
+
+    if(strcmp(unit->funcSignature->name, "main") == 0)
+        addInstruction(finalBlock, createInstruction(OC_HALT, 0, 0, 0, NULL, NULL));
+    else
+        addInstruction(finalBlock, createInstruction(OC_RET, 0, 0, 0, NULL, NULL));
    
     blocks[counter_blocks] = finalBlock;
     counter_blocks++;
 
     // Освобождаем регистры после завершения работы функции
-    while (usedRegisters > 0) {
-        freeRegister();
+    for (size_t i = 0; i < NUM_REGISTERS; i++) {
+        freeRegister(&_virtualMachine.allocator, i);
     }
 }
 
-BasicBlock* traverseCfg(CfgNode* cfg) {
+reg traverseCfg(CfgNode* cfg, SymbolTable* table, reg returnReg) {
     BasicBlock* block = NULL;
     if (cfg->opTree) {
         block = createBasicBlock();
 
-        generateOpTreeCode(cfg->opTree, block);
+        returnReg = generateOpTreeCode(cfg->opTree, block, table);
 
         blocks[counter_blocks] = block;
         counter_blocks++;
     }
 
     if (cfg->condJump) {
-        traverseCfg(cfg->condJump);
+        returnReg = traverseCfg(cfg->condJump, table, returnReg);
     }
     if (cfg->uncondJump) {
-        traverseCfg(cfg->uncondJump);
+        returnReg = traverseCfg(cfg->uncondJump, table, returnReg);
     }
-    if (block)
-        return block;
-    else return NULL;
+    return returnReg;
 }
 
-void generateFunctionCall(OpNode* opNode, BasicBlock* block) {
+reg generateFunctionCall(OpNode* opNode, BasicBlock* block, SymbolTable* table) {
     const int FUNC_NAME_INDEX = 0;
 
-    StackFrame frame = peekFrame(&_callStack);
-
-    ProgramUnit* unit = frame.programUnit;
-
-    Array* funcArgs = unit->funcSignature->funcArgs;
+    OpNode* funcNameOpNode = getItem(opNode->args, FUNC_NAME_INDEX);
 
     // Генерация кода передачи аргументов
-    for (size_t i = FUNC_NAME_INDEX + 1; i < funcArgs->size; i++) {
-        FuncArg* funcArg = (FuncArg*)getItem(funcArgs, i);
-        Symbol* symbol = findSymbol(&_symbolTable, funcArg->name);
-        addInstruction(block, createInstruction(OC_PUSH, 0, 0, 0, symbol->address, NULL));
+    for (size_t i = FUNC_NAME_INDEX + 1; i < opNode->args->size; i++) {
+        OpNode* funcArg = getItem(opNode->args, i);
+        reg reg = generateOpTreeCode(funcArg, block, table);
+        addInstruction(block, createInstruction(OC_PUSHR, 0, reg, 0, NULL, NULL));
     }
 
     // Вызов функции
-    addInstruction(block, createInstruction(OC_CALL, 0, 0, 0, unit->funcSignature->name, NULL));
+    addInstruction(block, createInstruction(OC_CALL, 0, 0, 0, funcNameOpNode->value, NULL));
+
+    reg returnReg = allocateRegister(&_virtualMachine.allocator);
+    addInstruction(block, createInstruction(OC_POP, returnReg, 0, 0, NULL, NULL));
+
+    return returnReg;
 }
 
-void generateBinaryOpCode(OpNode* opNode, BasicBlock* block) {
+reg generateBinaryOpCode(OpNode* opNode, BasicBlock* block, SymbolTable* table) {
     OpNode* left = getItem(opNode->args, 0);
     OpNode* right = getItem(opNode->args, 1);
 
-    int destReg = allocateRegister();
+    reg destReg = allocateRegister(&_virtualMachine.allocator);
 
-    int reg1 = allocateRegister();
-    if (reg1 == -1) {
-        //printf("PUSH R0 ; No registers available, saving R0\n");
-        addInstruction(block, createInstruction(OC_PUSH, reg1, 0, 0, NULL, NULL));
-        reg1 = 0;
-    }
-    generateOpTreeCode(left, block);
-    printf("MOV R%d, R0 ; Save left operand\n", reg1);
-
-    int reg2 = allocateRegister();
-    if (reg2 == -1) {
-        //printf("PUSH R0 ; No registers available, saving R0\n");
-        addInstruction(block, createInstruction(OC_PUSH, reg2, 0, 0, NULL, NULL));
-        reg2 = 0;
-    }
-    generateOpTreeCode(right, block);
+    reg regSrc1 = generateOpTreeCode(left, block, table);
+    reg regSrc2 = generateOpTreeCode(right, block, table);
 
     if (!strcmp(opNode->value, "+")) {
-        addInstruction(block, createInstruction(OC_ADD, destReg, reg1, reg2, NULL, NULL));
+        addInstruction(block, createInstruction(OC_ADD, destReg, regSrc1, regSrc2, NULL, NULL));
     }
     else if (!strcmp(opNode->value, "-")) {
-        addInstruction(block, createInstruction(OC_SUB, destReg, reg1, reg2, NULL, NULL));
+        addInstruction(block, createInstruction(OC_SUB, destReg, regSrc1, regSrc2, NULL, NULL));
     }
     else {
         // неизвестная бинарная операция
     }
 
-    freeRegister(reg1);
-    freeRegister(reg2);
+    //freeRegister(&_virtualMachine.allocator, regSrc1);
+    //freeRegister(&_virtualMachine.allocator, regSrc2);
+    return destReg;
 }
 
-int32_t generatePlaceOpCode(OpNode* opNode, BasicBlock* block) {
-    Symbol* find = findSymbol(&_symbolTable, opNode->value);
+int32_t generateStackPlaceCode(OpNode* opNode, BasicBlock* block, SymbolTable* table, reg src) {
+    Symbol* symbol = findSymbol(table, opNode->value);
 
-    if (find) {
-        return find->address;
+    if (symbol->address != -1) {
+        return symbol->address;
     }
 
-    size_t typeSize = getTypeSize(opNode->valueType);
-    char relativeAddress[16];
+    int typeSize = getTypeSize(opNode->valueType);
 
-    _itoa_s(typeSize, relativeAddress, 16, 10);
-    addInstruction(block, createInstruction(OC_SUB, sp, sp, 0, relativeAddress, NULL));
-    addSymbol(&_symbolTable, opNode->value, SYMBOL_VARIABLE, 0, typeSize, opNode->valueType);
+    if (typeSize <= 0) {
+        printf("Error: Unknown type\n");
+    }
 
-    return typeSize;
+    char* buff = malloc(sizeof(char) * 16);
+
+    _virtualMachine.sp += typeSize;
+    size_t relativeAddress = _virtualMachine.sp;
+
+
+    _itoa_s(typeSize, buff, 16, 10);
+    addInstruction(block, createInstruction(OC_SUBI, sp, sp, 0, buff, NULL));
+    symbol->address = relativeAddress;
+    symbol->location = LOC_STACK;
+
+    char* valuePlaceAddress = malloc(sizeof(char) * 16);
+
+    _itoa_s(relativeAddress, valuePlaceAddress, 16, 10);
+
+    addInstruction(block, createInstruction(OC_MOVI, 0, src, 0, valuePlaceAddress, NULL));
+
+    return relativeAddress;
 }
 
-int32_t generateReadOpCode(OpNode* opNode, BasicBlock* block) {
+void generateRegPlaceCode(OpNode* opNode, BasicBlock* block, SymbolTable* table, reg dest, reg src) {
+    Symbol* symbol = findSymbol(table, opNode->value);
 
-    int reg = allocateRegister();
-    if (reg == -1) {
-        reg = 0;
-        addInstruction(block, createInstruction(OC_PUSH, reg, 0, 0, NULL, NULL));
+    if (symbol->address != -1) {
+        freeRegister(&_virtualMachine.allocator, dest);
+        dest = symbol->address;
     }
+
+    symbol->address = dest;
+    symbol->location = LOC_REG;
+
+    int typeSize = getTypeSize(opNode->valueType);
+
+    if (typeSize <= 0) {
+        printf("Error: Unknown type\n");
+    }
+
+    addInstruction(block, createInstruction(OC_MOV, dest, src, 0, NULL, NULL));
+
+    freeRegister(&_virtualMachine.allocator, src);
+}
+
+reg generateReadOpCode(OpNode* opNode, BasicBlock* block, SymbolTable* table) {
 
     OpNode* arg = getItem(opNode->args, 0);
 
     StackFrame frame = peekFrame(&_callStack);
 
-    Symbol* symbol = findSymbol(&_symbolTable, arg->value);
+    Symbol* symbol = findSymbol(table, arg->value);
 
     if (!symbol) {
         // обработка ошибки - переменная не инициализирована
@@ -202,62 +237,82 @@ int32_t generateReadOpCode(OpNode* opNode, BasicBlock* block) {
         return;
     }
 
-    addInstruction(block, createInstruction(OC_LOAD, reg, 0, 0, symbol->address, NULL));
-    return reg; // Возвращаем регистр с загруженным значением
+    switch (symbol->location)
+    {
+    case LOC_REG: {
+        return symbol->address;
+    } break;
+    case LOC_STACK: {
+        reg reg = allocateRegister(&_virtualMachine.allocator);
+
+        char* address = malloc(sizeof(char) * 16);
+
+        _itoa_s(symbol->address, address, 16, 10);
+
+        addInstruction(block, createInstruction(OC_IMOV, reg, 0, 0, address, NULL));
+
+        return reg;
+    } break;
+    }
+
+    return -1; // Возвращаем регистр с загруженным значением
 }
 
-int32_t generateSetOpCode(OpNode* opNode, BasicBlock* block) {
+reg generateSetOpCode(OpNode* opNode, BasicBlock* block, SymbolTable* table) {
     const int L_VALUE_INDEX = 0;
     const int R_VALUE_INDEX = 1;
 
     OpNode* lValueOpNode = getItem(opNode->args, L_VALUE_INDEX);
+    OpNode* rValueOpNode = getItem(opNode->args, R_VALUE_INDEX);
 
-    char valuePlaceAddress[16];
+    reg reg2 = generateOpTreeCode(rValueOpNode, block, table);
 
     if (lValueOpNode->opType == OT_PLACE) {
-        _itoa_s(generatePlaceOpCode(lValueOpNode, block), valuePlaceAddress, 16, 10);
+        Symbol* symbol = findSymbol(table, lValueOpNode->value);
+
+        int32_t reg3 = allocateRegister(&_virtualMachine.allocator);
+
+        if (reg3 >= 0) {
+            generateRegPlaceCode(lValueOpNode, block, table, reg3, reg2);
+            return reg3;
+        }
+        else {
+            return generateStackPlaceCode(lValueOpNode, block, table, reg2);
+        }
+        
     }
     else {
 
     }
-
-    OpNode* rValueOpNode = getItem(opNode->args, R_VALUE_INDEX);
-
-    int32_t reg2 = generateOpTreeCode(rValueOpNode, block);
-
-
-    addInstruction(block, createInstruction(OC_MOVI, 0, reg2, 0, valuePlaceAddress, NULL));
-
-    freeRegister(reg2);
-   
+    return reg2;
 }
 
-int32_t generateConstOpCode(OpNode* opNode, BasicBlock* block) {
+int32_t generateConstOpCode(OpNode* opNode, BasicBlock* block, SymbolTable* table) {
     const int INDEX_CONST_VALUE = 0;
     OpNode* constValueOpNode = getItem(opNode->args, INDEX_CONST_VALUE);
 
-    int32_t reg = allocateRegister();
+    int32_t reg = allocateRegister(&_virtualMachine.allocator);
     addInstruction(block, createInstruction(OC_LOAD, reg, 0, 0, constValueOpNode->value, NULL));
 
     return reg;
 }
 
-int32_t generateOpTreeCode(OpNode* opNode, BasicBlock* block) {
+reg generateOpTreeCode(OpNode* opNode, BasicBlock* block, SymbolTable* table) {
     switch (opNode->opType) {
     case OT_BINARY:
-        generateBinaryOpCode(opNode, block);
+        return generateBinaryOpCode(opNode, block, table);
         break;
     case OT_READ:
-        return generateReadOpCode(opNode, block);
+        return generateReadOpCode(opNode, block, table);
         break;
     case OT_WRITE:
-        return generateSetOpCode(opNode, block);
+        return generateSetOpCode(opNode, block, table);
         break;
     case OT_CONST:
-        return generateConstOpCode(opNode, block);
+        return generateConstOpCode(opNode, block, table);
         break;
     case OT_CALL:
-        generateFunctionCall(opNode, block);
+        return generateFunctionCall(opNode, block, table);
         break;
     }
 }

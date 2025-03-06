@@ -1,6 +1,7 @@
 #include "FlowGraphBuilder.h"
 
 CallGraphNode* analysis(Array* srcFiles, char* outputDir) {
+
 	for (size_t i = 0; i < srcFiles->size; i++) {
 		char* buffErrors = malloc(sizeof(char) * 1024);
 		buffErrors[0] = '\0';
@@ -22,21 +23,39 @@ CallGraphNode* analysis(Array* srcFiles, char* outputDir) {
 		if (funcNodes->size == 0) {
 			return;
 		}
-
-		Array* programUnitStorage = buildArray(sizeof(ProgramUnit), 5);
+		
+		programUnitStorage = buildArray(sizeof(ProgramUnit), 4);
 
 		for (size_t i = 0; i < funcNodes->size; i++) {
 			AstNode* funcNode = getItem(funcNodes, i);
 			ProgramUnit programUnit;
+
 			programUnit.sourceFile = srcFile;
 			programUnit.funcSignature = buildFuncSignature(funcNode);
-			programUnit.cfg = handleFunctionBody(funcNode);
+
+			pushBack(programUnitStorage, &programUnit);
+
+			//freeSymbolTable(funcSymbolTable);
+		}
+
+		for (size_t i = 0; i < programUnitStorage->size; i++) {
+			SymbolTable* funcSymbolTable = malloc(sizeof(SymbolTable));
+			initSymbolTable(funcSymbolTable);
+			currentTable = funcSymbolTable;
+
+			ProgramUnit* programUnit = getItem(programUnitStorage, i);
+
+			AstNode* funcNode = getItem(funcNodes, i);
+
+			programUnit->cfg = handleFunctionBody(funcNode, programUnit->funcSignature->funcArgs);
+			programUnit->currentTable = funcSymbolTable;
 
 			char* buff = malloc(sizeof(char) * 8);
 			itoa(i, buff, 10);
-			generateCfgDGML(programUnit.cfg, strcat(buff, ".dgml"));
-			TraverseCfg(programUnit.cfg, generateOpTreeDGML);
-			pushBack(programUnitStorage, &programUnit);
+			generateCfgDGML(programUnit->cfg, strcat(buff, ".dgml"));
+			TraverseCfg(programUnit->cfg, generateOpTreeDGML);
+
+			//freeSymbolTable(funcSymbolTable);
 		}
 
 		CallGraphNode* callGraph = buildCallGraph(programUnitStorage);
@@ -45,6 +64,7 @@ CallGraphNode* analysis(Array* srcFiles, char* outputDir) {
 
 		if (strlen(buffErrors) > 0)
 			printf(buffErrors);
+
 
 		freeArray(&programUnitStorage);
 		freeArray(&funcNodes);
@@ -103,7 +123,8 @@ FuncSignature* buildFuncSignature(AstNode* rootFuncAst) {
 				
 				AstNode* argType = getItem(argChildren, 1);
 				
-				getType(argType);
+				ValueType type = getType(argType);
+				funcArg->type = type;
 
 				pushBack(signature->funcArgs, funcArg);
 			}
@@ -123,11 +144,17 @@ FuncSignature* buildFuncSignature(AstNode* rootFuncAst) {
 
 
 
-CfgNode* handleFunctionBody(AstNode* functionBodyAst) {
+CfgNode* handleFunctionBody(AstNode* functionBodyAst, Array* funcArgs) {
 	breakTargets = buildArray(sizeof(CfgNode), 4);
 
 	if (!functionBodyAst)
 		return NULL;
+
+	// заполняем таблицу переменными из параметров функции
+	for (size_t i = 0; i < funcArgs->size; i++) {
+		FuncArg* arg = getItem(funcArgs, i);
+		addSymbol(currentTable, arg->name, SYMBOL_VARIABLE, -1, arg->type);
+	}
 
 	CfgNode* entryNode = createCfgNode("function entry", functionBodyAst->line);
 	CfgNode* currentNode = entryNode;
@@ -404,9 +431,14 @@ OpNode* handleSet(AstNode* opNodeAst) {
 	else
 		lValueOp = createOpNode(strCpy(lValue->token), OT_PLACE);
 
+	OpNode* rValueOp = handleExpression(rValue);
+
+	lValueOp->valueType = rValueOp->valueType;
+
 	pushBack(resultOp->args, lValueOp);
 
-	OpNode* rValueOp = handleExpression(rValue);
+	
+	
 
 	if(rValueOp)
 		pushBack(resultOp->args, rValueOp);
@@ -416,6 +448,8 @@ OpNode* handleSet(AstNode* opNodeAst) {
 
 		return NULL;
 	}
+
+	addSymbol(currentTable, lValueOp->value, SYMBOL_VARIABLE, -1, lValueOp->valueType);
 
 	return resultOp;
 }
@@ -429,7 +463,7 @@ OpNode* handleBinaryOp(AstNode* opNodeAst) {
 	OpNode* lValueOp = handleExpression(lValue);
 	OpNode* rValueOp = handleExpression(rValue);
 	
-	resultOp->valueType = compareTypes(typeIdentify(lValueOp->value), typeIdentify(rValueOp->value));
+	resultOp->valueType = compareTypes(lValueOp->valueType, rValueOp->valueType);
 
 	if(lValueOp)
 		pushBack(resultOp->args, lValueOp);
@@ -452,12 +486,23 @@ OpNode* handleLiteralOp(AstNode* varOrLit) {
 	return resultOp;
 }
 
-OpNode* handleVarOp(AstNode* varOrLit) {
+OpNode* handleVarOp(AstNode* var) {
+	Symbol* varSymbol = findSymbol(currentTable, var->token);
+
+	if (!varSymbol) {
+		// обработка ошибки - переменная не инициализирована
+		return NULL;
+	}
+
 	OpNode* resultOp = createOpNode("read", OT_READ);
 
-	OpNode* varOrLitOp = createOpNode(strCpy(varOrLit->token), OT_PLACE);
+	OpNode* varOp = createOpNode(strCpy(var->token), OT_PLACE);
 
-	pushBack(resultOp->args, varOrLitOp);
+	varOp->valueType = varSymbol->valueType;
+
+	resultOp->valueType = varOp->valueType;
+
+	pushBack(resultOp->args, varOp);
 
 	return resultOp;
 }
@@ -471,12 +516,26 @@ OpNode* handleCallOp(AstNode* opNodeAst) {
 	if(funcNameOp)
 		pushBack(resultOp->args, funcNameOp);
 
+	ProgramUnit* callUnit = NULL;
+
+	// находим unit с таким названием
+	for (size_t i = 0; i < programUnitStorage->size; i++) {
+		ProgramUnit* currentItem = getItem(programUnitStorage, i);
+		if (strcmp(currentItem->funcSignature->name, funcNameOp->value) == 0) {
+			callUnit = currentItem;
+		}
+	}
+
 	for (size_t i = 1; i < opNodeAst->children->size; i++) {
 		AstNode* currentValueAst = getItem(opNodeAst->children, i);
 		OpNode* currentValueOp = handleExpression(currentValueAst);
+
 		if(currentValueOp)
 			pushBack(resultOp->args, currentValueOp);
 	}
+
+	resultOp->valueType = callUnit->funcSignature->returnType;
+
 	return resultOp;
 }
 

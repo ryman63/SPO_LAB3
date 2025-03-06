@@ -20,6 +20,8 @@ typedef struct ProgramUnit {
 	struct FuncSignature* funcSignature;
 	struct CfgNode* cfg;
 
+	struct SymbolTable* currentTable;
+
 	struct SourceFile* sourceFile;
 } ProgramUnit;
 

@@ -13,13 +13,20 @@ typedef enum SymbolType {
     SYMBOL_CONSTANT    // Константа
 } SymbolType;
 
+typedef enum SymbolLocation {
+    LOC_REG,
+    LOC_STACK,
+    LOC_HEAP
+};
+
 // Информация о символе
 typedef struct Symbol {
     char name[MAX_NAME_LENGTH]; // Имя символа
     enum SymbolType type;            // Тип символа
-    int scope;                  // Уровень области видимости
+//    int scope;                  // Уровень области видимости
     int address;                // Адрес или смещение в памяти
     enum ValueType valueType; // Тип данных (например, int, float)
+    enum SymbolLocation location; // Тип данных (например, int, float)
 } Symbol;
 
 // Таблица символов
@@ -30,6 +37,6 @@ typedef struct SymbolTable {
 } SymbolTable;
 
 void initSymbolTable(SymbolTable* table);
-void addSymbol(SymbolTable* table, const char* name, SymbolType type, int scope, int address, enum ValueType valueType);
+void addSymbol(SymbolTable* table, const char* name, SymbolType type, int address, enum ValueType valueType);
 Symbol* findSymbol(SymbolTable* table, const char* name);
 void freeSymbolTable(SymbolTable* table);

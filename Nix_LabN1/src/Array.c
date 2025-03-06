@@ -93,7 +93,7 @@ void* getItem(Array* arr,size_t index)
 {
 	if (index >= arr->size)
 		return NULL;
-	return (AstNode*)((char*)arr->items + (index * arr->itemSize));
+	return ((char*)arr->items + (index * arr->itemSize));
 }
 
 void freeArray(Array** arr) {

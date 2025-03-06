@@ -1,12 +1,23 @@
 #pragma once
 #include <stdint.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include <stdio.h>
 #include <string.h>
 
 typedef enum Opcode {
-    OC_NOP = 0, OC_LOAD, OC_STORE, OC_MOV, OC_MOVI, OC_ADD, OC_SUB, OC_JMP, OC_JZ, OC_IN, OC_OUT, OC_PUSH, OC_POP, OC_CALL, OC_RET, OC_HALT, OC_MARK
+    OC_NOP = 0, 
+    OC_LOAD, 
+    OC_STORE, 
+    OC_MOV, OC_MOVI, OC_IMOV, 
+    OC_ADD, OC_SUB, OC_SUBI, 
+    OC_JMP, OC_JZ, 
+    OC_IN, OC_OUT, 
+    OC_PUSH, OC_PUSHR, OC_POP, 
+    OC_CALL, OC_RET, 
+    OC_HALT, 
+    OC_MARK
 } Opcode;
 
 #define INSTRUCTION_MAX_SIZE 64

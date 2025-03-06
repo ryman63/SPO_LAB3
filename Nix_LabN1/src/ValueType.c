@@ -50,7 +50,7 @@ ValueType typeIdentify(char* value) {
     return TYPE_ERROR;
 }
 
-size_t getTypeSize(ValueType type)
+int getTypeSize(ValueType type)
 {
     switch (type)
     {
@@ -65,6 +65,8 @@ size_t getTypeSize(ValueType type)
     case TYPE_STRING: return SIZE_OF_STRING;
         break;
     }
+
+    return -1;
 }
 
 

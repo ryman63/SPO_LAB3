@@ -13,6 +13,7 @@ typedef struct {
     //int return_address;     // Адрес возврата
     Variable localVars[MAX_LOCAL_VARIABLE];
     ProgramUnit* programUnit;
+    
 } StackFrame;
 
 // Структура для стека вызовов

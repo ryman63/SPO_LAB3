@@ -9,12 +9,14 @@ architecture DynamicVM {
         storage R6[32];
         storage R7[32];
         storage PC[32];                        // Счетчик команд (Program Counter)
-        storage SP[15];                        // Указатель стека (Stack Pointer)
+        storage SP[32];                        // Указатель стека (Stack Pointer)
         storage FLAGS[4];                      // Регистр флагов (Zero, Negative, Carry, Overflow)
         storage IN[8];                          // Регистр для ввода 
         storage OUT[8];                         // Регистр для вывода
         storage HALT_FLAG[1];                  // Флаг остановки (для инструкции hlt)
         storage RAR[32];                       // return address register
+        storage BP[32];                        // base pointer
+        storage TMP[32];                        // temp
 
         view gp0 = R0;        // Регистр общего назначения
         view gp1 = R1;        // Регистр общего назначения
@@ -29,6 +31,7 @@ architecture DynamicVM {
         view CarryFlag = FLAGS[2];             // Флаг переноса
         view OverflowFlag = FLAGS[3];          // Флаг переполнения
         view sp = SP;
+        view bp = BP;
         view iv = IN;
         view ov = OUT;
         view rar = RAR;
@@ -41,7 +44,7 @@ architecture DynamicVM {
             granularity = 1;
         }
 
-        range data_bank [0x4000..0x7FFF] {
+        range data_bank [0x4000..0xFFFFFFFF] {
             cell = 8;
             endianess = little-endian;
             granularity = 0;
@@ -57,7 +60,9 @@ architecture DynamicVM {
             gp5 = 0101,
             gp6 = 0110,
             gp7 = 0111,
-            rag = 1000
+            rar = 1000,
+            sp = 1001,
+            bp = 1011
         };
 
         encode in_out field = register {
@@ -91,9 +96,16 @@ architecture DynamicVM {
             PC = PC + 2;
         };
 
-        instruction movi = { 0000 1001, reg as dest, imm32 as address } {
-            data_bank[address] = dest;
-            PC = PC + 2;
+        instruction movi = { 0000 1011, reg as src, 0000, imm32 as offset1 } {
+            TMP = bp - offset1;
+            data_bank[TMP] = src;
+            PC = PC + 6;
+        };
+
+        instruction imov = { 0000 1111, reg as dest, 0000, imm32 as offset1 } {
+            TMP = BP - offset1;
+            dest = data_bank[TMP];
+            PC = PC + 6;
         };
 
         instruction add = { 0 011, reg as dest, reg as src1, reg as src2 } {
@@ -116,6 +128,16 @@ architecture DynamicVM {
             PC = PC + 2;
         };
 
+        instruction subi = { 1100, reg as dest, reg as src1, 0000, imm32 as value } {
+            let result = src1 - value;
+            dest = result;
+            if result == 0 then
+                ZeroFlag = 1;
+            if result < 0 then
+                NegativeFlag = 1;
+            PC = PC + 6;
+        };
+
         instruction jmp = { 0000 0101, imm32 as address } {
             PC = address;
         };
@@ -136,7 +158,7 @@ architecture DynamicVM {
             PC = PC + 2;
         };
 
-        instruction pop = { 1100, reg as dest} {
+        instruction pop = { 1101, reg as dest} {
             dest = data_bank[sp];
             sp = sp + 4;
             PC = PC + 1;
@@ -157,7 +179,7 @@ architecture DynamicVM {
             PC = address;        // Переход по абсолютному адресу
         };
 
-        instruction ret = { 0000 1111 } {
+        instruction ret = { 0010 1111 } {
             PC = rar;
         };
 
@@ -170,6 +192,7 @@ architecture DynamicVM {
         format reg_imm is "{1}, {2}";
         format reg_reg is "{1}, {2}";
         format reg_reg_reg is "{1}, {2}, {3}";
+        format reg_reg_imm is "{1}, {2}, {3}";
 
         format imm_only is "{1}";
 
@@ -179,8 +202,11 @@ architecture DynamicVM {
         mnemonic load(dest, value) reg_imm;
         mnemonic store(src, address) reg_imm;
         mnemonic mov(dest, src) reg_reg;
+        mnemonic movi(src, offset1) reg_imm;
+        mnemonic imov(dest, offset1) reg_imm;
         mnemonic add(dest, src1, src2) reg_reg_reg;
         mnemonic sub(dest, src1, src2) reg_reg_reg;
+        mnemonic subi(dest, src1, value) reg_reg_imm;
         mnemonic jmp(address) imm_only;
         mnemonic jz(address) imm_only;
         mnemonic push(value) imm_only;

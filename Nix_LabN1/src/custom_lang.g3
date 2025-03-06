@@ -153,7 +153,7 @@ blockStatement
     ;
 
 argument_expression_list
-    :   (unary_expression (',' unary_expression)*)*
+    :   (conditional_expression (','! conditional_expression)*)*
     ;
 
 additive_expression

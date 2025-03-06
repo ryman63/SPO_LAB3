@@ -3,18 +3,12 @@
   <Nodes>
     <Node Id="8" Label="set"/>
     <Node Id="9" Label="c"/>
-    <Node Id="10" Label="*"/>
-    <Node Id="11" Label="read"/>
-    <Node Id="12" Label="a"/>
-    <Node Id="13" Label="read"/>
-    <Node Id="14" Label="b"/>
+    <Node Id="10" Label="const"/>
+    <Node Id="11" Label="15"/>
   </Nodes>
   <Links>
     <Link Source="8" Target="9"/>
     <Link Source="8" Target="10"/>
     <Link Source="10" Target="11"/>
-    <Link Source="11" Target="12"/>
-    <Link Source="10" Target="13"/>
-    <Link Source="13" Target="14"/>
   </Links>
 </DirectedGraph>

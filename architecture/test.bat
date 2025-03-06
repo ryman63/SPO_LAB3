@@ -5,7 +5,7 @@ IF "%~1" neq "" (
 	set Portable.RemoteTasks.Manager.Password=62462b19-2cb8-48c3-90ce-572a8952379a
 	set defFile=target.pdsl
 	set archName=DynamicVM
-	set asmListing=test.asm
+	set asmListing=program.asm
 	echo %Portable.RemoteTasks.Manager.Login%
 	echo %Portable.RemoteTasks.Manager.Password%
 	echo !archName!
@@ -38,7 +38,7 @@ IF "%~1" neq "" (
 		echo. 
 		echo RESULTS:
 		Portable.RemoteTasks.Manager.exe -g !id!
-		Portable.RemoteTasks.Manager.exe -g !id! -r out.ptptb -o util\assmfile2
+		Portable.RemoteTasks.Manager.exe -g !id! -r out.ptptb -o util\assmfile
 		echo. 
 		echo out file been writen in util\outfile
 

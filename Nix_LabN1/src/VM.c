@@ -5,8 +5,10 @@ void initVM(VM* vm) {
     memset(vm->registers, 0, sizeof(vm->registers));
     memset(vm->memory, 0, sizeof(vm->memory));
     vm->pc = 0;
-    vm->sp = MEMORY_SIZE - 1;
+    vm->sp = 0;
     vm->flags = 0;
+
+    initRegAllocator(&vm->allocator);
 }
 
 void setFlags(VM* vm, int32_t result) {
@@ -15,16 +17,25 @@ void setFlags(VM* vm, int32_t result) {
     if (result < 0) vm->flags |= 2;   // Negative flag
 }
 
+void addCodeSection(FILE* asmListing) {
+    size_t buffSize = 16;
+    char* sectionLine = malloc(buffSize);
+    snprintf(sectionLine, buffSize, "[section %s]\n", MEMORY_CODE_NAME);
+    fwrite(sectionLine, strlen(sectionLine), 1, asmListing);
+    free(sectionLine);
+}
 
 void runVM(VM* vm, Instruction* program, size_t instrCount) {
-
     FILE* asmListing = fopen("program.asm", "w");
+
+    addCodeSection(asmListing);
 
     for (size_t i = 0; i < instrCount; i++) {
         Instruction* instr = &program[i];
         char* linearCode = parseInstructionInLinearCode(vm, instr);
         strcat_s(linearCode, INSTRUCTION_MAX_SIZE, "\n");
-        fwrite(linearCode, sizeof(char), INSTRUCTION_MAX_SIZE, asmListing);
+        size_t len = strlen(linearCode);
+        fwrite(linearCode, len, 1, asmListing);
         free(linearCode);
     }
 
@@ -45,23 +56,27 @@ void loadProgram(Instruction* program, BasicBlock** blocks, size_t countBlocks) 
     }
 }
 
-int32_t allocateRegister()
-{
-    if (usedRegisters < NUM_REGISTERS) {
-        return usedRegisters++;
-    }
-    else {
-        // нет доступных регистров
+void initRegAllocator(RegisterAllocator* allocator) {
+    for (size_t i = 0; i < NUM_REGISTERS; i++) {
+        allocator->used[i] = false;
     }
 }
 
-void freeRegister()
+reg allocateRegister(RegisterAllocator* allocator)
 {
-    if (usedRegisters > 0) {
-        usedRegisters--;
+    for (size_t i = 0; i < NUM_REGISTERS; i++) {
+        if (allocator->used[i] == false) {
+            allocator->used[i] = true;
+            return i;
+        }
     }
-    else {
-        // нет используемых регистров
+    return -1;
+}
+
+void freeRegister(RegisterAllocator* allocator, enum reg reg)
+{
+    if (reg >= 0 && reg < NUM_REGISTERS) {
+        allocator->used[reg] = false;
     }
 }
 
@@ -94,12 +109,24 @@ char* parseInstructionInLinearCode(VM* vm, Instruction* instr)
         snprintf(resultString, INSTRUCTION_MAX_SIZE, "mov %s, %s", dest, src1);
         break;
 
+    case OC_MOVI:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "movi %s, %s", src1, instr->imm);
+        break;
+
+    case OC_IMOV:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "imov %s, %s", dest, instr->imm);
+        break;
+
     case OC_ADD:
         snprintf(resultString, INSTRUCTION_MAX_SIZE, "add %s, %s, %s", dest, src1, src2);
         break;
 
     case OC_SUB:
         snprintf(resultString, INSTRUCTION_MAX_SIZE, "sub %s, %s, %s", dest, src1, src2);
+        break;
+
+    case OC_SUBI:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "subi %s, %s, %s", dest, src1, instr->imm);
         break;
 
     case OC_JMP:
@@ -118,6 +145,18 @@ char* parseInstructionInLinearCode(VM* vm, Instruction* instr)
         snprintf(resultString, INSTRUCTION_MAX_SIZE, "out %s", dest);
         break;
 
+    case OC_PUSH:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "push %s", instr->imm);
+        break;
+
+    case OC_PUSHR:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "pushr %s", src1);
+        break;
+
+    case OC_POP:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "pop %s", dest);
+        break;
+
     case OC_RET:
         snprintf(resultString, INSTRUCTION_MAX_SIZE, "ret");
         break;
@@ -127,7 +166,7 @@ char* parseInstructionInLinearCode(VM* vm, Instruction* instr)
         break;
 
     case OC_HALT:
-        snprintf(resultString, INSTRUCTION_MAX_SIZE, "halt");
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "hlt");
         break;
 
     case OC_MARK:
@@ -164,6 +203,8 @@ char* getRegisterName(reg reg) {
     case sp: return "sp";
         break;
     case rag: return "rar";
+        break;
+    case bp: return "bp";
         break;
     default: return NULL;
     }

@@ -12,7 +12,7 @@ void initSymbolTable(SymbolTable* table) {
 }
 
 // Добавление символа в таблицу
-void addSymbol(SymbolTable* table, const char* name, SymbolType type, int scope, int address, enum ValueType valueType) {
+void addSymbol(SymbolTable* table, const char* name, SymbolType type, int address, enum ValueType valueType) {
     // Проверка на переполнение
     if (table->size >= table->capacity) {
         table->capacity *= 2;
@@ -25,9 +25,8 @@ void addSymbol(SymbolTable* table, const char* name, SymbolType type, int scope,
 
     // Добавление нового символа
     Symbol* symbol = &table->symbols[table->size++];
-    /*strncpy(symbol->name, name, MAX_NAME_LENGTH);*/
+    strncpy_s(symbol->name, MAX_NAME_LENGTH, name, MAX_NAME_LENGTH);
     symbol->type = type;
-    symbol->scope = scope;
     symbol->address = address;
     symbol->valueType = valueType;
 }

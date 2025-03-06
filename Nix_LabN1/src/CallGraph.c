@@ -6,6 +6,7 @@ CallGraphNode* createCGNode(ProgramUnit* unit) {
 	copyUnit->cfg = unit->cfg;
 	copyUnit->funcSignature = unit->funcSignature;
 	copyUnit->sourceFile = unit->sourceFile;
+	copyUnit->currentTable = unit->currentTable;
 
 	createNode->unit = copyUnit;
 
@@ -94,17 +95,15 @@ void VisitCfg(CfgNode* cfg, Array* callOps) {
 		VisitCfg(cfg->uncondJump, callOps);
 
 	if (cfg->opTree) {
-		OpNode* callOp = findOp(cfg->opTree);
-		if (callOp)
-			pushBack(callOps, callOp);
+		findOp(cfg->opTree, callOps);
 	}
 }
 
-OpNode* findOp(OpNode* opHead) {
-	if (!strcmp(opHead->value, "call")) return opHead;
+void findOp(OpNode* opHead, Array* callOps) {
+	if (!strcmp(opHead->value, "call")) pushBack(callOps, opHead);
 
 	for (size_t i = 0; i < opHead->args->size; i++) {
-		return findOp(getItem(opHead->args, i));
+		findOp(getItem(opHead->args, i), callOps);
 	}
 
 	return NULL;

@@ -18,6 +18,7 @@ typedef enum ValueType{
 	TYPE_ARRAY,
 	TYPE_BOOL,
 	TYPE_CUSTOM,
+	TYPE_VOID,
 	TYPE_ERROR
 } ValueType;
 
@@ -25,4 +26,4 @@ ValueType compareTypes(ValueType type1, ValueType type2);
 
 ValueType typeIdentify(char* value);
 
-size_t getTypeSize(ValueType type);
+int getTypeSize(ValueType type);

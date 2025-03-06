@@ -1,4 +1,4 @@
-﻿Сборка начата 19.02.2025 16:02:17.
+﻿Сборка начата 04.03.2025 17:18:25.
 Уровень детализации журнала: Normal.     1>Проект "C:\SPO_LAB3\Win_LabN1\Win_LabN1.vcxproj" в узле 2 (целевые объекты Build).
      1>PrepareForBuild:
          Структурированный вывод включен. Форматирование диагностики компилятора будет отражать иерархию ошибок. Подробнее см. https://aka.ms/cpp/structured-output.
@@ -11,27 +11,21 @@
      1>C:\SPO_LAB3\Nix_LabN1\src\cfg.h(27,2): warning C4091: typedef : пропускается слева от "OpType", когда ни одна переменная не объявлена
          (компиляция исходного файла "../Nix_LabN1/src/ControlFlowCompiler.c")
          
-     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(67,65): warning C4244: функция: преобразование "int" в "uint8_t", возможна потеря данных
-     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(65,18): warning C4189: arg: локальная переменная инициализирована, но не использована
-     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(126,73): warning C4047: функция: "char *" отличается по уровням косвенного обращения от "int"
-     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(126,73): warning C4024: createInstruction: различные типы для формального и фактического параметров 5
-     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(136,13): warning C4456: объявление "returnReg" скрывает предыдущее локальное объявление
-             C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(132,9):
-              см. объявление "returnReg"
+     1>C:\SPO_LAB3\Nix_LabN1\src\SymbolTable.h(20,2): warning C4091: typedef : пропускается слева от "SymbolLocation", когда ни одна переменная не объявлена
+         (компиляция исходного файла "../Nix_LabN1/src/ControlFlowCompiler.c")
          
-     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(111,34): warning C4100: opNode: неиспользованный формальный параметр
-     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(118,13): warning C4189: funcSymbol: локальная переменная инициализирована, но не использована
-     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(190,13): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
-     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(192,65): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
-     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(194,12): warning C4267: return: преобразование из "size_t" в "int32_t"; возможна потеря данных
-     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(214,9): warning C4033: "generateReadOpCode" должен возвращать значение
-     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(217,71): warning C4047: функция: "char *" отличается по уровням косвенного обращения от "int"
-     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(217,71): warning C4024: createInstruction: различные типы для формального и фактического параметров 5
-     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(207,16): warning C4101: frame: неиспользованная локальная переменная
-     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(240,57): warning C4244: функция: преобразование "int32_t" в "uint8_t", возможна потеря данных
-     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(252,54): warning C4244: функция: преобразование "int32_t" в "uint8_t", возможна потеря данных
-     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(219): warning C4715: generateReadOpCode: значение возвращается не при всех путях выполнения
-     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(275): warning C4715: generateOpTreeCode: значение возвращается не при всех путях выполнения
+     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(53,99): warning C4020: addSymbol: слишком много фактических параметров
+     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(68,65): warning C4244: функция: преобразование "int" в "uint8_t", возможна потеря данных
+     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(192,23): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(197,13): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
+     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(201,12): warning C4267: return: преобразование из "size_t" в "int32_t"; возможна потеря данных
+     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(237,9): warning C4033: "generateReadOpCode" должен возвращать значение
+     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(230,16): warning C4101: frame: неиспользованная локальная переменная
+     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(271,17): warning C4189: symbol: локальная переменная инициализирована, но не использована
+     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(295,54): warning C4244: функция: преобразование "int32_t" в "uint8_t", возможна потеря данных
+     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(290,77): warning C4100: table: неиспользованный формальный параметр
+     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(259): warning C4715: generateReadOpCode: значение возвращается не при всех путях выполнения
+     1>C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(318): warning C4715: generateOpTreeCode: значение возвращается не при всех путях выполнения
        Link:
          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\bin\HostX64\x64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\SPO_LAB3\x64\Debug\Win_LabN3.exe" /INCREMENTAL /ILK:"x64\Debug\Win_LabN3.ilk" /NOLOGO /LIBPATH:"C:\SPO_LAB3\packages\libxml2-vc140-static-32_64.2.9.4.1\build\native\..\..\lib\native\libs\x64\static\Debug" /LIBPATH:"C:\SPO_LAB3\Win_LabN1\\..\Nix_LabN1\libantlr3c-3.4\x64\Release" libxml2.lib antlr3c.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\SPO_LAB3\x64\Debug\Win_LabN3.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\SPO_LAB3\x64\Debug\Win_LabN3.lib" /MACHINE:X64 x64\Debug\Array.obj
          x64\Debug\ast.obj
@@ -69,24 +63,19 @@
        "C:\SPO_LAB3\Win_LabN1\Win_LabN1.vcxproj" (целевой объект Build ) (1) ->
        (Целевой объект ClCompile) -> 
          C:\SPO_LAB3\Nix_LabN1\src\cfg.h(27,2): warning C4091: typedef : пропускается слева от "OpType", когда ни одна переменная не объявлена
-         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(67,65): warning C4244: функция: преобразование "int" в "uint8_t", возможна потеря данных
-         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(65,18): warning C4189: arg: локальная переменная инициализирована, но не использована
-         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(126,73): warning C4047: функция: "char *" отличается по уровням косвенного обращения от "int"
-         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(126,73): warning C4024: createInstruction: различные типы для формального и фактического параметров 5
-         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(136,13): warning C4456: объявление "returnReg" скрывает предыдущее локальное объявление
-         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(111,34): warning C4100: opNode: неиспользованный формальный параметр
-         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(118,13): warning C4189: funcSymbol: локальная переменная инициализирована, но не использована
-         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(190,13): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
-         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(192,65): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
-         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(194,12): warning C4267: return: преобразование из "size_t" в "int32_t"; возможна потеря данных
-         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(214,9): warning C4033: "generateReadOpCode" должен возвращать значение
-         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(217,71): warning C4047: функция: "char *" отличается по уровням косвенного обращения от "int"
-         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(217,71): warning C4024: createInstruction: различные типы для формального и фактического параметров 5
-         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(207,16): warning C4101: frame: неиспользованная локальная переменная
-         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(240,57): warning C4244: функция: преобразование "int32_t" в "uint8_t", возможна потеря данных
-         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(252,54): warning C4244: функция: преобразование "int32_t" в "uint8_t", возможна потеря данных
-         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(219): warning C4715: generateReadOpCode: значение возвращается не при всех путях выполнения
-         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(275): warning C4715: generateOpTreeCode: значение возвращается не при всех путях выполнения
+         C:\SPO_LAB3\Nix_LabN1\src\SymbolTable.h(20,2): warning C4091: typedef : пропускается слева от "SymbolLocation", когда ни одна переменная не объявлена
+         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(53,99): warning C4020: addSymbol: слишком много фактических параметров
+         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(68,65): warning C4244: функция: преобразование "int" в "uint8_t", возможна потеря данных
+         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(192,23): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(197,13): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
+         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(201,12): warning C4267: return: преобразование из "size_t" в "int32_t"; возможна потеря данных
+         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(237,9): warning C4033: "generateReadOpCode" должен возвращать значение
+         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(230,16): warning C4101: frame: неиспользованная локальная переменная
+         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(271,17): warning C4189: symbol: локальная переменная инициализирована, но не использована
+         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(295,54): warning C4244: функция: преобразование "int32_t" в "uint8_t", возможна потеря данных
+         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(290,77): warning C4100: table: неиспользованный формальный параметр
+         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(259): warning C4715: generateReadOpCode: значение возвращается не при всех путях выполнения
+         C:\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(318): warning C4715: generateOpTreeCode: значение возвращается не при всех путях выполнения
 
 
        "C:\SPO_LAB3\Win_LabN1\Win_LabN1.vcxproj" (целевой объект Build ) (1) ->
@@ -95,7 +84,7 @@
          LINK : warning LNK4098: библиотека по умолчанию "LIBCMTD" конфликтует с использованием других библиотек; используйте /NODEFAULTLIB:library
          LINK : warning LNK4098: библиотека по умолчанию "MSVCRT" конфликтует с использованием других библиотек; используйте /NODEFAULTLIB:library
 
-    Предупреждений: 22
+    Предупреждений: 17
     Ошибок: 0
 
-Прошло времени 00:00:00.94
+Прошло времени 00:00:01.26
