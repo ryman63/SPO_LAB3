@@ -2,39 +2,32 @@
 
 #include "ProgramUnit.h"
 #include "CallGraph.h"
-#include "VM.h"
 #include "SymbolTable.h"
 #include "stack.h"
+#include "Module.h"
+#include "ErrorCollector.h"
 
-static VM _virtualMachine;
+#define COUNT_MODULES 4
 
-static SymbolTable _symbolTable;
+Array* compile(CallGraphNode* callGraph);
 
-static CallStack _callStack;
+//size_t calculateCountInstr();
 
-static BasicBlock* blocks[1024];
+void traverseCallGraph(CallGraphNode* root, Array* modules, SymbolTable* globalTable);
 
-static size_t counter_blocks = 0;
+Module* generateFunctionCode(ProgramUnit* unit, MachineState* state, SymbolTable* globalTable);
 
-void compile(CallGraphNode* callGraph);
+reg traverseCfg(CfgNode* cfg, Module* genModule, MachineState* state, reg returnReg);
 
-size_t calculateCountInstr();
+reg generateFunctionCall(OpNode* opNode, ExprContext* ctx);
 
-void traverseCallGraph(CallGraphNode* root);
+reg generateBinaryOpCode(OpNode* opNode, ExprContext* ctx);
 
-void generateFunctionCode(ProgramUnit* unit);
+//int32_t generateStackPlaceCode(OpNode* opNode, ExprContext* ctx);
 
-reg generateFunctionCall(OpNode* opNode, BasicBlock* block, SymbolTable* table);
+reg generateReadOpCode(OpNode* opNode, ExprContext* ctx);
 
-reg traverseCfg(CfgNode* cfg, SymbolTable* table, reg returnReg);
+reg generateSetOpCode(OpNode* opNode, ExprContext* ctx);
 
-reg generateBinaryOpCode(OpNode* opNode, BasicBlock* block, SymbolTable* table);
-
-int32_t generateStackPlaceCode(OpNode* opNode, BasicBlock* block, SymbolTable* table, reg src);
-
-reg generateReadOpCode(OpNode* opNode, BasicBlock* block, SymbolTable* table);
-
-reg generateSetOpCode(OpNode* opNode, BasicBlock* block, SymbolTable* table);
-
-reg generateOpTreeCode(OpNode* opNode, BasicBlock* block, SymbolTable* table);
+reg generateOpTreeCode(OpNode* opNode, ExprContext* ctx);
 

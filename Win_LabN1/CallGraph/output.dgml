@@ -2,9 +2,11 @@
 <DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
   <Nodes>
     <Node Id="0" Label="main"/>
-    <Node Id="1" Label="sum"/>
+    <Node Id="1" Label="print"/>
+    <Node Id="2" Label="sum"/>
   </Nodes>
   <Links>
     <Link Source="0" Target="1"/>
+    <Link Source="0" Target="2"/>
   </Links>
 </DirectedGraph>

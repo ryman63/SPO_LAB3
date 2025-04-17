@@ -13,12 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="StdLib">
+      <UniqueIdentifier>{f0bc1b13-d7eb-4296-8aa3-f5d57970e25c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="..\Nix_LabN1\src\custom_lang.tokens" />
     <None Include="ast.dgml" />
     <None Include="CallGraph\output.dgml" />
+    <None Include="..\StdLib\iostream.asm">
+      <Filter>StdLib</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Nix_LabN1\src\custom_langParser.h">
@@ -51,13 +57,7 @@
     <ClInclude Include="..\Nix_LabN1\src\stack.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="ErrorCollector.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="..\Nix_LabN1\src\ValueType.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Nix_LabN1\src\VM.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="..\Nix_LabN1\src\ControlFlowCompiler.h">
@@ -73,6 +73,18 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="..\Nix_LabN1\src\Variable.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Nix_LabN1\src\Module.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Nix_LabN1\src\CodeGenerator.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Nix_LabN1\src\StringPool.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Nix_LabN1\src\ErrorCollector.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -113,9 +125,6 @@
     <ClCompile Include="..\Nix_LabN1\src\ValueType.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="..\Nix_LabN1\src\VM.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="..\Nix_LabN1\src\ControlFlowCompiler.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -131,10 +140,22 @@
     <ClCompile Include="..\Nix_LabN1\src\Variable.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="..\Nix_LabN1\src\Module.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Nix_LabN1\src\CodeGenerator.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Nix_LabN1\src\StringPool.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Nix_LabN1\src\ErrorCollector.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="input.txt" />
-    <Text Include="input2.txt" />
-    <Text Include="73gmcz2w.txt" />
+    <Text Include="..\user\src\input.txt" />
+    <Text Include="..\user\src\input2.txt" />
+    <Text Include="..\user\src\73gmcz2w.txt" />
   </ItemGroup>
 </Project>

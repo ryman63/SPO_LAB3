@@ -9,6 +9,7 @@
 // Типы символов
 typedef enum SymbolType {
     SYMBOL_VARIABLE,   // Переменная
+    SYMBOL_FUNC_PARAM,   // Переменная
     SYMBOL_FUNCTION,   // Функция
     SYMBOL_CONSTANT    // Константа
 } SymbolType;
@@ -26,7 +27,7 @@ typedef struct Symbol {
 //    int scope;                  // Уровень области видимости
     int address;                // Адрес или смещение в памяти
     enum ValueType valueType; // Тип данных (например, int, float)
-    enum SymbolLocation location; // Тип данных (например, int, float)
+    enum SymbolLocation location;
 } Symbol;
 
 // Таблица символов

@@ -1,0 +1,73 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [
+        {
+          "ruleId": "C6308",
+          "message": {
+            "text": "realloc может возвратить пустой указатель: присвоение пустого указателя переменной \"table->symbols\", которая передается в качестве аргумента функции realloc, приведет к утечке исходного блока памяти."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/src/SymbolTable.c"
+                },
+                "region": {
+                  "startLine": 19,
+                  "startColumn": 35,
+                  "endLine": 19,
+                  "endColumn": 77
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "addSymbol",
+                  "decoratedName": "addSymbol",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.38.33139.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/src/SymbolTable.c"
+          },
+          "roles": [
+            "analysisTarget",
+            "resultFile"
+          ],
+          "hashes": {
+            "sha-256": "0f6b4df457abc87931d784df4a0787caf7f230f3be730a304373c46125b457d1"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/spo_lab3/nix_labn1/src/symboltable.h"
+          },
+          "hashes": {
+            "sha-256": "0303ec11a1043680f3407ceecd5b018794891258134e95c3b1c465c7c4c69adb"
+          }
+        }
+      ]
+    }
+  ]
+}

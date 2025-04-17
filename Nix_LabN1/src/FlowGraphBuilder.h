@@ -4,12 +4,13 @@
 #include "myParser.h"
 #include "CallGraph.h"
 #include "SymbolTable.h"
+#include "ErrorCollector.h"
 
 Array* breakTargets;
 SymbolTable* currentTable;
 Array* programUnitStorage;
 
-CallGraphNode* analysis(Array* srcFiles, char* outputDir);
+CallGraphNode* analysis(Array* srcFiles, char* outputDir, Array* astList);
 
 ValueType getType(AstNode* rootAstNode);
 

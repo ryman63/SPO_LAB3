@@ -1,30 +1,73 @@
 [section code]
+
 main:
-load gp0, 5
-mov gp1, gp0
-load gp0, 10
-mov gp2, gp0
-load gp0, 15
-mov gp3, gp0
-load gp0, 20
-mov gp4, gp0
-load gp0, 25
-mov gp5, gp0
-load gp6, 1
-add gp0, gp1, gp6
-pushr gp0
-pushr gp2
+;prologue
+subi sp, sp, 28
+;expressions
+movi gp0, 5
+store gp0, [bp - 4]
+movi gp0, 10
+store gp0, [bp - 8]
+movi gp0, 15
+store gp0, [bp - 12]
+movi gp0, 20
+store gp0, [bp - 16]
+movi gp0, 25
+store gp0, [bp - 20]
+movi gp0, str_0
+store gp0, [bp - 24]
+load gp0, [bp - 8]
+push gp0
+load gp2, [bp - 4]
+movi gp3, 1
+add gp1, gp2, gp3
+push gp1
 call sum
-pop gp7
-subi sp, sp, 4
-movi gp7, 4
-add (null), gp1, gp2
-pushr gp4
+store tmp, [bp - 28]
+load gp0, [bp - 24]
+push gp0
+call print
+load gp1, [bp - 28]
+load gp2, [bp - 20]
+add gp0, gp1, gp2
+store gp0, [bp - 28]
+;epilogue
 hlt
+
+str_0: db "sum", 0
+
 sum:
-pop gp0
-pop gp1
-add gp2, gp0, gp1
-mov gp3, gp2
-pushr gp3
+;prologue
+push bp
+mov bp, sp
+subi sp, sp, 4
+;expressions
+load gp1, [bp + 8]
+load gp2, [bp + 12]
+add gp0, gp1, gp2
+store gp0, [bp - 4]
+;epilogue
+mov tmp, gp0
+mov sp, bp
+pop bp
+ret
+
+;BuiltInFunc
+print:
+push bp
+mov bp, sp
+load gp0, [bp + 8]
+
+.loop:
+	load gp1, const[gp0]
+	cmp gp1, 0
+	jz .end
+	out gp1
+	movi gp1, 1
+	add gp0, gp0, gp1
+	jmp .loop
+
+.end:
+mov sp, bp
+pop bp
 ret

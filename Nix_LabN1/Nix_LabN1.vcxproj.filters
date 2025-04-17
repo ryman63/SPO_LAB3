@@ -19,6 +19,9 @@
     <ClCompile Include="src\Instruction.c" />
     <ClCompile Include="src\SymbolTable.c" />
     <ClCompile Include="src\Variable.c" />
+    <ClCompile Include="src\CodeGenerator.c" />
+    <ClCompile Include="src\StringPool.c" />
+    <ClCompile Include="src\ErrorCollector.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Array.h" />
@@ -281,6 +284,9 @@
     <ClInclude Include="src\Instruction.h" />
     <ClInclude Include="src\SymbolTable.h" />
     <ClInclude Include="src\Variable.h" />
+    <ClInclude Include="src\CodeGenerator.h" />
+    <ClInclude Include="src\StringPool.h" />
+    <ClInclude Include="src\ErrorCollector.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

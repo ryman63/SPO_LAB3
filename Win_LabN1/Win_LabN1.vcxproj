@@ -137,6 +137,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="..\Nix_LabN1\src\custom_lang.tokens" />
+    <None Include="..\StdLib\iostream.asm" />
     <None Include="ast.dgml" />
     <None Include="CallGraph\output.dgml" />
     <None Include="packages.config" />
@@ -146,45 +147,50 @@
     <ClInclude Include="..\Nix_LabN1\src\ast.h" />
     <ClInclude Include="..\Nix_LabN1\src\CallGraph.h" />
     <ClInclude Include="..\Nix_LabN1\src\cfg.h" />
+    <ClInclude Include="..\Nix_LabN1\src\CodeGenerator.h" />
     <ClInclude Include="..\Nix_LabN1\src\ControlFlowCompiler.h" />
     <ClInclude Include="..\Nix_LabN1\src\custom_langLexer.h" />
     <ClInclude Include="..\Nix_LabN1\src\custom_langParser.h" />
+    <ClInclude Include="..\Nix_LabN1\src\ErrorCollector.h" />
     <ClInclude Include="..\Nix_LabN1\src\FlowGraphBuilder.h" />
     <ClInclude Include="..\Nix_LabN1\src\Instruction.h" />
+    <ClInclude Include="..\Nix_LabN1\src\Module.h" />
     <ClInclude Include="..\Nix_LabN1\src\myParser.h" />
     <ClInclude Include="..\Nix_LabN1\src\ProgramUnit.h" />
     <ClInclude Include="..\Nix_LabN1\src\SourceFile.h" />
     <ClInclude Include="..\Nix_LabN1\src\stack.h" />
+    <ClInclude Include="..\Nix_LabN1\src\StringPool.h" />
     <ClInclude Include="..\Nix_LabN1\src\SymbolTable.h" />
     <ClInclude Include="..\Nix_LabN1\src\ValueType.h" />
     <ClInclude Include="..\Nix_LabN1\src\Variable.h" />
-    <ClInclude Include="..\Nix_LabN1\src\VM.h" />
-    <ClInclude Include="ErrorCollector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Nix_LabN1\src\Array.c" />
     <ClCompile Include="..\Nix_LabN1\src\ast.c" />
     <ClCompile Include="..\Nix_LabN1\src\CallGraph.c" />
     <ClCompile Include="..\Nix_LabN1\src\cfg.c" />
+    <ClCompile Include="..\Nix_LabN1\src\CodeGenerator.c" />
     <ClCompile Include="..\Nix_LabN1\src\ControlFlowCompiler.c" />
     <ClCompile Include="..\Nix_LabN1\src\custom_langLexer.c" />
     <ClCompile Include="..\Nix_LabN1\src\custom_langParser.c" />
+    <ClCompile Include="..\Nix_LabN1\src\ErrorCollector.c" />
     <ClCompile Include="..\Nix_LabN1\src\FlowGraphBuilder.c" />
     <ClCompile Include="..\Nix_LabN1\src\Instruction.c" />
     <ClCompile Include="..\Nix_LabN1\src\main.c" />
+    <ClCompile Include="..\Nix_LabN1\src\Module.c" />
     <ClCompile Include="..\Nix_LabN1\src\myParser.c" />
     <ClCompile Include="..\Nix_LabN1\src\ProgramUnit.c" />
     <ClCompile Include="..\Nix_LabN1\src\SourceFile.c" />
     <ClCompile Include="..\Nix_LabN1\src\stack.c" />
+    <ClCompile Include="..\Nix_LabN1\src\StringPool.c" />
     <ClCompile Include="..\Nix_LabN1\src\SymbolTable.c" />
     <ClCompile Include="..\Nix_LabN1\src\ValueType.c" />
     <ClCompile Include="..\Nix_LabN1\src\Variable.c" />
-    <ClCompile Include="..\Nix_LabN1\src\VM.c" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="73gmcz2w.txt" />
-    <Text Include="input.txt" />
-    <Text Include="input2.txt" />
+    <Text Include="..\user\src\73gmcz2w.txt" />
+    <Text Include="..\user\src\input.txt" />
+    <Text Include="..\user\src\input2.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

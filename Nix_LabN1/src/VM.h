@@ -25,9 +25,8 @@ void initVM(VM* vm); // Инициализация виртуальной машины
 void setFlags(VM* vm, int32_t result); // Вспомогательная функция: установка флагов
 void loadProgram(Instruction* program, BasicBlock** blocks, size_t countBlocks);
 void runVM(VM* vm, Instruction* program, size_t instrCount);
-void initRegAllocator(RegisterAllocator* allocator);
-enum reg allocateRegister(RegisterAllocator* allocator);
-void freeRegister(RegisterAllocator* allocator, enum reg reg);
+
+
 char* parseInstructionInLinearCode(VM* vm, Instruction* instr);
 char* getRegisterName(enum reg reg);
 void addCodeSection(FILE* asmListing);

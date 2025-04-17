@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\SPO_LAB3\Nix_LabN1\src\</FILEPATH>
+      <FILENAME>ProgramUnit.c</FILENAME>
+      <LINE>5</LINE>
+      <COLUMN>24</COLUMN>
+    </SFA>
+    <DEFECTCODE>6011</DEFECTCODE>
+    <DESCRIPTION>Разыменование пустого указателя "signature". </DESCRIPTION>
+    <FUNCTION>createFuncSignature</FUNCTION>
+    <DECORATED>createFuncSignature</DECORATED>
+    <FUNCLINE>3</FUNCLINE>
+    <PROBABILITY>1</PROBABILITY>
+    <RANK>4</RANK>
+    <CATEGORY>
+      <RULECATEGORY>mspft</RULECATEGORY>
+    </CATEGORY>
+    <PATH>
+      <SFA>
+        <FILEPATH>C:\SPO_LAB3\Nix_LabN1\src\</FILEPATH>
+        <FILENAME>ProgramUnit.c</FILENAME>
+        <LINE>4</LINE>
+        <COLUMN>19</COLUMN>
+        <KEYEVENT>
+          <ID>1</ID>
+          <KIND>declaration</KIND>
+          <IMPORTANCE>Essential</IMPORTANCE>
+          <MESSAGE>"signature" может быть равно NULL</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\SPO_LAB3\Nix_LabN1\src\</FILEPATH>
+        <FILENAME>ProgramUnit.c</FILENAME>
+        <LINE>5</LINE>
+        <COLUMN>24</COLUMN>
+        <KEYEVENT>
+          <ID>2</ID>
+          <KIND>usage</KIND>
+          <IMPORTANCE>Essential</IMPORTANCE>
+          <MESSAGE>"signature" разыменовано, но, возможно, по-прежнему равно NULL</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+    </PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\SPO_LAB3\Nix_LabN1\src\</FILEPATH>
+      <FILENAME>ProgramUnit.c</FILENAME>
+      <LINE>11</LINE>
+      <COLUMN>24</COLUMN>
+    </SFA>
+    <DEFECTCODE>6011</DEFECTCODE>
+    <DESCRIPTION>Разыменование пустого указателя "unit". </DESCRIPTION>
+    <FUNCTION>defineBuiltInFunc</FUNCTION>
+    <DECORATED>defineBuiltInFunc</DECORATED>
+    <FUNCLINE>9</FUNCLINE>
+    <PROBABILITY>1</PROBABILITY>
+    <RANK>4</RANK>
+    <CATEGORY>
+      <RULECATEGORY>mspft</RULECATEGORY>
+    </CATEGORY>
+    <PATH>
+      <SFA>
+        <FILEPATH>C:\SPO_LAB3\Nix_LabN1\src\</FILEPATH>
+        <FILENAME>ProgramUnit.c</FILENAME>
+        <LINE>10</LINE>
+        <COLUMN>17</COLUMN>
+        <KEYEVENT>
+          <ID>1</ID>
+          <KIND>declaration</KIND>
+          <IMPORTANCE>Essential</IMPORTANCE>
+          <MESSAGE>"unit" может быть равно NULL</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\SPO_LAB3\Nix_LabN1\src\</FILEPATH>
+        <FILENAME>ProgramUnit.c</FILENAME>
+        <LINE>11</LINE>
+        <COLUMN>24</COLUMN>
+        <KEYEVENT>
+          <ID>2</ID>
+          <KIND>usage</KIND>
+          <IMPORTANCE>Essential</IMPORTANCE>
+          <MESSAGE>"unit" разыменовано, но, возможно, по-прежнему равно NULL</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+    </PATH>
+  </DEFECT>
+</DEFECTS>

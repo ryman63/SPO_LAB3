@@ -28,6 +28,8 @@ typedef enum OpType {
 
 typedef struct OpNode {
 	int id;
+
+	struct AstNode* ast;
 	char* value;
 	struct Array* args;
 
@@ -37,16 +39,16 @@ typedef struct OpNode {
 
 typedef struct CfgNode {
 	int id;
-	int line;
+	struct AstNode* ast;
 	char* label;
 	struct OpNode* opTree;
 	struct CfgNode* uncondJump;
 	struct CfgNode* condJump;
 } CfgNode;
 
-CfgNode* createCfgNode(char* label, int line);
+CfgNode* createCfgNode(char* label, AstNode* ast);
 
-OpNode* createOpNode(char* value, enum OpType opType);
+OpNode* createOpNode(char* value, enum OpType opType, AstNode* ast);
 
 int generateCfgDGML(CfgNode* root, const char* filename);
 

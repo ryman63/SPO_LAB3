@@ -1,318 +1,323 @@
 #include "ControlFlowCompiler.h"
 
-void compile(CallGraphNode* callGraph) {
-    initVM(&_virtualMachine);
-    initSymbolTable(&_symbolTable);
-    initCallStack(&_callStack);
+Array* compile(CallGraphNode* callGraph) {
+    Array* modules = buildArray(sizeof(Module), COUNT_MODULES);
 
-    traverseCallGraph(callGraph);
+    SymbolTable* globalSymbolTable = malloc(sizeof(SymbolTable));
+    initSymbolTable(globalSymbolTable);
 
-    size_t countInstr = calculateCountInstr();
-
-    Instruction* programLinearCode = malloc(sizeof(Instruction) * countInstr);
-
-    loadProgram(programLinearCode, blocks, counter_blocks);
-
-    runVM(&_virtualMachine, programLinearCode, countInstr);
-
-    free(programLinearCode);
+    traverseCallGraph(callGraph, modules, globalSymbolTable);
 
     // free всех структур
+
+    return modules;
 }
 
-size_t calculateCountInstr() {
-    size_t resultCount = 0;
-    for (size_t i = 0; i < counter_blocks; i++) {
-        resultCount += blocks[i]->countInstructions;
-    }
-    return resultCount;
-}
-
-void traverseCallGraph(CallGraphNode* root) {
+void traverseCallGraph(CallGraphNode* root, Array* modules, SymbolTable* globalTable) {
     if (root == NULL) return;
 
-    // Генерируем код для текущей функции
-    generateFunctionCode(root->unit);
+    MachineState* state = createMachineState();
 
+    Module* generateModule = NULL;
+
+    // Генерируем код для текущей функции
+    if (!root->unit->isBuiltIn) {
+        generateModule = generateFunctionCode(root->unit, state, globalTable);
+        pushBack(modules, generateModule);
+    }
+   
     // Рекурсивно вызываем для детей
     for (size_t i = 0; i < root->children->size; i++) {
         CallGraphNode* child = getItem(root->children, i);
-        traverseCallGraph(child);
+        traverseCallGraph(child, modules, globalTable);
     }
 }
 
-void generateFunctionCode(ProgramUnit* unit) {
+void prepareMachineState(MachineState* state, ProgramUnit* unit, Array* prologue) {
+    
+    state->offset = 0;
+    state->offset += 4; // ret
+    state->offset += (unit->funcSignature->funcArgs->size * VARIABLE_SIZE); // выделяем место под аргументы
+    I_PUSH(bp, prologue);
+    I_MOV(bp, sp, prologue);
+}
 
-    if (findSymbol(&_symbolTable, unit->funcSignature->name))
+Module* generateFunctionCode(ProgramUnit* unit, MachineState* state, SymbolTable* globalTable) {
+    Module* generateModule = createModule(unit);
+
+    if (findSymbol(globalTable, unit->funcSignature->name))
     {
         // обработка ошибки
+        collectError(ST_COMPILE, "function override", unit->funcSignature->name, unit->ast->line);
 
-        return;
+        return NULL;
     }
 
-    addSymbol(&_symbolTable, unit->funcSignature->name, SYMBOL_FUNCTION, 0, 0, unit->funcSignature->returnType);
+    addSymbol(globalTable, unit->funcSignature->name, SYMBOL_FUNCTION, 0, 0, unit->funcSignature->returnType);
 
-    // создаём блок для пролога функции
-    BasicBlock* prologueBlock = createBasicBlock();
-
-    pushFrame(&_callStack, unit);
-
-    // создание метки
-    addInstruction(prologueBlock, createInstruction(OC_MARK, 0, 0, 0, NULL, unit->funcSignature->name));
+    state->offset = -4;
 
     // Пролог функции: сохраняем контекст
-    // Выгружаем аргументы функции в регистры из стека
-    for (size_t i = 0; i < unit->funcSignature->funcArgs->size; i++) {
-        FuncArg* arg = (FuncArg*)getItem(unit->funcSignature->funcArgs, i);
-        int reg = allocateRegister(&_virtualMachine.allocator);
-        addInstruction(prologueBlock, createInstruction(OC_POP, reg, 0, 0, NULL, NULL));
-        Symbol* argSymbol = findSymbol(unit->currentTable, arg->name);
-        if (argSymbol) {
-            argSymbol->location = LOC_REG;
-            argSymbol->address = reg;
+    if (strcmp(unit->funcSignature->name, "main") != 0)
+        prepareMachineState(state, unit, generateModule->prologue);
+
+    if (unit->funcSignature->funcArgs->size > 0) {
+        for (int i = unit->funcSignature->funcArgs->size - 1; i >= 0; i--) {
+
+            FuncArg* arg = (FuncArg*)getItem(unit->funcSignature->funcArgs, i);
+            Symbol* argSymbol = findSymbol(unit->currentTable, arg->name);
+
+            if (argSymbol) {
+                argSymbol->location = LOC_STACK;
+                argSymbol->address = state->offset;
+                createVariable(state, arg->name, arg->type);
+            }
+            else {
+                // обработка ошибки
+                collectError(ST_COMPILE, "func arg not found", arg->name, unit->ast->line);
+            }
         }
-        else {
-            // обработка ошибки
-            printf("Не найден аргумент функции");
+
+        state->offset -= 4; // ret
+        state->offset -= 4; // bp
+    }
+    
+    size_t localOffset = 0;
+
+    for (size_t i = 0; i < unit->currentTable->size; i++) {
+        Symbol symbol = unit->currentTable->symbols[i];
+        if (symbol.type == SYMBOL_VARIABLE) {
+            Symbol symbol = unit->currentTable->symbols[i];
+            symbol.location = LOC_STACK;
+            symbol.address = state->offset;
+            createVariable(state, symbol.name, symbol.type);
+            localOffset += 4;
         }
     }
+    I_SUBI(sp, sp, localOffset, generateModule->prologue);
 
-    //помещаем блок пролога в массив
-    blocks[counter_blocks] = prologueBlock;
-    counter_blocks++;
     reg returnReg = -1;
-    returnReg = traverseCfg(unit->cfg, unit->currentTable, returnReg);
+    returnReg = traverseCfg(unit->cfg, generateModule, state, returnReg);
+    
+    if (unit->funcSignature->returnType != TYPE_VOID)
+        I_MOV(tmp, returnReg, generateModule->epilogue);
 
-    // Завершаем функцию инструкцией возврата и пушим последний вычисленный элемент
-    BasicBlock* finalBlock = createBasicBlock();
-
-    if(unit->funcSignature->returnType != TYPE_VOID)
-        addInstruction(finalBlock, createInstruction(OC_PUSHR, 0, returnReg, 0, NULL, NULL));
-
-    if(strcmp(unit->funcSignature->name, "main") == 0)
-        addInstruction(finalBlock, createInstruction(OC_HALT, 0, 0, 0, NULL, NULL));
-    else
-        addInstruction(finalBlock, createInstruction(OC_RET, 0, 0, 0, NULL, NULL));
-   
-    blocks[counter_blocks] = finalBlock;
-    counter_blocks++;
-
-    // Освобождаем регистры после завершения работы функции
-    for (size_t i = 0; i < NUM_REGISTERS; i++) {
-        freeRegister(&_virtualMachine.allocator, i);
+    if (strcmp(unit->funcSignature->name, "main") != 0) {
+        I_MOV(sp, bp, generateModule->epilogue);
+        I_POP(bp, generateModule->epilogue);
     }
+
+    if (strcmp(unit->funcSignature->name, "main") == 0)
+        I_HALT(generateModule->epilogue);
+    else
+        I_RET(generateModule->epilogue);
+
+    return generateModule;
 }
 
-reg traverseCfg(CfgNode* cfg, SymbolTable* table, reg returnReg) {
-    BasicBlock* block = NULL;
+reg traverseCfg(CfgNode* cfg, Module* genModule, MachineState* state, reg returnReg) {
+
     if (cfg->opTree) {
-        block = createBasicBlock();
+        ExprContext* ctx = createExprContext(cfg->label);
+        char* mark = getConditionMark(state->markGen);
+        ctx->state = state;
+        free(ctx->state->allocator);
+        ctx->state->allocator = createRegAllocator();
 
-        returnReg = generateOpTreeCode(cfg->opTree, block, table);
+        returnReg = generateOpTreeCode(cfg->opTree, ctx);
 
-        blocks[counter_blocks] = block;
-        counter_blocks++;
+        pushBack(genModule->exprContextList, ctx);
     }
 
     if (cfg->condJump) {
-        returnReg = traverseCfg(cfg->condJump, table, returnReg);
+        returnReg = traverseCfg(cfg->condJump, genModule, state, returnReg);
     }
     if (cfg->uncondJump) {
-        returnReg = traverseCfg(cfg->uncondJump, table, returnReg);
+        returnReg = traverseCfg(cfg->uncondJump, genModule, state, returnReg);
     }
     return returnReg;
 }
 
-reg generateFunctionCall(OpNode* opNode, BasicBlock* block, SymbolTable* table) {
+reg generateFunctionCall(OpNode* opNode, ExprContext* ctx) {
     const int FUNC_NAME_INDEX = 0;
 
     OpNode* funcNameOpNode = getItem(opNode->args, FUNC_NAME_INDEX);
 
     // Генерация кода передачи аргументов
-    for (size_t i = FUNC_NAME_INDEX + 1; i < opNode->args->size; i++) {
+    for (size_t i = opNode->args->size - 1; i > FUNC_NAME_INDEX; i--) {
         OpNode* funcArg = getItem(opNode->args, i);
-        reg reg = generateOpTreeCode(funcArg, block, table);
-        addInstruction(block, createInstruction(OC_PUSHR, 0, reg, 0, NULL, NULL));
+        reg reg = generateOpTreeCode(funcArg, ctx);
+        I_PUSH(reg, ctx->instructions);
     }
 
     // Вызов функции
-    addInstruction(block, createInstruction(OC_CALL, 0, 0, 0, funcNameOpNode->value, NULL));
+    I_CALL(funcNameOpNode->value, ctx->instructions);
 
-    reg returnReg = allocateRegister(&_virtualMachine.allocator);
-    addInstruction(block, createInstruction(OC_POP, returnReg, 0, 0, NULL, NULL));
+    //reg returnReg = allocateRegister(ctx->state->allocator);
 
-    return returnReg;
+    return tmp;
 }
 
-reg generateBinaryOpCode(OpNode* opNode, BasicBlock* block, SymbolTable* table) {
+reg generateBinaryOpCode(OpNode* opNode, ExprContext* ctx) {
     OpNode* left = getItem(opNode->args, 0);
     OpNode* right = getItem(opNode->args, 1);
 
-    reg destReg = allocateRegister(&_virtualMachine.allocator);
+    reg regDest = allocateRegister(ctx->state->allocator);
 
-    reg regSrc1 = generateOpTreeCode(left, block, table);
-    reg regSrc2 = generateOpTreeCode(right, block, table);
+    reg regSrc1 = generateOpTreeCode(left, ctx);
+    reg regSrc2 = generateOpTreeCode(right, ctx);
 
     if (!strcmp(opNode->value, "+")) {
-        addInstruction(block, createInstruction(OC_ADD, destReg, regSrc1, regSrc2, NULL, NULL));
+        I_ADD(regDest, regSrc1, regSrc2, ctx->instructions);
     }
     else if (!strcmp(opNode->value, "-")) {
-        addInstruction(block, createInstruction(OC_SUB, destReg, regSrc1, regSrc2, NULL, NULL));
+        I_SUB(regDest, regSrc1, regSrc2, ctx->instructions);
     }
     else {
         // неизвестная бинарная операция
+        collectError(ST_COMPILE, "unknown binary operation", opNode->value, opNode->ast->line);
     }
 
     //freeRegister(&_virtualMachine.allocator, regSrc1);
     //freeRegister(&_virtualMachine.allocator, regSrc2);
-    return destReg;
+    return regDest;
 }
 
-int32_t generateStackPlaceCode(OpNode* opNode, BasicBlock* block, SymbolTable* table, reg src) {
-    Symbol* symbol = findSymbol(table, opNode->value);
+//int32_t generateStackPlaceCode(OpNode* opNode, BasicBlock* block, SymbolTable* table, reg src) {
+//    Symbol* symbol = findSymbol(table, opNode->value);
+//
+//    if (symbol->address != -1) {
+//        return symbol->address;
+//    }
+//
+//
+//
+//    char* valuePlaceAddress = malloc(sizeof(char) * 16);
+//
+//    _itoa_s(relativeAddress, valuePlaceAddress, 16, 10);
+//
+//    addInstruction(block, createInstruction(OC_MOVI, 0, src, 0, valuePlaceAddress, NULL));
+//
+//    return relativeAddress;
+//}
 
-    if (symbol->address != -1) {
-        return symbol->address;
-    }
+//void generateRegPlaceCode(OpNode* opNode, BasicBlock* block, SymbolTable* table, reg dest, reg src) {
+//    Symbol* symbol = findSymbol(table, opNode->value);
+//
+//    if (symbol->address != -1) {
+//        freeRegister(&_virtualMachine.allocator, dest);
+//        dest = symbol->address;
+//    }
+//
+//    symbol->address = dest;
+//    symbol->location = LOC_REG;
+//
+//    int typeSize = getTypeSize(opNode->valueType);
+//
+//    if (typeSize <= 0) {
+//        printf("Error: Unknown type\n");
+//    }
+//
+//    addInstruction(block, createInstruction(OC_MOV, dest, src, 0, NULL, NULL));
+//
+//    freeRegister(&_virtualMachine.allocator, src);
+//}
 
-    int typeSize = getTypeSize(opNode->valueType);
-
-    if (typeSize <= 0) {
-        printf("Error: Unknown type\n");
-    }
-
-    char* buff = malloc(sizeof(char) * 16);
-
-    _virtualMachine.sp += typeSize;
-    size_t relativeAddress = _virtualMachine.sp;
-
-
-    _itoa_s(typeSize, buff, 16, 10);
-    addInstruction(block, createInstruction(OC_SUBI, sp, sp, 0, buff, NULL));
-    symbol->address = relativeAddress;
-    symbol->location = LOC_STACK;
-
-    char* valuePlaceAddress = malloc(sizeof(char) * 16);
-
-    _itoa_s(relativeAddress, valuePlaceAddress, 16, 10);
-
-    addInstruction(block, createInstruction(OC_MOVI, 0, src, 0, valuePlaceAddress, NULL));
-
-    return relativeAddress;
-}
-
-void generateRegPlaceCode(OpNode* opNode, BasicBlock* block, SymbolTable* table, reg dest, reg src) {
-    Symbol* symbol = findSymbol(table, opNode->value);
-
-    if (symbol->address != -1) {
-        freeRegister(&_virtualMachine.allocator, dest);
-        dest = symbol->address;
-    }
-
-    symbol->address = dest;
-    symbol->location = LOC_REG;
-
-    int typeSize = getTypeSize(opNode->valueType);
-
-    if (typeSize <= 0) {
-        printf("Error: Unknown type\n");
-    }
-
-    addInstruction(block, createInstruction(OC_MOV, dest, src, 0, NULL, NULL));
-
-    freeRegister(&_virtualMachine.allocator, src);
-}
-
-reg generateReadOpCode(OpNode* opNode, BasicBlock* block, SymbolTable* table) {
+reg generateReadOpCode(OpNode* opNode, ExprContext* ctx) {
 
     OpNode* arg = getItem(opNode->args, 0);
 
-    StackFrame frame = peekFrame(&_callStack);
+    reg dest = allocateRegister(ctx->state->allocator);
 
-    Symbol* symbol = findSymbol(table, arg->value);
-
-    if (!symbol) {
-        // обработка ошибки - переменная не инициализирована
-
-        return;
+    Variable* var = findVariable(arg->value, ctx->state);
+    if (var) {
+        if (var->address >= 0)
+            I_LOAD_OFF_PLUS(dest, bp, var->address, ctx->instructions);
+        else
+            I_LOAD_OFF_MINUS(dest, bp, var->address, ctx->instructions);
+    }
+    else {
+        // обработка ошибки
+        collectError(ST_COMPILE, "Var can not find", arg->value, opNode->ast->line);
     }
 
-    switch (symbol->location)
-    {
-    case LOC_REG: {
-        return symbol->address;
-    } break;
-    case LOC_STACK: {
-        reg reg = allocateRegister(&_virtualMachine.allocator);
-
-        char* address = malloc(sizeof(char) * 16);
-
-        _itoa_s(symbol->address, address, 16, 10);
-
-        addInstruction(block, createInstruction(OC_IMOV, reg, 0, 0, address, NULL));
-
-        return reg;
-    } break;
-    }
-
-    return -1; // Возвращаем регистр с загруженным значением
+    return dest; // Возвращаем регистр с загруженным значением
 }
 
-reg generateSetOpCode(OpNode* opNode, BasicBlock* block, SymbolTable* table) {
+reg generateSetOpCode(OpNode* opNode, ExprContext* ctx) {
     const int L_VALUE_INDEX = 0;
     const int R_VALUE_INDEX = 1;
 
     OpNode* lValueOpNode = getItem(opNode->args, L_VALUE_INDEX);
     OpNode* rValueOpNode = getItem(opNode->args, R_VALUE_INDEX);
 
-    reg reg2 = generateOpTreeCode(rValueOpNode, block, table);
+    reg rValueReg = generateOpTreeCode(rValueOpNode, ctx);
 
     if (lValueOpNode->opType == OT_PLACE) {
-        Symbol* symbol = findSymbol(table, lValueOpNode->value);
+        Variable* var = findVariable(lValueOpNode->value, ctx->state);
 
-        int32_t reg3 = allocateRegister(&_virtualMachine.allocator);
+        if (var) {
+            int32_t reg3 = allocateRegister(ctx->state->allocator);
 
-        if (reg3 >= 0) {
-            generateRegPlaceCode(lValueOpNode, block, table, reg3, reg2);
-            return reg3;
+            if (reg3 >= 0) {
+                if (var->address >= 0)
+                    I_STORE_OFF_PLUS(rValueReg, bp, var->address, ctx->instructions);
+                else
+                    I_STORE_OFF_MINUS(rValueReg, bp, var->address, ctx->instructions);
+            }
+            else {
+                // недостаточно регистров
+                collectError(ST_COMPILE, "failed to alloc", "reg", opNode->ast->line);
+            }
         }
         else {
-            return generateStackPlaceCode(lValueOpNode, block, table, reg2);
+            // обработка ошибки
+            collectError(ST_COMPILE, "Variable can not find", lValueOpNode->value, opNode->ast->line);
         }
-        
     }
     else {
 
     }
-    return reg2;
+    return rValueReg;
 }
 
-int32_t generateConstOpCode(OpNode* opNode, BasicBlock* block, SymbolTable* table) {
+reg generateConstOpCode(OpNode* opNode, ExprContext* ctx) {
     const int INDEX_CONST_VALUE = 0;
     OpNode* constValueOpNode = getItem(opNode->args, INDEX_CONST_VALUE);
 
-    int32_t reg = allocateRegister(&_virtualMachine.allocator);
-    addInstruction(block, createInstruction(OC_LOAD, reg, 0, 0, constValueOpNode->value, NULL));
+    int32_t reg = allocateRegister(ctx->state->allocator);
+
+    if (opNode->valueType == TYPE_INT) {
+        I_MOVI(reg, constValueOpNode->value, ctx->instructions);
+    }
+    else if(opNode->valueType == TYPE_STRING) {
+        bool isRepeat = false;
+        char* mark = getStringMark(ctx->state->markGen, constValueOpNode->value, &isRepeat);
+        if (!isRepeat) {
+            I_CONST_STR(mark, constValueOpNode->value, ctx->constDataList);
+        }
+        I_MOVI(reg, mark, ctx->instructions);
+    }
 
     return reg;
 }
 
-reg generateOpTreeCode(OpNode* opNode, BasicBlock* block, SymbolTable* table) {
+reg generateOpTreeCode(OpNode* opNode, ExprContext* ctx) {
     switch (opNode->opType) {
     case OT_BINARY:
-        return generateBinaryOpCode(opNode, block, table);
+        return generateBinaryOpCode(opNode, ctx);
         break;
     case OT_READ:
-        return generateReadOpCode(opNode, block, table);
+        return generateReadOpCode(opNode, ctx);
         break;
     case OT_WRITE:
-        return generateSetOpCode(opNode, block, table);
+        return generateSetOpCode(opNode, ctx);
         break;
     case OT_CONST:
-        return generateConstOpCode(opNode, block, table);
+        return generateConstOpCode(opNode, ctx);
         break;
     case OT_CALL:
-        return generateFunctionCall(opNode, block, table);
+        return generateFunctionCall(opNode, ctx);
         break;
     }
 }

@@ -5,8 +5,12 @@ def main()
 	c = 15;
 	d = 20;
 	e = 25;
+	l = "sum";
 	f = sum(a + 1, b);
-	f = a + b;
+
+	print(l);
+	f = f + e;
+
 }
 end
 

@@ -6,7 +6,7 @@ static int id_counter = 0;
 typedef struct SourceFile {
 	int id;
 	char* fileName;
-	char* filePath;
+	char* directoryPath;
 } SourceFile;
 
-SourceFile* GetSrcFile(char* fileName);
+SourceFile* GetSrcFile(char* fileName, char* directoryPath);

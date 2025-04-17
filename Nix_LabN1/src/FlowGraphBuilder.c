@@ -1,6 +1,29 @@
 #include "FlowGraphBuilder.h"
 
-CallGraphNode* analysis(Array* srcFiles, char* outputDir) {
+void defineAllBuiltInFuncs(Array* programUnitStorage) {
+	for (size_t i = 0; i < COUNT_BUILTIN_FUNCS; i++) {
+		BuiltInFunc srcFunc = BuiltInFuncs[i];
+		ProgramUnit builtInFunc;
+		builtInFunc.funcSignature = createFuncSignature();
+		Array* funcArgsArray = buildArray(sizeof(FuncArg), BUILTIN_MAX_COUNT_ARGS);
+		for (size_t j = 0; j < srcFunc.countArgs; j++) {
+			FuncArg* arg = malloc(sizeof(FuncArg));
+			arg->name = srcFunc.args[j].name;
+			arg->type = srcFunc.args[j].type;
+			pushBack(funcArgsArray, &arg);
+		}
+		builtInFunc.funcSignature->funcArgs = funcArgsArray;
+		builtInFunc.funcSignature->name = srcFunc.name;
+		builtInFunc.funcSignature->returnType = srcFunc.returnType;
+		builtInFunc.cfg = NULL;
+		builtInFunc.isBuiltIn = true;
+		builtInFunc.currentTable = NULL;
+		builtInFunc.sourceFile = GetSrcFile(srcFunc.sourceFileName, BUILTIN_FUNC_DIRECTORY);
+		pushBack(programUnitStorage, &builtInFunc);
+	}
+}
+
+CallGraphNode* analysis(Array* srcFiles, char* outputDir, Array* astList) {
 
 	for (size_t i = 0; i < srcFiles->size; i++) {
 		char* buffErrors = malloc(sizeof(char) * 1024);
@@ -8,7 +31,9 @@ CallGraphNode* analysis(Array* srcFiles, char* outputDir) {
 
 		SourceFile* srcFile = getItem(srcFiles, i);
 
-		AstNode* rootAst = parseCustomLang(srcFile->fileName, buffErrors);
+		AstNode* rootAst = parseCustomLang(getFilePath(srcFile), buffErrors);
+
+		pushBack(astList, rootAst);
 
 		int generateResult = generateDGML(rootAst, "ast.dgml");
 
@@ -26,10 +51,15 @@ CallGraphNode* analysis(Array* srcFiles, char* outputDir) {
 		
 		programUnitStorage = buildArray(sizeof(ProgramUnit), 4);
 
+		// BuiltIn функции
+		defineAllBuiltInFuncs(programUnitStorage);
+
+		// пользовательские функции
 		for (size_t i = 0; i < funcNodes->size; i++) {
 			AstNode* funcNode = getItem(funcNodes, i);
 			ProgramUnit programUnit;
 
+			programUnit.isBuiltIn = false;
 			programUnit.sourceFile = srcFile;
 			programUnit.funcSignature = buildFuncSignature(funcNode);
 
@@ -38,6 +68,8 @@ CallGraphNode* analysis(Array* srcFiles, char* outputDir) {
 			//freeSymbolTable(funcSymbolTable);
 		}
 
+		size_t counter = 0;
+
 		for (size_t i = 0; i < programUnitStorage->size; i++) {
 			SymbolTable* funcSymbolTable = malloc(sizeof(SymbolTable));
 			initSymbolTable(funcSymbolTable);
@@ -45,17 +77,19 @@ CallGraphNode* analysis(Array* srcFiles, char* outputDir) {
 
 			ProgramUnit* programUnit = getItem(programUnitStorage, i);
 
-			AstNode* funcNode = getItem(funcNodes, i);
+			if (programUnit->isBuiltIn) continue;
+
+			AstNode* funcNode = getItem(funcNodes, counter);
 
 			programUnit->cfg = handleFunctionBody(funcNode, programUnit->funcSignature->funcArgs);
 			programUnit->currentTable = funcSymbolTable;
+			programUnit->ast = funcNode;
 
 			char* buff = malloc(sizeof(char) * 8);
 			itoa(i, buff, 10);
 			generateCfgDGML(programUnit->cfg, strcat(buff, ".dgml"));
 			TraverseCfg(programUnit->cfg, generateOpTreeDGML);
-
-			//freeSymbolTable(funcSymbolTable);
+			counter++;
 		}
 
 		CallGraphNode* callGraph = buildCallGraph(programUnitStorage);
@@ -68,7 +102,6 @@ CallGraphNode* analysis(Array* srcFiles, char* outputDir) {
 
 		freeArray(&programUnitStorage);
 		freeArray(&funcNodes);
-		freeAst(&rootAst);
 		free(buffErrors);
 
 		return callGraph;
@@ -131,18 +164,16 @@ FuncSignature* buildFuncSignature(AstNode* rootFuncAst) {
 		}
 	}
 
-	if (funcSignNode->children->size > 2)
-	{
+	if (funcSignNode->children->size > 2) {
 		AstNode* returnTypeNode = getItem(funcSignNode->children, 2);
 		signature->returnType = getType(returnTypeNode);
 	}
+	else
+		signature->returnType = TYPE_VOID;
 	
 
 	return signature;
 }
-
-
-
 
 CfgNode* handleFunctionBody(AstNode* functionBodyAst, Array* funcArgs) {
 	breakTargets = buildArray(sizeof(CfgNode), 4);
@@ -153,10 +184,10 @@ CfgNode* handleFunctionBody(AstNode* functionBodyAst, Array* funcArgs) {
 	// заполняем таблицу переменными из параметров функции
 	for (size_t i = 0; i < funcArgs->size; i++) {
 		FuncArg* arg = getItem(funcArgs, i);
-		addSymbol(currentTable, arg->name, SYMBOL_VARIABLE, -1, arg->type);
+		addSymbol(currentTable, arg->name, SYMBOL_FUNC_PARAM, -1, arg->type);
 	}
 
-	CfgNode* entryNode = createCfgNode("function entry", functionBodyAst->line);
+	CfgNode* entryNode = createCfgNode("function entry", functionBodyAst);
 	CfgNode* currentNode = entryNode;
 	CfgNode* lastCfgNode = entryNode;
 
@@ -174,7 +205,7 @@ CfgNode* handleFunctionBody(AstNode* functionBodyAst, Array* funcArgs) {
 
 	//lastCfgNode = currentNode;
 
-	CfgNode* exitNode = createCfgNode("function exit", -1);
+	CfgNode* exitNode = createCfgNode("function exit", NULL);
 	lastCfgNode->condJump = exitNode;
 
 	freeArray(&breakTargets);
@@ -215,13 +246,14 @@ CfgNode* handleStatement(AstNode* rootStatementAst, CfgNode** lastCfgNode) {
 	}
 	else {
 		// обработка ошибки
+		collectError(ST_ANALYZE, "Unhandled statement", typeOfStatement->token, typeOfStatement->line);
 
 		return NULL;
 	}
 }
 
 CfgNode* handleBlockStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode) {
-	CfgNode* newBlock = createCfgNode("block statement", statementNodeAst->line);
+	CfgNode* newBlock = createCfgNode("block statement", statementNodeAst);
 	CfgNode* currentBlock = newBlock;
 	if (statementNodeAst) {
 		for (size_t i = 0; i < statementNodeAst->children->size; i++) {
@@ -238,6 +270,7 @@ CfgNode* handleBlockStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode) 
 	}
 	else {
 		// обработка ошибки
+		collectError(ST_ANALYZE, "statement is", "NULL", -1);
 
 		return NULL;
 	}
@@ -248,8 +281,8 @@ CfgNode* handleBlockStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode) 
 }
 
 CfgNode* handleConditionStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode) {
-	CfgNode* emptyBlock = createCfgNode("empty", -1);
-	CfgNode* newBlock = createCfgNode("condition statement", statementNodeAst->line);
+	CfgNode* emptyBlock = createCfgNode("empty", NULL);
+	CfgNode* newBlock = createCfgNode("condition statement", statementNodeAst);
 	CfgNode* condLastBlock = NULL;
 	CfgNode* unCondLastBlock = NULL;
 	Array* children = statementNodeAst->children;
@@ -272,6 +305,11 @@ CfgNode* handleConditionStatement(AstNode* statementNodeAst, CfgNode** lastCfgNo
 	}
 	else {
 		// обработка ошибки
+		char childrens[4];
+
+		_itoa_s(children->size, childrens, 4, 10);
+
+		collectError(ST_ANALYZE, "condition ast children incorrect", childrens, statementNodeAst->line);
 
 		return NULL;
 	}
@@ -291,8 +329,8 @@ CfgNode* handleConditionStatement(AstNode* statementNodeAst, CfgNode** lastCfgNo
 }
 
 CfgNode* handleLoopStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode) {
-	CfgNode* newBlock = createCfgNode("loop statement", statementNodeAst->line);
-	CfgNode* exitBlock = createCfgNode("exit loop", -1);
+	CfgNode* newBlock = createCfgNode("loop statement", statementNodeAst);
+	CfgNode* exitBlock = createCfgNode("exit loop", NULL);
 	CfgNode* currentBlock = newBlock;
 	Array* children = statementNodeAst->children;
 
@@ -310,8 +348,18 @@ CfgNode* handleLoopStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode) {
 			}
 		}
 	}
+	else {
+		// обработка ошибки
+		char childrens[4];
 
-		currentBlock->condJump = exitBlock;
+		_itoa_s(children->size, childrens, 4, 10);
+
+		collectError(ST_ANALYZE, "loop ast children incorrect", childrens, statementNodeAst->line);
+
+		return NULL;
+	}
+
+	currentBlock->condJump = exitBlock;
 
 	//newBlock->uncondJump = exitBlock;
 
@@ -323,8 +371,8 @@ CfgNode* handleLoopStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode) {
 }
 
 CfgNode* handleRepeatStatement(AstNode* typeOfStatement, CfgNode** lastCfgNode) {
-	CfgNode* enterBlock = createCfgNode("enter loop", -1);
-	CfgNode* newBlock = createCfgNode("repeat statement", typeOfStatement->line);
+	CfgNode* enterBlock = createCfgNode("enter loop", NULL);
+	CfgNode* newBlock = createCfgNode("repeat statement", typeOfStatement);
 	CfgNode* currentBlock = enterBlock;
 	Array* children = typeOfStatement->children;
 
@@ -342,6 +390,16 @@ CfgNode* handleRepeatStatement(AstNode* typeOfStatement, CfgNode** lastCfgNode) 
 			}
 		}
 	}
+	else {
+		// обработка ошибки
+		char childrens[4];
+
+		_itoa_s(children->size, childrens, 4, 10);
+
+		collectError(ST_ANALYZE, "repeat ast children incorrect", childrens, typeOfStatement->line);
+
+		return NULL;
+	}
 	
 	currentBlock->condJump = newBlock;
 
@@ -353,10 +411,11 @@ CfgNode* handleRepeatStatement(AstNode* typeOfStatement, CfgNode** lastCfgNode) 
 }
 
 CfgNode* handleBreakStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode) {
-	CfgNode* newBlock = createCfgNode("break statement", statementNodeAst->line);
+	CfgNode* newBlock = createCfgNode("break statement", statementNodeAst);
 
 	if (breakTargets->size == 0) {
 		// обработка ошибки
+		collectError(ST_ANALYZE, "not found target", "break statement", statementNodeAst->line);
 
 		return NULL;
 	}
@@ -369,7 +428,7 @@ CfgNode* handleBreakStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode) 
 }
 
 CfgNode* handleExpressionStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode) {
-	CfgNode* newBlock = createCfgNode("expression statement", statementNodeAst->line);
+	CfgNode* newBlock = createCfgNode("expression statement", statementNodeAst);
 
 	AstNode* expressionStatementAst = getItem(statementNodeAst->children, 0);
 
@@ -423,13 +482,13 @@ OpNode* handleSet(AstNode* opNodeAst) {
 	AstNode* lValue = getItem(opNodeAst->children, 0);
 	AstNode* rValue = getItem(opNodeAst->children, 1);
 
-	OpNode* resultOp = createOpNode("set", OT_WRITE);
+	OpNode* resultOp = createOpNode("set", OT_WRITE, opNodeAst);
 
 	OpNode* lValueOp = NULL;
 	if (!strcmp(lValue->token, "SLICE_EXPR"))
 		lValueOp = handleSliceOp(lValue);
 	else
-		lValueOp = createOpNode(strCpy(lValue->token), OT_PLACE);
+		lValueOp = createOpNode(strCpy(lValue->token), OT_PLACE, opNodeAst);
 
 	OpNode* rValueOp = handleExpression(rValue);
 
@@ -442,20 +501,21 @@ OpNode* handleSet(AstNode* opNodeAst) {
 
 	if(rValueOp)
 		pushBack(resultOp->args, rValueOp);
-	else
-	{
+	else {
 		// обработка ошибки
+		collectError(ST_ANALYZE, "is not found", rValue->token, rValue->line);
 
 		return NULL;
 	}
 
-	addSymbol(currentTable, lValueOp->value, SYMBOL_VARIABLE, -1, lValueOp->valueType);
+	if(!findSymbol(currentTable, lValueOp->value))
+		addSymbol(currentTable, lValueOp->value, SYMBOL_VARIABLE, -1, lValueOp->valueType);
 
 	return resultOp;
 }
 
 OpNode* handleBinaryOp(AstNode* opNodeAst) {
-	OpNode* resultOp = createOpNode(strCpy(opNodeAst->token), OT_BINARY);
+	OpNode* resultOp = createOpNode(strCpy(opNodeAst->token), OT_BINARY, opNodeAst);
 
 	AstNode* lValue = getItem(opNodeAst->children, 0);
 	AstNode* rValue = getItem(opNodeAst->children, 1);
@@ -474,9 +534,9 @@ OpNode* handleBinaryOp(AstNode* opNodeAst) {
 }
 
 OpNode* handleLiteralOp(AstNode* varOrLit) {
-	OpNode* resultOp = createOpNode("const", OT_CONST);
+	OpNode* resultOp = createOpNode("const", OT_CONST, varOrLit);
 
-	OpNode* litOp = createOpNode(strCpy(varOrLit->token), OT_LITERAL);
+	OpNode* litOp = createOpNode(strCpy(varOrLit->token), OT_LITERAL, varOrLit);
 
 	pushBack(resultOp->args, litOp);
 
@@ -491,12 +551,14 @@ OpNode* handleVarOp(AstNode* var) {
 
 	if (!varSymbol) {
 		// обработка ошибки - переменная не инициализирована
+		collectError(ST_ANALYZE, "unknown variable", var->token, var->line);
+
 		return NULL;
 	}
 
-	OpNode* resultOp = createOpNode("read", OT_READ);
+	OpNode* resultOp = createOpNode("read", OT_READ, var);
 
-	OpNode* varOp = createOpNode(strCpy(var->token), OT_PLACE);
+	OpNode* varOp = createOpNode(strCpy(var->token), OT_PLACE, var);
 
 	varOp->valueType = varSymbol->valueType;
 
@@ -508,11 +570,11 @@ OpNode* handleVarOp(AstNode* var) {
 }
 
 OpNode* handleCallOp(AstNode* opNodeAst) {
-	OpNode* resultOp = createOpNode("call", OT_CALL);
+	OpNode* resultOp = createOpNode("call", OT_CALL, opNodeAst);
 
 	AstNode* funcNameAst = getItem(opNodeAst->children, 0);
 
-	OpNode* funcNameOp = createOpNode(strCpy(funcNameAst->token), OT_PLACE);
+	OpNode* funcNameOp = createOpNode(strCpy(funcNameAst->token), OT_PLACE, funcNameAst);
 	if(funcNameOp)
 		pushBack(resultOp->args, funcNameOp);
 
@@ -524,6 +586,13 @@ OpNode* handleCallOp(AstNode* opNodeAst) {
 		if (strcmp(currentItem->funcSignature->name, funcNameOp->value) == 0) {
 			callUnit = currentItem;
 		}
+	}
+
+	if (!callUnit) {
+		// обработка ошибки
+		collectError(ST_ANALYZE, "func is not find", funcNameAst->token, funcNameAst->line);
+
+		return NULL;
 	}
 
 	for (size_t i = 1; i < opNodeAst->children->size; i++) {
@@ -540,7 +609,7 @@ OpNode* handleCallOp(AstNode* opNodeAst) {
 }
 
 OpNode* handleSliceOp(AstNode* opNodeAst) {
-	OpNode* resultOp = createOpNode("index", OT_INDEX);
+	OpNode* resultOp = createOpNode("index", OT_INDEX, opNodeAst);
 	
 	AstNode* sliceNameAst = getItem(opNodeAst->children, 1);
 	AstNode* rangeListAst = getItem(opNodeAst->children, 0);
@@ -549,7 +618,7 @@ OpNode* handleSliceOp(AstNode* opNodeAst) {
 		identifierOp = handleSliceOp(sliceNameAst);
 	}
 	else {
-		identifierOp = createOpNode(strCpy(sliceNameAst->token), OT_PLACE);
+		identifierOp = createOpNode(strCpy(sliceNameAst->token), OT_PLACE, sliceNameAst);
 	}
 
 	Array* rangeList = rangeListAst->children;
@@ -575,7 +644,7 @@ OpNode* handleSliceOp(AstNode* opNodeAst) {
 }
 
 OpNode* handleMultiDimSlice(Array* dimensions, OpNode* identifierOp) {
-	OpNode* resultOp = createOpNode("index", OT_INDEX);
+	OpNode* resultOp = createOpNode("index", OT_INDEX, identifierOp->ast);
 
 	if (dimensions->size > 0) {
 		AstNode* currLastDimAst = popBack(dimensions);

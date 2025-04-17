@@ -56,31 +56,9 @@ void loadProgram(Instruction* program, BasicBlock** blocks, size_t countBlocks) 
     }
 }
 
-void initRegAllocator(RegisterAllocator* allocator) {
-    for (size_t i = 0; i < NUM_REGISTERS; i++) {
-        allocator->used[i] = false;
-    }
-}
 
-reg allocateRegister(RegisterAllocator* allocator)
-{
-    for (size_t i = 0; i < NUM_REGISTERS; i++) {
-        if (allocator->used[i] == false) {
-            allocator->used[i] = true;
-            return i;
-        }
-    }
-    return -1;
-}
 
-void freeRegister(RegisterAllocator* allocator, enum reg reg)
-{
-    if (reg >= 0 && reg < NUM_REGISTERS) {
-        allocator->used[reg] = false;
-    }
-}
-
-char* parseInstructionInLinearCode(VM* vm, Instruction* instr)
+char* parseInstructionInLinearCode(Instruction* instr)
 {
     char* resultString = (char*)malloc(INSTRUCTION_MAX_SIZE);
     if (!resultString) {
@@ -94,7 +72,7 @@ char* parseInstructionInLinearCode(VM* vm, Instruction* instr)
 
     switch (instr->opcode) {
     case OC_NOP:
-        snprintf(resultString, INSTRUCTION_MAX_SIZE, "NOP");
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "nop");
         break;
 
     case OC_LOAD:
@@ -175,8 +153,6 @@ char* parseInstructionInLinearCode(VM* vm, Instruction* instr)
         // обработка ошибки
         break;
     }
-
-    vm->pc += 1;
 
     return resultString;
 }

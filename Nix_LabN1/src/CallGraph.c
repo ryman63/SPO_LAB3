@@ -7,6 +7,8 @@ CallGraphNode* createCGNode(ProgramUnit* unit) {
 	copyUnit->funcSignature = unit->funcSignature;
 	copyUnit->sourceFile = unit->sourceFile;
 	copyUnit->currentTable = unit->currentTable;
+	copyUnit->isBuiltIn = unit->isBuiltIn;
+	copyUnit->ast = unit->ast;
 
 	createNode->unit = copyUnit;
 
@@ -21,6 +23,7 @@ CallGraphNode* createCGNodeOfName(const char* name) {
 	ProgramUnit* unit = malloc(sizeof(ProgramUnit));
 	unit->funcSignature = createFuncSignature();
 	unit->funcSignature->name = strCpy(name);
+	unit->ast = NULL;
 	createNode->unit = unit;
 	createNode->children = NULL;
 	createNode->id = callGraph_id_counter;
@@ -51,7 +54,8 @@ CallGraphNode* buildCallGraph(Array* programUnitStorage) {
 Array* VisitProgramUnit(ProgramUnit* unit, Array* programUnitStorage) {
 	Array* resultNodes = buildArray(sizeof(CallGraphNode), 8);
 	Array* callOps = buildArray(sizeof(OpNode), 4);
-	VisitCfg(unit->cfg, callOps);
+	if(unit->cfg)
+		VisitCfg(unit->cfg, callOps);
 	for (size_t j = 0; j < callOps->size; j++) {
 		OpNode* currOpNode = getItem(callOps, j);
 		OpNode* CallNameOp = getItem(currOpNode->args, 0);

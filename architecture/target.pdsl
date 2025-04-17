@@ -34,7 +34,7 @@ architecture DynamicVM {
         view bp = BP;
         view iv = IN;
         view ov = OUT;
-        view rar = RAR;
+        view tmp = TMP;
         view halt_flag = HALT_FLAG;            // Флаг остановки
 
     memory:
@@ -60,7 +60,7 @@ architecture DynamicVM {
             gp5 = 0101,
             gp6 = 0110,
             gp7 = 0111,
-            rar = 1000,
+            tmp = 1000,
             sp = 1001,
             bp = 1011
         };
@@ -70,25 +70,71 @@ architecture DynamicVM {
             ov = 1
         };
 
-
-        encode port field = immediate[8] data;
-
         encode imm32 field = immediate[32] data;
         encode imm8 field = immediate[8] data;
+
+        encode r_bank sequence = alternatives {
+            r_data = {0},
+            r_const = {1}
+        };
 
         instruction nop = { 0000 0000 } {
 
         };
  
-        instruction load = { 0000 0000 0001, reg as dest, imm32 as value } {
-            dest = value;
+        instruction load = { 0000 0001, sequence r_bank, 000, reg as dest, imm32 as src } {
+            when r_data then
+                dest = data_bank[src];
+            else 
+                dest = code[src];
             PC = PC + 6;
         };
 
-        instruction store = { 0000 0000 0010, reg as src, imm32 as address } {
-            data_bank[address] = src;
-            SP = SP + 4;
-            PC = PC + 6;
+        instruction load_reg = { 0000 0010, sequence r_bank, 000 0000, reg as dest, reg as src } {
+            when r_data then
+                dest = data_bank[src];
+            else 
+                dest = code[src];
+            PC = PC + 3;
+        };
+
+        instruction load_label_off = { 0000 0011, sequence r_bank, 000, reg as dest, imm32 as src, imm32 as off } {
+            when r_data then
+                dest = data_bank[(src + off) & 0xFFFFFFFF];
+            else 
+                dest = code[(src + off) & 0x3FFF];
+            PC = PC + 10;
+        };
+
+        instruction load_off_minus = { 0001 0001 0000 000, sequence r_bank, reg as dest, reg as src, imm32 as off } {
+            when r_data then
+                dest = data_bank[(src - off) & 0xFFFFFFFF];
+            else 
+                dest = code[(src - off) & 0x3FFF];
+            PC = PC + 7;
+        };
+
+         instruction load_off_plus = { 0001 0011 0000 000, sequence r_bank, reg as dest, reg as src, imm32 as off } {
+            when r_data then
+                dest = data_bank[(src + off) & 0xFFFFFFFF];
+            else 
+                dest = code[(src + off) & 0x3FFF];
+            PC = PC + 7;
+        };
+
+        instruction store = { 0000 0010 0000, reg as src, imm32 as dest } {
+            data_bank[dest] = src;
+            PC = PC +  6;
+        };
+
+        instruction store_off_minus = {0000 0011 0000 0000,reg as src, reg as dest, imm32 as off } {
+            data_bank[(dest - off) & 0xFFFFFFFF] = src;
+            PC = PC + 7;
+        };
+
+         instruction store_off_plus = { 0000 0100 0000 0000, reg as src, reg as dest, imm32 as off } {
+            data_bank[(dest + off) & 0xFFFFFFFF] = src;
+            PC = PC +  7;
         };
 
         instruction mov = { 0000 1001, reg as dest, reg as src } {
@@ -96,9 +142,8 @@ architecture DynamicVM {
             PC = PC + 2;
         };
 
-        instruction movi = { 0000 1011, reg as src, 0000, imm32 as offset1 } {
-            TMP = bp - offset1;
-            data_bank[TMP] = src;
+        instruction movi = { 0000 1011, reg as src, 0000, imm32 as imm } {
+            src = imm;
             PC = PC + 6;
         };
 
@@ -144,18 +189,21 @@ architecture DynamicVM {
 
         instruction jz = { 0000 0110, imm32 as address } {
             if (ZeroFlag) then PC = address;
+            else PC = PC + 5;
         };
 
-        instruction push = { 1000 0111, imm32 as value } {
-            sp = sp - 4;
-            data_bank[sp] = value;
-            PC = PC + 5;
-        };
-
-        instruction pushr = { 1000 1111, reg as src, 0000 } {
+        instruction push = { 1000 1111, reg as src, 0000 } {
             sp = sp - 4;
             data_bank[sp] = src;
             PC = PC + 2;
+        };
+
+        instruction cmp = {1001, reg as src1, imm32 as src2} {
+            if (src1 == src2) then
+                ZeroFlag = 1;
+            else
+                ZeroFlag = 0;
+            PC = PC + 5;
         };
 
         instruction pop = { 1101, reg as dest} {
@@ -175,12 +223,17 @@ architecture DynamicVM {
         };
 
         instruction call = { 0000 1100, imm32 as address } {
-            rar = PC + 5;
-            PC = address;        // Переход по абсолютному адресу
+            sp = sp - 4;
+            data_bank[sp] = PC + 5;
+
+            PC = address;
         };
 
         instruction ret = { 0010 1111 } {
-            PC = rar;
+            let return_address = data_bank[sp];
+            sp = sp + 4;
+
+            PC = return_address;
         };
 
         instruction hlt = { 0001 1010 } {
@@ -191,26 +244,46 @@ architecture DynamicVM {
         format reg_only is "{1}";
         format reg_imm is "{1}, {2}";
         format reg_reg is "{1}, {2}";
+        format reg_label is "{1}, [{2}]";
         format reg_reg_reg is "{1}, {2}, {3}";
         format reg_reg_imm is "{1}, {2}, {3}";
+        format reg_reg_off_plus is "{1}, [{2} + {3}]";
+        format reg_reg_off_minus is "{1}, [{2} - {3}]";
 
         format imm_only is "{1}";
 
         mnemonic nop();
         mnemonic in(dest) reg_only;
         mnemonic out(src) reg_only;
-        mnemonic load(dest, value) reg_imm;
-        mnemonic store(src, address) reg_imm;
+
+        mnemonic load(dest, src) reg_label when r_data,
+                     (dest, src) "{1}, const[{2}]" when r_const;
+
+        mnemonic load for load_reg(dest, src) reg_label when r_data,
+                                  (dest, src) "{1}, const[{2}]" when r_const;
+
+        mnemonic load for load_label_off(dest, src, off) "{1}, [{2} + {3}]" when r_data,
+                                        (dest, src, off) "{1}, const[{2} + {3}]" when r_const;
+
+        mnemonic load for load_off_plus(dest, src, off) reg_reg_off_plus when r_data,
+                                        (dest, src, off) "{1}, const[{2} + {3}]" when r_const;
+        mnemonic load for load_off_minus(dest, src, off) reg_reg_off_minus when r_data,
+                                        (dest, src, off) "{1}, const[{2} - {3}]" when r_const;
+
+        mnemonic store(src, dest) reg_label;
+        mnemonic store for store_off_plus(src, dest, off) reg_reg_off_plus;
+        mnemonic store for store_off_minus(src, dest, off) reg_reg_off_minus;
+                                          
         mnemonic mov(dest, src) reg_reg;
-        mnemonic movi(src, offset1) reg_imm;
+        mnemonic movi(src, imm) reg_imm;
         mnemonic imov(dest, offset1) reg_imm;
         mnemonic add(dest, src1, src2) reg_reg_reg;
         mnemonic sub(dest, src1, src2) reg_reg_reg;
         mnemonic subi(dest, src1, value) reg_reg_imm;
         mnemonic jmp(address) imm_only;
         mnemonic jz(address) imm_only;
-        mnemonic push(value) imm_only;
-        mnemonic pushr(src) reg_only;
+        mnemonic cmp(src1, src2) reg_imm;
+        mnemonic push(src) reg_only;
         mnemonic pop(dest) reg_only;
         mnemonic call(address) imm_only;
         mnemonic ret();

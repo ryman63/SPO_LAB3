@@ -1,10 +1,10 @@
 #include "cfg.h"
 
-CfgNode* createCfgNode(char* label, int line) {
+CfgNode* createCfgNode(char* label, AstNode* ast) {
 	CfgNode* createNode = malloc(sizeof(CfgNode));
 
 	createNode->label = label;
-	createNode->line = line;
+	createNode->ast = ast;
 
 	createNode->condJump = NULL;
 	createNode->uncondJump = NULL;
@@ -16,12 +16,13 @@ CfgNode* createCfgNode(char* label, int line) {
 	return createNode;
 }
 
-OpNode* createOpNode(char* value, enum OpType opType)
+OpNode* createOpNode(char* value, enum OpType opType, AstNode* ast)
 {
 	OpNode* createNode = malloc(sizeof(OpNode));
 
 	createNode->opType = opType;
 	createNode->value = value;
+	createNode->ast = ast;
 	createNode->args = buildArray(sizeof(OpNode), 2);
 	createNode->id = opNode_id_counter;
 
@@ -172,7 +173,7 @@ void TraverseCfg(CfgNode* root, int(*value)(OpNode*, const char*)) {
 		strcpy_s(fileName, 64, root -> label);
 		strcat_s(fileName, 64, "_");
 		char buff[8];
-		_itoa_s(root->line, buff, 8, 10);
+		_itoa_s(root->ast->line, buff, 8, 10);
 		strcat_s(fileName, 64, buff);
 		strcat_s(fileName, 64, ".dgml");
 		value(root->opTree, fileName);
