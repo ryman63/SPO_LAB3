@@ -93,3 +93,5 @@ void I_CALL(char* mark, Array* instrArray);
 void I_RET(Array* instrArray);
 
 void I_HALT(Array* instrArray);
+
+void I_MARK(Array* instrArray, char* mark);

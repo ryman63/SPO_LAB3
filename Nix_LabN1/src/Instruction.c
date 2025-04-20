@@ -244,3 +244,9 @@ void I_HALT(Array* instrArray)
     pushBack(instrArray, instr);
 }
 
+void I_MARK(Array* instrArray, char* mark) {
+    char* markCpy = strCpy(mark);
+    Instruction* instr = createInstruction(OC_MARK, 0, 0, 0, markCpy);
+    pushBack(instrArray, instr);
+}
+

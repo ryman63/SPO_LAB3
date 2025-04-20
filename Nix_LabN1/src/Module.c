@@ -78,10 +78,9 @@ char* getStringMark(MarkGenerator* markGen, char* str, bool* isRepeat)
 	return uniqueMark;
 }
 
-char* getConditionMark(MarkGenerator* markGen)
-{
+char* getConditionMark(MarkGenerator* markGen) {
 	char* uniqueMark = malloc(sizeof(char) * CND_MARK_SIZE);
-	snprintf(uniqueMark, CND_MARK_SIZE, "cnd_%d", markGen->countConditions++);
+	snprintf(uniqueMark, CND_MARK_SIZE, ".cnd_%d", markGen->countConditions++);
 	return uniqueMark;
 }
 

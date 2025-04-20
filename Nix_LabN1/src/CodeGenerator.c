@@ -8,6 +8,8 @@ void generateBuiltIn(ProgramUnit* unit, FILE* fileDescriptor) {
 }
 
 void generate(Module* module, FILE* fileDescriptor) {
+    size_t instructionCounter = 1;
+
     addMark(module->unit->funcSignature->name, fileDescriptor);
 
     if (module->prologue->size > 0) {
@@ -15,9 +17,12 @@ void generate(Module* module, FILE* fileDescriptor) {
         addComment("prologue", fileDescriptor);
         for (size_t i = 0; i < module->prologue->size; i++) {
             Instruction* instr = getItem(module->prologue, i);
-            char* parsedInstr = parseInstructionInLinearCode(instr);
-            fwrite(parsedInstr, strlen(parsedInstr), 1, fileDescriptor);
-            free(parsedInstr);
+            char* parsedInstr = parseInstructionInLinearCode(instr, instructionCounter);
+            if (parsedInstr) {
+                fwrite(parsedInstr, strlen(parsedInstr), 1, fileDescriptor);
+                free(parsedInstr);
+                instructionCounter++;
+            }
         }
     }
 
@@ -28,7 +33,7 @@ void generate(Module* module, FILE* fileDescriptor) {
         addComment("expressions", fileDescriptor);
         for (size_t i = 0; i < module->exprContextList->size; i++) {
             ExprContext* ctx = getItem(module->exprContextList, i);
-            generateExpr(ctx, fileDescriptor);
+            generateExpr(ctx, fileDescriptor, &instructionCounter);
             for (size_t j = 0; j < ctx->constDataList->size; j++) {
                 ConstData* data = getItem(ctx->constDataList, j);
                 pushBack(constDataArray, data);
@@ -42,10 +47,13 @@ void generate(Module* module, FILE* fileDescriptor) {
         addComment("epilogue", fileDescriptor);
         for (size_t i = 0; i < module->epilogue->size; i++) {
             Instruction* instr = getItem(module->epilogue, i);
-            char* parsedInstr = parseInstructionInLinearCode(instr);
-            fwrite(parsedInstr, strlen(parsedInstr), 1, fileDescriptor);
-            
-            free(parsedInstr);
+            char* parsedInstr = parseInstructionInLinearCode(instr, instructionCounter++);
+            if (parsedInstr) {
+                fwrite(parsedInstr, strlen(parsedInstr), 1, fileDescriptor);
+
+                free(parsedInstr);
+                instructionCounter++;
+            }
         }
         fwrite("\n", 1, 1, fileDescriptor);
     }
@@ -57,12 +65,15 @@ void generate(Module* module, FILE* fileDescriptor) {
     }
 }
 
-void generateExpr(ExprContext* ctx, FILE* fileDescriptor) {
+void generateExpr(ExprContext* ctx, FILE* fileDescriptor, size_t* instructionNumber) {
     for (size_t i = 0; i < ctx->instructions->size; i++) {
         Instruction* instr = getItem(ctx->instructions, i);
-        char* parsedInstr = parseInstructionInLinearCode(instr);
-        fwrite(parsedInstr, strlen(parsedInstr), 1, fileDescriptor);
-        free(parsedInstr);
+        char* parsedInstr = parseInstructionInLinearCode(instr, *instructionNumber);
+        if (parsedInstr) {
+            fwrite(parsedInstr, strlen(parsedInstr), 1, fileDescriptor);
+            free(parsedInstr);
+            (*instructionNumber)++;
+        }
     }
 }
 
@@ -97,7 +108,7 @@ void addMark(char* mark, FILE* fileDescriptor)
     free(buffer);
 }
 
-char* parseInstructionInLinearCode(Instruction* instr)
+char* parseInstructionInLinearCode(Instruction* instr, size_t instructionNumber)
 {
     char* resultString = (char*)malloc(INSTRUCTION_MAX_SIZE);
     if (!resultString) {
@@ -227,9 +238,19 @@ char* parseInstructionInLinearCode(Instruction* instr)
     case OC_HALT:
         snprintf(resultString, INSTRUCTION_MAX_SIZE, "hlt");
         break;
+
+    case OC_MARK:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "%s:", instr->imm);
+        break;
     default:
         // обработка ошибки
-        break;
+        char buff[16];
+        _itoa_s(instr->opcode, buff, 16, 10);
+        collectError(ST_GENERATE, "unknown instruction opcode", buff, instructionNumber);
+
+        free(resultString);
+        return NULL;
+
     }
 
     strcat_s(resultString, INSTRUCTION_MAX_SIZE, "\n");

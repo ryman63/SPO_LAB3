@@ -8,6 +8,7 @@
 #include "ErrorCollector.h"
 
 #define COUNT_MODULES 4
+#define CFG_MAX_NODES 10000
 
 Array* compile(CallGraphNode* callGraph);
 
@@ -17,7 +18,7 @@ void traverseCallGraph(CallGraphNode* root, Array* modules, SymbolTable* globalT
 
 Module* generateFunctionCode(ProgramUnit* unit, MachineState* state, SymbolTable* globalTable);
 
-reg traverseCfg(CfgNode* cfg, Module* genModule, MachineState* state, reg returnReg);
+reg traverseCfg(CfgNode* cfg, bool visited[], Module* genModule, MachineState* state, reg returnReg);
 
 reg generateFunctionCall(OpNode* opNode, ExprContext* ctx);
 

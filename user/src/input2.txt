@@ -8,7 +8,10 @@ def main()
 	l = "sum";
 	f = sum(a + 1, b);
 
-	print(l);
+	if f then
+		print(l == 0);
+	else
+		print("error");
 	f = f + e;
 
 }

@@ -53,7 +53,7 @@ Module* generateFunctionCode(ProgramUnit* unit, MachineState* state, SymbolTable
         return NULL;
     }
 
-    addSymbol(globalTable, unit->funcSignature->name, SYMBOL_FUNCTION, 0, 0, unit->funcSignature->returnType);
+    addSymbol(globalTable, unit->funcSignature->name, SYMBOL_FUNCTION, 0, unit->funcSignature->returnType);
 
     state->offset = -4;
 
@@ -97,7 +97,9 @@ Module* generateFunctionCode(ProgramUnit* unit, MachineState* state, SymbolTable
     I_SUBI(sp, sp, localOffset, generateModule->prologue);
 
     reg returnReg = -1;
-    returnReg = traverseCfg(unit->cfg, generateModule, state, returnReg);
+
+    bool visited[CFG_MAX_NODES] = { false };
+    returnReg = traverseCfg(unit->cfg, visited, generateModule, state, returnReg);
     
     if (unit->funcSignature->returnType != TYPE_VOID)
         I_MOV(tmp, returnReg, generateModule->epilogue);
@@ -115,26 +117,27 @@ Module* generateFunctionCode(ProgramUnit* unit, MachineState* state, SymbolTable
     return generateModule;
 }
 
-reg traverseCfg(CfgNode* cfg, Module* genModule, MachineState* state, reg returnReg) {
+reg traverseCfg(CfgNode* cfg, bool visited[], Module* genModule, MachineState* state, reg returnReg) {
+    if (visited[cfg->id]) return;
+
+    visited[cfg->id] = true;
 
     if (cfg->opTree) {
         ExprContext* ctx = createExprContext(cfg->label);
-        char* mark = getConditionMark(state->markGen);
         ctx->state = state;
         free(ctx->state->allocator);
         ctx->state->allocator = createRegAllocator();
 
+        char* condMark = getConditionMark(state->markGen);
+        I_MARK(ctx->instructions, condMark);
         returnReg = generateOpTreeCode(cfg->opTree, ctx);
 
         pushBack(genModule->exprContextList, ctx);
     }
 
-    if (cfg->condJump) {
-        returnReg = traverseCfg(cfg->condJump, genModule, state, returnReg);
-    }
-    if (cfg->uncondJump) {
-        returnReg = traverseCfg(cfg->uncondJump, genModule, state, returnReg);
-    }
+    if (cfg->condJump) returnReg = traverseCfg(cfg->condJump, visited, genModule, state, returnReg);
+    if (cfg->uncondJump) returnReg = traverseCfg(cfg->uncondJump, visited, genModule, state, returnReg);
+
     return returnReg;
 }
 

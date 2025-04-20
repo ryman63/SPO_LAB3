@@ -10,9 +10,12 @@
     <Node Id="6" Label="expression statement"/>
     <Node Id="7" Label="expression statement"/>
     <Node Id="8" Label="expression statement"/>
-    <Node Id="9" Label="expression statement"/>
-    <Node Id="10" Label="expression statement"/>
-    <Node Id="11" Label="function exit"/>
+    <Node Id="10" Label="condition statement"/>
+    <Node Id="11" Label="expression statement"/>
+    <Node Id="9" Label="empty"/>
+    <Node Id="13" Label="expression statement"/>
+    <Node Id="14" Label="function exit"/>
+    <Node Id="12" Label="expression statement"/>
   </Nodes>
   <Links>
     <Link Source="0" Target="1"/>
@@ -23,8 +26,12 @@
     <Link Source="5" Target="6"/>
     <Link Source="6" Target="7"/>
     <Link Source="7" Target="8"/>
-    <Link Source="8" Target="9"/>
-    <Link Source="9" Target="10"/>
+    <Link Source="8" Target="10"/>
     <Link Source="10" Target="11"/>
+    <Link Source="11" Target="9"/>
+    <Link Source="9" Target="13"/>
+    <Link Source="13" Target="14"/>
+    <Link Source="10" Target="12"/>
+    <Link Source="12" Target="9"/>
   </Links>
 </DirectedGraph>
