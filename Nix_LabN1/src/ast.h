@@ -12,13 +12,14 @@ static int global_id_counter = 0;
 
 typedef struct AstNode {
 	int id;
+	char* srcLine;
 	int line;
 	char* token;
 	struct AstNode* parent;
 	struct Array* children;
 } AstNode;
 
-AstNode* insert(AstNode* root, const char* token, int line);
+AstNode* insert(AstNode* root, char* srcLine, const char* token, int line);
 
 void addChild(AstNode* parent, AstNode* child);
 

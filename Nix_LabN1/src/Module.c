@@ -10,22 +10,23 @@ Module* createModule(ProgramUnit* unit) {
 	return module;
 }
 
-ExprContext* createExprContext(const char* mark) {
+ExprContext* createExprContext(const char* mark, int uncondId) {
 	ExprContext* exprCtx = malloc(sizeof(ExprContext));
 	exprCtx->mark = mark;
 	exprCtx->instructions = buildArray(sizeof(Instruction), INITIAL_COUNT_INSTR);
-	exprCtx->state = createMachineState();
 	exprCtx->constDataList = buildArray(sizeof(ConstData), INITIAL_COUNT_CONST_DATA);
+	exprCtx->uncondId = uncondId;
 
 	return exprCtx;
 }
 
-MachineState* createMachineState() {
+MachineState* createMachineState(MarkGenerator* markGen) {
 	MachineState* state = malloc(sizeof(MachineState));
 	state->offset = 0;
 	state->countLocalVars = 0;
 	state->allocator = createRegAllocator();
-	state->markGen = createMarkGen();
+	state->markGen = markGen;
+	memset(state->cfgNodeMarks, NULL, sizeof(char));
 
 	return state;
 }

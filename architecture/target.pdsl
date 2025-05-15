@@ -183,13 +183,46 @@ architecture DynamicVM {
             PC = PC + 6;
         };
 
-        instruction jmp = { 0000 0101, imm32 as address } {
+        instruction jmp = { 0101 0000, imm32 as address } {
             PC = address;
         };
 
-        instruction jz = { 0000 0110, imm32 as address } {
-            if (ZeroFlag) then PC = address;
+        instruction je = { 0110 0000, imm32 as address } {
+            if ZeroFlag then PC = address;
             else PC = PC + 5;
+        };
+
+        instruction jne = { 0111 0000, imm32 as address } {
+            if (!ZeroFlag) then PC = address;
+            else PC = PC + 5;
+        };
+
+        instruction jl = {1000 0000, imm32 as address } {
+            if NegativeFlag == 1 then
+                PC = address;
+            else
+                PC = PC + 5;
+        };
+        
+        instruction jle = { 1001 0000, imm32 as address } {
+            if (ZeroFlag == 1 || NegativeFlag == 1) then
+                PC = address;
+            else
+                PC = PC + 5;
+        };
+
+        instruction jg = { 1010 0000, imm32 as address } {
+            if (NegativeFlag == 0) then
+                PC = address;
+            else
+                PC = PC + 5;
+        };
+        
+        instruction jge = {1011 0000, imm32 as address } {
+            if (ZeroFlag == 1 || NegativeFlag == 0) then
+                PC = address;
+            else
+                PC = PC + 5;
         };
 
         instruction push = { 1000 1111, reg as src, 0000 } {
@@ -198,12 +231,18 @@ architecture DynamicVM {
             PC = PC + 2;
         };
 
-        instruction cmp = {1001, reg as src1, imm32 as src2} {
-            if (src1 == src2) then
+        instruction cmp = { 1001 0010 , reg as src1, reg as src2} {
+            let result = src1 - src2;
+            if (result == 0) then
                 ZeroFlag = 1;
             else
                 ZeroFlag = 0;
-            PC = PC + 5;
+
+            if (result < 0) then
+                NegativeFlag = 1;
+            else
+                NegativeFlag = 0;
+            PC = PC + 2;
         };
 
         instruction pop = { 1101, reg as dest} {
@@ -281,8 +320,13 @@ architecture DynamicVM {
         mnemonic sub(dest, src1, src2) reg_reg_reg;
         mnemonic subi(dest, src1, value) reg_reg_imm;
         mnemonic jmp(address) imm_only;
-        mnemonic jz(address) imm_only;
-        mnemonic cmp(src1, src2) reg_imm;
+        mnemonic je(address) imm_only;
+        mnemonic jne(address) imm_only;
+        mnemonic jl(address) imm_only;
+        mnemonic jle(address) imm_only;
+        mnemonic jg(address) imm_only;
+        mnemonic jge(address) imm_only;
+        mnemonic cmp(src1, src2) reg_reg;
         mnemonic push(src) reg_only;
         mnemonic pop(dest) reg_only;
         mnemonic call(address) imm_only;

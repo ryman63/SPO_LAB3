@@ -239,7 +239,6 @@
     <ClInclude Include="src\myParser.h" />
     <ClInclude Include="src\ProgramUnit.h" />
     <ClInclude Include="src\SourceFile.h" />
-    <ClInclude Include="src\stack.h" />
     <ClInclude Include="src\StringPool.h" />
     <ClInclude Include="src\SymbolTable.h" />
     <ClInclude Include="src\ValueType.h" />
@@ -262,7 +261,6 @@
     <ClCompile Include="src\myParser.c" />
     <ClCompile Include="src\ProgramUnit.c" />
     <ClCompile Include="src\SourceFile.c" />
-    <ClCompile Include="src\stack.c" />
     <ClCompile Include="src\StringPool.c" />
     <ClCompile Include="src\SymbolTable.c" />
     <ClCompile Include="src\ValueType.c" />

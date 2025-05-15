@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
   <Nodes>
-    <Node Id="15" Label="function entry"/>
-    <Node Id="16" Label="block statement"/>
-    <Node Id="17" Label="expression statement"/>
-    <Node Id="18" Label="function exit"/>
+    <Node Id="19" Label="def sum(a of int, b of int) of int"/>
+    <Node Id="21" Label="c = a + b;"/>
   </Nodes>
   <Links>
-    <Link Source="15" Target="16"/>
-    <Link Source="16" Target="17"/>
-    <Link Source="17" Target="18"/>
+    <Link Source="19" Target="21"/>
   </Links>
 </DirectedGraph>

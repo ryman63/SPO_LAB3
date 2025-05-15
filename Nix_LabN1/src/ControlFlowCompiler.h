@@ -3,22 +3,23 @@
 #include "ProgramUnit.h"
 #include "CallGraph.h"
 #include "SymbolTable.h"
-#include "stack.h"
 #include "Module.h"
 #include "ErrorCollector.h"
 
 #define COUNT_MODULES 4
 #define CFG_MAX_NODES 10000
 
-Array* compile(CallGraphNode* callGraph);
+Array* compile(CallGraphNode* callGraph, SymbolTable* globalSymbolTable);
 
 //size_t calculateCountInstr();
 
-void traverseCallGraph(CallGraphNode* root, Array* modules, SymbolTable* globalTable);
+void traverseCallGraph(CallGraphNode* root, Array* modules, MarkGenerator* markGen, SymbolTable* globalTable);
 
 Module* generateFunctionCode(ProgramUnit* unit, MachineState* state, SymbolTable* globalTable);
 
-reg traverseCfg(CfgNode* cfg, bool visited[], Module* genModule, MachineState* state, reg returnReg);
+//reg traverseCfg(CfgNode* cfg, bool visited[], Module* genModule, MachineState* state, reg returnReg);
+
+reg bfsCfg(CfgNode* start, Module* genModule, MachineState* state, reg returnReg);
 
 reg generateFunctionCall(OpNode* opNode, ExprContext* ctx);
 

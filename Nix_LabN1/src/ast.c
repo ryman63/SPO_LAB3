@@ -1,10 +1,10 @@
 #include "ast.h"
 
-AstNode* insert(AstNode* root, const char* token, int line)
+AstNode* insert(AstNode* root, char* srcLine, const char* token, int line)
 {
 	AstNode* newNode = createNode(token);
 	newNode->line = line;
-
+	newNode->srcLine = srcLine;
 	newNode->parent = root;
 
 	pushBack(root->children, newNode);

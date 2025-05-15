@@ -54,9 +54,6 @@
     <ClInclude Include="..\Nix_LabN1\src\FlowGraphBuilder.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="..\Nix_LabN1\src\stack.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="..\Nix_LabN1\src\ValueType.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -117,9 +114,6 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="..\Nix_LabN1\src\cfg.c">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Nix_LabN1\src\stack.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="..\Nix_LabN1\src\ValueType.c">

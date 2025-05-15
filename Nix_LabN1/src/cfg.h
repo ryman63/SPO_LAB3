@@ -10,6 +10,8 @@ static int opNode_id_counter = 0;
 
 #define MAX_NODES 1000
 
+#define MAX_VERTICES 1000
+
 static bool visited[MAX_NODES] = { false };
 static bool visited2[MAX_NODES] = { false };
 
@@ -45,6 +47,21 @@ typedef struct CfgNode {
 	struct CfgNode* uncondJump;
 	struct CfgNode* condJump;
 } CfgNode;
+
+// Очередь для BFS
+typedef struct {
+	CfgNode* items[MAX_VERTICES];
+	int front;
+	int rear;
+} Queue;
+
+void initQueue(Queue* q);
+
+bool isEmpty(Queue* q);
+
+void enqueue(Queue* q, CfgNode* value);
+
+CfgNode* dequeue(Queue* q);
 
 CfgNode* createCfgNode(char* label, AstNode* ast);
 

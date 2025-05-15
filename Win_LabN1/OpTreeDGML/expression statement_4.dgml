@@ -2,9 +2,9 @@
 <DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
   <Nodes>
     <Node Id="4" Label="set"/>
-    <Node Id="5" Label="b"/>
+    <Node Id="5" Label="i"/>
     <Node Id="6" Label="const"/>
-    <Node Id="7" Label="10"/>
+    <Node Id="7" Label="4"/>
   </Nodes>
   <Links>
     <Link Source="4" Target="5"/>

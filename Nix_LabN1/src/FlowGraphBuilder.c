@@ -16,6 +16,7 @@ void defineAllBuiltInFuncs(Array* programUnitStorage) {
 		builtInFunc.funcSignature->name = srcFunc.name;
 		builtInFunc.funcSignature->returnType = srcFunc.returnType;
 		builtInFunc.cfg = NULL;
+		builtInFunc.ast = NULL;
 		builtInFunc.isBuiltIn = true;
 		builtInFunc.currentTable = NULL;
 		builtInFunc.sourceFile = GetSrcFile(srcFunc.sourceFileName, BUILTIN_FUNC_DIRECTORY);
@@ -188,25 +189,12 @@ CfgNode* handleFunctionBody(AstNode* functionBodyAst, Array* funcArgs) {
 	}
 
 	CfgNode* entryNode = createCfgNode("function entry", functionBodyAst);
-	CfgNode* currentNode = entryNode;
-	CfgNode* lastCfgNode = entryNode;
+	CfgNode* exitNode = createCfgNode("function exit", NULL);
 
 	for (size_t i = 1; i < functionBodyAst->children->size; i++) {
 		AstNode* statement = getItem(functionBodyAst->children, i);
-		CfgNode* statementNode = handleStatement(statement, &lastCfgNode);
-
-		if (statementNode) {
-			if (!strcmp(statementNode->label, "loop statement"))
-				lastCfgNode->uncondJump = statementNode;
-			currentNode->condJump = statementNode;
-			currentNode = lastCfgNode;
-		}
+		handleStatement(statement, entryNode, exitNode);
 	}
-
-	//lastCfgNode = currentNode;
-
-	CfgNode* exitNode = createCfgNode("function exit", NULL);
-	lastCfgNode->condJump = exitNode;
 
 	freeArray(&breakTargets);
 
@@ -214,7 +202,7 @@ CfgNode* handleFunctionBody(AstNode* functionBodyAst, Array* funcArgs) {
 }
 
 
-CfgNode* handleStatement(AstNode* rootStatementAst, CfgNode** lastCfgNode) {
+CfgNode* handleStatement(AstNode* rootStatementAst, CfgNode* entryNode, CfgNode* exitNode) {
 	if (!rootStatementAst) 
 		return NULL;
 
@@ -227,22 +215,22 @@ CfgNode* handleStatement(AstNode* rootStatementAst, CfgNode** lastCfgNode) {
 	}
 
 	if (!strcmp(typeOfStatement->token, "BLOCK_STATEMENT")) {
-		return handleBlockStatement(typeOfStatement, lastCfgNode);
+		return handleBlockStatement(typeOfStatement, entryNode, exitNode);
 	}
 	else if (!strcmp(typeOfStatement->token, "IF_STATEMENT")) {
-		return handleConditionStatement(typeOfStatement, lastCfgNode);
+		return handleConditionStatement(typeOfStatement, entryNode, exitNode);
 	}
 	else if (!strcmp(typeOfStatement->token, "LOOP_STATEMENT")) {
-		return handleLoopStatement(typeOfStatement, lastCfgNode);
+		return handleLoopStatement(typeOfStatement, entryNode, exitNode);
 	}
 	else if (!strcmp(typeOfStatement->token, "BREAK_STATEMENT")) {
-		handleBreakStatement(typeOfStatement, lastCfgNode);
+		return handleBreakStatement(typeOfStatement, entryNode, exitNode);
 	}
 	else if (!strcmp(typeOfStatement->token, "REPEAT_STATEMENT")) {
-		handleRepeatStatement(typeOfStatement, lastCfgNode);
+		return handleRepeatStatement(typeOfStatement, entryNode, exitNode);
 	}
 	else if (!strcmp(typeOfStatement->token, "EXPRESSION_STATEMENT")) {
-		handleExpressionStatement(typeOfStatement, lastCfgNode);
+		return handleExpressionStatement(typeOfStatement, entryNode, exitNode);
 	}
 	else {
 		// обработка ошибки
@@ -252,142 +240,111 @@ CfgNode* handleStatement(AstNode* rootStatementAst, CfgNode** lastCfgNode) {
 	}
 }
 
-CfgNode* handleBlockStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode) {
-	CfgNode* newBlock = createCfgNode("block statement", statementNodeAst);
-	CfgNode* currentBlock = newBlock;
-	if (statementNodeAst) {
-		for (size_t i = 0; i < statementNodeAst->children->size; i++) {
-			AstNode* childStatement = getItem(statementNodeAst->children, i);
-			CfgNode* result = handleStatement(childStatement, lastCfgNode);
-			if (result && !strcmp(result->label, "loop statement"))
-			{
-				CfgNode* lstNode = *lastCfgNode;
-				lstNode->uncondJump = result;
-			}
-			currentBlock->condJump = result;
-			currentBlock = *lastCfgNode;
-		}
-	}
-	else {
+CfgNode* handleBlockStatement(AstNode* statementNodeAst, CfgNode* entryNode, CfgNode* exitNode) {
+	if (!statementNodeAst) {
 		// обработка ошибки
 		collectError(ST_ANALYZE, "statement is", "NULL", -1);
 
 		return NULL;
 	}
+	CfgNode* currentNode = entryNode;
+	for (size_t i = 0; i < statementNodeAst->children->size; i++) {
+		AstNode* childStatement = getItem(statementNodeAst->children, i);
+		currentNode = handleStatement(childStatement, currentNode, exitNode);
+	}
 
-	*lastCfgNode = currentBlock;
-
-	return newBlock;
+	return currentNode;
 }
 
-CfgNode* handleConditionStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode) {
-	CfgNode* emptyBlock = createCfgNode("empty", NULL);
-	CfgNode* newBlock = createCfgNode("condition statement", statementNodeAst);
-	CfgNode* condLastBlock = NULL;
-	CfgNode* unCondLastBlock = NULL;
+CfgNode* handleConditionStatement(AstNode* statementNodeAst, CfgNode* entryNode, CfgNode* exitNode) {
 	Array* children = statementNodeAst->children;
 
-	AstNode* exprNode = getItem(children, 0);
-	newBlock->opTree = handleExpression(getItem(exprNode->children, 0));
-
-	if (children->size == 2) {
-		AstNode* condStatement = getItem(children, 1);
-		newBlock->condJump = handleStatement(condStatement, lastCfgNode);
-		condLastBlock = *lastCfgNode;
-	}
-	else if (children->size == 3) {
-		AstNode* condStatement = getItem(children, 1);
-		AstNode* uncondStatement = getItem(children, 2);
-		newBlock->condJump = handleStatement(condStatement, lastCfgNode);
-		condLastBlock = *lastCfgNode;
-		newBlock->uncondJump = handleStatement(uncondStatement, lastCfgNode);
-		unCondLastBlock = *lastCfgNode;
-	}
-	else {
-		// обработка ошибки
-		char childrens[4];
-
-		_itoa_s(children->size, childrens, 4, 10);
-
-		collectError(ST_ANALYZE, "condition ast children incorrect", childrens, statementNodeAst->line);
-
+	if (children->size < 2 || children->size > 3) {
+		char sizeStr[4];
+		_itoa_s(children->size, sizeStr, 4, 10);
+		collectError(ST_ANALYZE, "condition ast children incorrect", sizeStr, statementNodeAst->line);
 		return NULL;
 	}
 
-	if(children->size == 2)
-		newBlock->uncondJump = emptyBlock;
-	else {
-		unCondLastBlock->condJump = emptyBlock;
+	AstNode* exprNode = getItem(children, 0);
+	AstNode* condStatement = getItem(children, 1);
+	AstNode* uncondStatement = (children->size == 3) ? getItem(children, 2) : NULL;
+
+	CfgNode* condBlock = createCfgNode("condBlock", exprNode);
+	condBlock->opTree = handleExpression(getItem(exprNode->children, 0));
+
+	entryNode->condJump = condBlock;
+
+	//CfgNode* thenNode = createCfgNode("thenBlock", condStatement);
+	CfgNode* joinNode = createCfgNode("joinBlock", NULL);
+	//condBlock->condJump = thenNode;
+
+	//CfgNode* afterThenNode = handleStatement(condStatement, thenNode, exitNode);
+	CfgNode* thenNode = handleStatement(condStatement, condBlock, exitNode);
+	//afterThenNode->condJump = joinNode;
+	thenNode->condJump = joinNode;
+
+	if (uncondStatement) {
+		//CfgNode* elseNode = createCfgNode("elseBlock", uncondStatement);
+		//condBlock->uncondJump = elseNode;
+		//CfgNode* afterElseNode = handleStatement(uncondStatement, elseNode, exitNode);
+		CfgNode* elseNode = handleStatement(uncondStatement, condBlock, exitNode);
+		elseNode->condJump = joinNode;
 	}
+	else
+		condBlock->uncondJump = joinNode;
+		
 
-	condLastBlock->condJump = emptyBlock;
-
-
-	*lastCfgNode = emptyBlock;
-
-	return newBlock;
+	return joinNode;
 }
 
-CfgNode* handleLoopStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode) {
-	CfgNode* newBlock = createCfgNode("loop statement", statementNodeAst);
-	CfgNode* exitBlock = createCfgNode("exit loop", NULL);
-	CfgNode* currentBlock = newBlock;
-	Array* children = statementNodeAst->children;
+CfgNode* handleLoopStatement(AstNode* statementNodeAst, CfgNode* entryNode, CfgNode* exitNode) {
+	CfgNode* condBlock = createCfgNode("loop condition statement", statementNodeAst);
+	entryNode->condJump = condBlock;
 
+	CfgNode* bodyBlock = createCfgNode("body block", statementNodeAst);
+	CfgNode* afterBodyBlock = NULL;
+	pushBack(breakTargets, exitNode);
+
+	Array* children = statementNodeAst->children;
 	AstNode* exprNode = getItem(children, 0);
-	newBlock->opTree = handleExpression(getItem(exprNode->children, 0));
-	pushBack(breakTargets, exitBlock);
+	condBlock->condJump = bodyBlock;
+	condBlock->opTree = handleExpression(getItem(exprNode->children, 0));
+
 	if (children->size > 1) {
 		for (size_t i = 1; i < children->size; i++) {
 			AstNode* statement = getItem(children, i);
-			CfgNode* result = handleStatement(statement, lastCfgNode);
-			currentBlock->condJump = result;
-			currentBlock = *lastCfgNode;
-			if (result->label == "break statement") {
-				break;
-			}
+			afterBodyBlock = handleStatement(statement, bodyBlock, condBlock);
+			afterBodyBlock->condJump = condBlock;
 		}
 	}
 	else {
 		// обработка ошибки
 		char childrens[4];
-
 		_itoa_s(children->size, childrens, 4, 10);
-
-		collectError(ST_ANALYZE, "loop ast children incorrect", childrens, statementNodeAst->line);
+		collectError(ST_ANALYZE, "loop ast children count incorrect", childrens, statementNodeAst->line);
 
 		return NULL;
 	}
 
-	currentBlock->condJump = exitBlock;
+	condBlock->uncondJump = exitNode;
 
-	//newBlock->uncondJump = exitBlock;
-
-	exitBlock->condJump = newBlock;
-
-	*lastCfgNode = exitBlock;
-
-	return newBlock;
+	return exitNode;
 }
 
-CfgNode* handleRepeatStatement(AstNode* typeOfStatement, CfgNode** lastCfgNode) {
-	CfgNode* enterBlock = createCfgNode("enter loop", NULL);
-	CfgNode* newBlock = createCfgNode("repeat statement", typeOfStatement);
-	CfgNode* currentBlock = enterBlock;
-	Array* children = typeOfStatement->children;
+CfgNode* handleRepeatStatement(AstNode* typeOfStatement, CfgNode* entryNode, CfgNode* exitNode) {
+	CfgNode* bodyBlock = createCfgNode("body block", typeOfStatement);
+	entryNode->condJump = bodyBlock;
+	
+	CfgNode* afterBodyBlock = NULL;
+	pushBack(breakTargets, exitNode);
 
+	Array* children = typeOfStatement->children;
 	AstNode* exprNode = getItem(children, 1);
-	newBlock->opTree = handleExpression(getItem(exprNode->children, 0));
-	pushBack(breakTargets, newBlock);
 	if (children->size > 1) {
 		for (size_t i = 0; i < children->size - 1; i++) {
 			AstNode* statement = getItem(children, i);
-			CfgNode* result = handleStatement(statement, lastCfgNode);
-			currentBlock->condJump = result;
-			currentBlock = *lastCfgNode;
-			if (result->label == "break statement") {
-				break;
-			}
+			afterBodyBlock = handleStatement(statement, bodyBlock, bodyBlock);
 		}
 	}
 	else {
@@ -400,18 +357,18 @@ CfgNode* handleRepeatStatement(AstNode* typeOfStatement, CfgNode** lastCfgNode) 
 
 		return NULL;
 	}
-	
-	currentBlock->condJump = newBlock;
 
-	newBlock->uncondJump = enterBlock;
+	CfgNode* condBlock = createCfgNode("repeat condition block", exprNode);
+	condBlock->opTree = handleExpression(getItem(exprNode->children, 0));
 
-	*lastCfgNode = newBlock;
+	condBlock->condJump = bodyBlock;
+	condBlock->uncondJump = exitNode;
 
-	return enterBlock;
+	return exitNode;
 }
 
-CfgNode* handleBreakStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode) {
-	CfgNode* newBlock = createCfgNode("break statement", statementNodeAst);
+CfgNode* handleBreakStatement(AstNode* statementNodeAst, CfgNode* entryNode, CfgNode* exitNode) {
+	entryNode->ast = statementNodeAst;
 
 	if (breakTargets->size == 0) {
 		// обработка ошибки
@@ -420,23 +377,21 @@ CfgNode* handleBreakStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode) 
 		return NULL;
 	}
 
-	CfgNode* result = popBack(breakTargets);
-	newBlock->condJump = result;
-	*lastCfgNode = result;
+	CfgNode* breakTarget = popBack(breakTargets);
+	entryNode->condJump = breakTarget;
 
-	return newBlock;
+	return createCfgNode("break dead node", NULL);
 }
 
-CfgNode* handleExpressionStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode) {
-	CfgNode* newBlock = createCfgNode("expression statement", statementNodeAst);
+CfgNode* handleExpressionStatement(AstNode* statementNodeAst, CfgNode* entryNode, CfgNode* exitNode) {
+	CfgNode* newNode = createCfgNode("expression statement", statementNodeAst);
 
 	AstNode* expressionStatementAst = getItem(statementNodeAst->children, 0);
+	newNode->opTree = handleExpression(getItem(expressionStatementAst->children, 0));
+	entryNode->condJump = newNode;
 
-	newBlock->opTree = handleExpression(getItem(expressionStatementAst->children, 0));
-	
-	*lastCfgNode = newBlock;
 
-	return newBlock;
+	return newNode;
 }
 
 
@@ -460,6 +415,12 @@ OpNode* handleExpression(AstNode* exprNode) {
 		return handleBinaryOp(exprNode);
 	}
 	else if (!strcmp(firstToken, "/")) {
+		return handleBinaryOp(exprNode);
+	}
+	else if (!strcmp(firstToken, "==")) {
+		return handleBinaryOp(exprNode);
+	}
+	else if (!strcmp(firstToken, "!=")) {
 		return handleBinaryOp(exprNode);
 	}
 	else if(!strcmp(firstToken, "LITERAL_EXPR")) {

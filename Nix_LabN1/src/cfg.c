@@ -1,5 +1,28 @@
 #include "cfg.h"
 
+void initQueue(Queue* q) {
+	q->front = 0;
+	q->rear = -1;
+}
+
+bool isEmpty(Queue* q) {
+	return q->rear < q->front;
+}
+
+void enqueue(Queue* q, CfgNode* value) {
+	if (q->rear < MAX_VERTICES - 1) {
+		q->rear++;
+		q->items[q->rear] = value;
+	}
+}
+
+CfgNode* dequeue(Queue* q) {
+	if (!isEmpty(q)) {
+		return q->items[q->front++];
+	}
+	return -1;
+}
+
 CfgNode* createCfgNode(char* label, AstNode* ast) {
 	CfgNode* createNode = malloc(sizeof(CfgNode));
 
@@ -43,7 +66,11 @@ void addNodesAndLinksCfg(xmlNodePtr nodes, xmlNodePtr links, CfgNode* node) {
 	snprintf(id_str, 12, "%d", node->id); // Преобразуем id в строку
 	xmlNodePtr node_elem = xmlNewChild(nodes, NULL, BAD_CAST "Node", NULL);
 	xmlNewProp(node_elem, BAD_CAST "Id", BAD_CAST id_str);
-	xmlNewProp(node_elem, BAD_CAST "Label", BAD_CAST node->label);
+	
+	if(node->ast)
+		xmlNewProp(node_elem, BAD_CAST "Label", BAD_CAST node->ast->srcLine);
+	else
+		xmlNewProp(node_elem, BAD_CAST "Label", BAD_CAST node->label);
 
 	// Проверка, что у узла есть дочерние элементы
 	if (node->condJump) {

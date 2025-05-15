@@ -10,7 +10,7 @@
 #include "custom_langLexer.h"
 #include "ast.h"
 
-void fillAst(pANTLR3_BASE_TREE tree, AstNode* root);
+void fillAst(char* inputFilePath, pANTLR3_BASE_TREE tree, AstNode* root);
 
 AstNode* parseCustomLang(char* inputFilePath, char* buffErrors);
 

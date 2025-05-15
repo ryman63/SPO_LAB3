@@ -17,6 +17,7 @@ typedef enum reg {
 	sp, bp, ip, tmp
 } reg;
 
+
 typedef struct RegisterAllocator {
 	bool used[NUM_REGISTERS];
 } RegisterAllocator;
@@ -32,6 +33,7 @@ typedef struct {
 	Variable localVars[NUM_LOCAL_VARS];
 	size_t countLocalVars;
 	MarkGenerator* markGen;
+	char* cfgNodeMarks[MAX_NODES];
 } MachineState;
 
 typedef struct {
@@ -39,7 +41,7 @@ typedef struct {
 	Array* instructions;
 	Array* constDataList;
 	MachineState* state;
-	
+	int uncondId;
 } ExprContext;
 
 typedef struct {
@@ -47,13 +49,11 @@ typedef struct {
 	Array* prologue;
 	Array* epilogue;
 	Array* exprContextList;
-	
-
 } Module;
 
 Module* createModule(ProgramUnit* unit);
-ExprContext* createExprContext(const char* mark);
-MachineState* createMachineState();
+ExprContext* createExprContext(const char* mark, int uncondId);
+MachineState* createMachineState(MarkGenerator* markGen);
 RegisterAllocator* createRegAllocator();
 void initRegAllocator(RegisterAllocator* allocator);
 MarkGenerator* createMarkGen();

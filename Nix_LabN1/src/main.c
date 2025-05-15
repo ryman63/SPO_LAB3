@@ -2,6 +2,8 @@
 #include "ControlFlowCompiler.h"
 #include "CodeGenerator.h"
 
+#define MAX_NODES_CALLGRAPH 1000
+
 static char* MEMORY_CODE_SECTION_NAME = "code";
 static char* USER_SRC_DIRECTORY = "../user/src";
 
@@ -9,18 +11,38 @@ int string_exists(const char* str) {
 	return str && str[0] != '\0';
 }
 
-void traverseCallGraphBuiltIn(CallGraphNode* root, FILE* fileDesc) {
-	if (root == NULL) return;
+void traverseCallGraphBuiltIn(CallGraphNode* root, bool visited[], SymbolTable* globalTable, FILE* fileDesc) {
+	if (root == NULL || visited[root->id] == true) 
+		return;
 
-	ProgramUnit* currUnit = root->unit;
-	if (currUnit->isBuiltIn)
-		generateBuiltIn(currUnit, fileDesc);
-
-	// Рекурсивно вызываем для детей
-	for (size_t i = 0; i < root->children->size; i++) {
-		CallGraphNode* child = getItem(root->children, i);
-		traverseCallGraphBuiltIn(child, fileDesc);
+	if (!root->unit->isBuiltIn) {
+		// Рекурсивно вызываем для детей
+		for (size_t i = 0; i < root->children->size; i++) {
+			CallGraphNode* child = getItem(root->children, i);
+			traverseCallGraphBuiltIn(child, visited, globalTable, fileDesc);
+		}
 	}
+
+	if (findSymbol(globalTable, root->unit->funcSignature->name))
+		return;
+	else {
+		addSymbol(globalTable, root->unit->funcSignature->name, SYMBOL_FUNCTION, 0, root->unit->funcSignature->returnType);
+
+		visited[root->id] == true;
+
+		ProgramUnit* currUnit = root->unit;
+		if (currUnit->isBuiltIn)
+			generateBuiltIn(currUnit, fileDesc);
+
+		// Рекурсивно вызываем для детей
+		for (size_t i = 0; i < root->children->size; i++) {
+			CallGraphNode* child = getItem(root->children, i);
+			traverseCallGraphBuiltIn(child, visited, globalTable, fileDesc);
+		}
+	}
+
+
+	
 }
 
 int main(int argc, char* argv[]) {
@@ -44,7 +66,10 @@ int main(int argc, char* argv[]) {
 
 	CallGraphNode* callGraph = analysis(files, argv[argc - 1], astList);
 
-	Array* genModules = compile(callGraph);
+	SymbolTable* globalSymbolTable = malloc(sizeof(SymbolTable));
+	initSymbolTable(globalSymbolTable);
+
+	Array* genModules = compile(callGraph, globalSymbolTable);
 
 	FILE* fileDesc = fopen("program.asm", "w");
 
@@ -56,8 +81,10 @@ int main(int argc, char* argv[]) {
 		generate(currentModule, fileDesc);
 	}
 
+
+	bool visited[MAX_NODES_CALLGRAPH] = { false };
 	// generate builtin funcs
-	traverseCallGraphBuiltIn(callGraph, fileDesc);
+	traverseCallGraphBuiltIn(callGraph, visited, globalSymbolTable, fileDesc);
 
 	printErrors();
 

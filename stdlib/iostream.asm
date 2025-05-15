@@ -5,8 +5,9 @@ load gp0, [bp + 8]
 
 .loop:
 	load gp1, const[gp0]
-	cmp gp1, 0
-	jz .end
+	movi gp2, 0
+	cmp gp1, gp2
+	je .end
 	out gp1
 	movi gp1, 1
 	add gp0, gp0, gp1

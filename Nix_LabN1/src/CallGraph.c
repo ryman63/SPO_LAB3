@@ -8,7 +8,10 @@ CallGraphNode* createCGNode(ProgramUnit* unit) {
 	copyUnit->sourceFile = unit->sourceFile;
 	copyUnit->currentTable = unit->currentTable;
 	copyUnit->isBuiltIn = unit->isBuiltIn;
-	copyUnit->ast = unit->ast;
+	if (unit->ast) {
+		copyUnit->ast = malloc(sizeof(AstNode));
+		memcpy(copyUnit->ast, unit->ast, sizeof(AstNode));
+	}
 
 	createNode->unit = copyUnit;
 
@@ -104,7 +107,8 @@ void VisitCfg(CfgNode* cfg, Array* callOps) {
 }
 
 void findOp(OpNode* opHead, Array* callOps) {
-	if (!strcmp(opHead->value, "call")) pushBack(callOps, opHead);
+	if (opHead->opType == OT_CALL) 
+		pushBack(callOps, opHead);
 
 	for (size_t i = 0; i < opHead->args->size; i++) {
 		findOp(getItem(opHead->args, i), callOps);

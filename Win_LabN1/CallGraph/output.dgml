@@ -3,12 +3,10 @@
   <Nodes>
     <Node Id="0" Label="main"/>
     <Node Id="1" Label="print"/>
-    <Node Id="2" Label="print"/>
-    <Node Id="3" Label="sum"/>
+    <Node Id="2" Label="sum"/>
   </Nodes>
   <Links>
     <Link Source="0" Target="1"/>
     <Link Source="0" Target="2"/>
-    <Link Source="0" Target="3"/>
   </Links>
 </DirectedGraph>

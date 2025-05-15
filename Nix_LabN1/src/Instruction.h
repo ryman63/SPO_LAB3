@@ -17,7 +17,8 @@ typedef enum Opcode {
     OC_STORE, OC_STORE_OFF_PLUS, OC_STORE_OFF_MINUS,  
     OC_MOV, OC_MOVI, OC_IMOV, 
     OC_ADD, OC_SUB, OC_SUBI, 
-    OC_JMP, OC_JZ, 
+    OC_CMP,
+    OC_JMP, OC_JE, OC_JNE, OC_JL, OC_JLE, OC_JG, OC_JGE,
     OC_IN, OC_OUT, 
     OC_PUSH, OC_POP, 
     OC_CALL, OC_RET, 
@@ -61,7 +62,7 @@ void I_LOAD_OFF_PLUS(enum reg dest, enum reg src, int offset, Array* instrArray)
 void I_LOAD_OFF_MINUS(enum reg dest, enum reg src, int offset, Array* instrArray);
 void I_LOAD_REG_CONST(enum reg dest, enum reg src, Array* instrArray);
 void I_LOAD_LABEL_CONST(enum reg dest, char* address, Array* instrArray);
-void I_LOAD_LABEL_OFF_CONST(enum reg dest, int address, int offset, Array* instrArray);
+void I_LOAD_LABEL_OFF_CONST(enum reg dest, char* address, int offset, Array* instrArray);
 void I_LOAD_OFF_PLUS_CONST(enum reg dest, enum reg src, int offset, Array* instrArray);
 void I_LOAD_OFF_MINUS_CONST(enum reg dest, enum reg src, int offset, Array* instrArray);
 
@@ -77,11 +78,15 @@ void I_CONST_STR(char* mark, char* value, Array* dataArray);
 void I_SUBI(enum reg dest, enum reg src1, int src2, Array* instrArray);
 void I_SUB(enum reg dest, enum reg src1, enum reg src2, Array* instrArray);
 void I_ADD(enum reg dest, enum reg src1, enum reg src2, Array* instrArray);
-//void SUB(enum reg dest, enum reg src1, enum reg src2, Array* instrArray);
-//void SUB(enum reg dest, enum reg src1, enum reg src2, Array* instrArray);
 
+void I_CMP(enum reg src1, enum reg src2, Array* instrArray);
 void I_JMP(char* mark, Array* instrArray);
-void I_JZ(char* mark, Array* instrArray);
+void I_JE (char* mark, Array* instrArray);
+void I_JNE (char* mark, Array* instrArray);
+void I_JL (char* mark, Array* instrArray);
+void I_JLE (char* mark, Array* instrArray);
+void I_JG (char* mark, Array* instrArray);
+void I_JGE (char* mark, Array* instrArray);
 
 void I_IN(enum reg dest, Array* instrArray);
 void I_OUT(enum reg src, Array* instrArray);

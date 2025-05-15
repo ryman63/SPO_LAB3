@@ -112,7 +112,7 @@ void I_LOAD_LABEL_CONST(enum reg dest, char* address, Array* instrArray)
     pushBack(instrArray, instr);
 }
 
-void I_LOAD_LABEL_OFF_CONST(enum reg dest, int address, int offset, Array* instrArray)
+void I_LOAD_LABEL_OFF_CONST(enum reg dest, char* address, int offset, Array* instrArray)
 {
     Instruction* instr = createInstructionWithOffset(OC_LOAD_LABEL_OFF_CONST, dest, 0, 0, address, offset);
 
@@ -163,7 +163,7 @@ void I_CONST_INT(char* mark, enum ConstDataSize dataSize, int value, Array* data
 
     _itoa_s(value, buffImmediate, 16, 10);
 
-    createConstData(mark, dataSize, buffImmediate);
+    createConstData(strCpy(mark), dataSize, buffImmediate);
 }
 
 void I_CONST_STR(char* mark, char* value, Array* dataArray) {
@@ -195,16 +195,43 @@ void I_ADD(enum reg dest, enum reg src1, enum reg src2, Array* instrArray) {
     pushBack(instrArray, instr);
 }
 
-//void SUB(enum reg dest, enum reg src1, enum reg src2, Array* instrArray);
-//void SUB(enum reg dest, enum reg src1, enum reg src2, Array* instrArray);
+void I_CMP(enum reg src1, enum reg src2, Array* instrArray) {
+    Instruction* instr = createInstruction(OC_CMP, 0, src1, src2, NULL);
+    pushBack(instrArray, instr);
+}
 
 void I_JMP(char* mark, Array* instrArray) {
     Instruction* instr = createInstruction(OC_JMP, 0, 0, 0, mark);
     pushBack(instrArray, instr);
 }
 
-void I_JZ(char* mark, Array* instrArray) {
-    Instruction* instr = createInstruction(OC_JZ, 0, 0, 0, mark);
+void I_JE(char* mark, Array* instrArray) {
+    Instruction* instr = createInstruction(OC_JE, 0, 0, 0, strCpy(mark));
+    pushBack(instrArray, instr);
+}
+
+void I_JNE(char* mark, Array* instrArray) {
+    Instruction* instr = createInstruction(OC_JNE, 0, 0, 0, strCpy(mark));
+    pushBack(instrArray, instr);
+}
+
+void I_JL(char* mark, Array* instrArray) {
+    Instruction* instr = createInstruction(OC_JL, 0, 0, 0, strCpy(mark));
+    pushBack(instrArray, instr);
+}
+
+void I_JLE(char* mark, Array* instrArray) {
+    Instruction* instr = createInstruction(OC_JLE, 0, 0, 0, strCpy(mark));
+    pushBack(instrArray, instr);
+}
+
+void I_JG(char* mark, Array* instrArray) {
+    Instruction* instr = createInstruction(OC_JG, 0, 0, 0, strCpy(mark));
+    pushBack(instrArray, instr);
+}
+
+void I_JGE(char* mark, Array* instrArray) {
+    Instruction* instr = createInstruction(OC_JGE, 0, 0, 0, strCpy(mark));
     pushBack(instrArray, instr);
 }
 

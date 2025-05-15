@@ -203,12 +203,36 @@ char* parseInstructionInLinearCode(Instruction* instr, size_t instructionNumber)
         snprintf(resultString, INSTRUCTION_MAX_SIZE, "subi %s, %s, %s", dest, src1, instr->imm);
         break;
 
+    case OC_CMP:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "cmp %s, %s", src1, src2);
+        break;
+
     case OC_JMP:
         snprintf(resultString, INSTRUCTION_MAX_SIZE, "jmp %s", instr->imm);
         break;
 
-    case OC_JZ:
-        snprintf(resultString, INSTRUCTION_MAX_SIZE, "jz %s", instr->imm);
+    case OC_JE:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "je %s", instr->imm);
+        break;
+
+    case OC_JNE:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "jne %s", instr->imm);
+        break;
+
+    case OC_JL:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "jl %s", instr->imm);
+        break;
+
+    case OC_JLE:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "jle %s", instr->imm);
+        break;
+
+    case OC_JG:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "jg %s", instr->imm);
+        break;
+
+    case OC_JGE:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "jge %s", instr->imm);
         break;
 
     case OC_IN:

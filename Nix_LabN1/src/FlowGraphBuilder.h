@@ -18,19 +18,19 @@ FuncSignature* buildFuncSignature(AstNode* rootFuncAst);
 
 //CfgNode* buildCfg(AstNode* rootFuncAst);
 
-CfgNode* handleStatement(AstNode* rootStatementAst, CfgNode** lastCfgNode);
+CfgNode* handleStatement(AstNode* rootStatementAst, CfgNode* entryNode, CfgNode* exitNode);
 
-CfgNode* handleBlockStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode);
+CfgNode* handleBlockStatement(AstNode* statementNodeAst, CfgNode* entryNode, CfgNode* exitNode);
 
-CfgNode* handleConditionStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode);
+CfgNode* handleConditionStatement(AstNode* statementNodeAst, CfgNode* entryNode, CfgNode* exitNode);
 
-CfgNode* handleLoopStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode);
+CfgNode* handleLoopStatement(AstNode* statementNodeAst, CfgNode* entryNode, CfgNode* exitNode);
 
-CfgNode* handleRepeatStatement(AstNode* typeOfStatement, CfgNode** lastCfgNode);
+CfgNode* handleRepeatStatement(AstNode* typeOfStatement, CfgNode* entryNode, CfgNode* exitNode);
 
-CfgNode* handleExpressionStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode);
+CfgNode* handleExpressionStatement(AstNode* statementNodeAst, CfgNode* entryNode, CfgNode* exitNode);
 
-CfgNode* handleBreakStatement(AstNode* statementNodeAst, CfgNode** lastCfgNode);
+CfgNode* handleBreakStatement(AstNode* statementNodeAst, CfgNode* entryNode, CfgNode* exitNode);
 
 OpNode* handleExpression(AstNode* exprNode);
 
