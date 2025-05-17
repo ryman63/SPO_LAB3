@@ -143,6 +143,12 @@ Module* generateFunctionCode(ProgramUnit* unit, MachineState* state, SymbolTable
     return generateModule;
 }
 
+CfgNode* resolveEmptyBlock(CfgNode* node) {
+    while (node && !node->opTree && !node->uncondJump)
+        node = node->condJump;
+    return node;
+}
+
 
 reg bfsCfg(CfgNode* start, Module* genModule, MachineState* state, reg returnReg) {
     if (!start) return;
@@ -157,17 +163,18 @@ reg bfsCfg(CfgNode* start, Module* genModule, MachineState* state, reg returnReg
     while (!isEmpty(&q)) {
         CfgNode* current = dequeue(&q);
 
-        if (current->id == 6) {
-            int i = 0;
-        }
-
         int uncondJumpId = -1;
         int condJumpId = -1;
-        if (current->uncondJump)
-            uncondJumpId = current->uncondJump->id;
 
-        if (current->condJump)
-            condJumpId = current->condJump->id;
+        if (current->uncondJump) {
+            CfgNode* node = resolveEmptyBlock(current->uncondJump);
+            if (node) uncondJumpId = node->id;
+        }
+
+        if (current->condJump) {
+            CfgNode* node = resolveEmptyBlock(current->condJump);
+            if (node) condJumpId = node->id;
+        }
 
         ExprContext* ctx = createExprContext(current->label, uncondJumpId);
 
@@ -182,7 +189,7 @@ reg bfsCfg(CfgNode* start, Module* genModule, MachineState* state, reg returnReg
 
             returnReg = generateOpTreeCode(current->opTree, ctx);
 
-            if (state->cfgNodeMarks[condJumpId])
+            if (condJumpId >= 0 && state->cfgNodeMarks[condJumpId])
                 I_JMP(state->cfgNodeMarks[condJumpId], ctx->instructions);
         }
         

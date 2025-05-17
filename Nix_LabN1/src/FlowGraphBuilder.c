@@ -203,12 +203,12 @@ CfgNode* handleFunctionBody(AstNode* functionBodyAst, Array* funcArgs) {
 
 
 CfgNode* handleStatement(AstNode* rootStatementAst, CfgNode* entryNode, CfgNode* exitNode) {
-	if (!rootStatementAst) 
+	if (!rootStatementAst)
 		return NULL;
 
 	AstNode* typeOfStatement = getItem(rootStatementAst->children, 0);
 
-	if(typeOfStatement == NULL) {
+	if (typeOfStatement == NULL) {
 		// error
 
 		return NULL;
@@ -252,6 +252,7 @@ CfgNode* handleBlockStatement(AstNode* statementNodeAst, CfgNode* entryNode, Cfg
 		AstNode* childStatement = getItem(statementNodeAst->children, i);
 		currentNode = handleStatement(childStatement, currentNode, exitNode);
 	}
+	//currentNode->condJump = exitNode;
 
 	return currentNode;
 }
@@ -282,60 +283,79 @@ CfgNode* handleConditionStatement(AstNode* statementNodeAst, CfgNode* entryNode,
 	//CfgNode* afterThenNode = handleStatement(condStatement, thenNode, exitNode);
 	CfgNode* thenNode = handleStatement(condStatement, condBlock, exitNode);
 	//afterThenNode->condJump = joinNode;
-	thenNode->condJump = joinNode;
+	thenNode->condJump = exitNode;
 
 	if (uncondStatement) {
 		//CfgNode* elseNode = createCfgNode("elseBlock", uncondStatement);
 		//condBlock->uncondJump = elseNode;
 		//CfgNode* afterElseNode = handleStatement(uncondStatement, elseNode, exitNode);
 		CfgNode* elseNode = handleStatement(uncondStatement, condBlock, exitNode);
-		elseNode->condJump = joinNode;
+		condBlock->uncondJump = elseNode;
+		condBlock->condJump = thenNode;
+		elseNode->condJump = exitNode;
 	}
 	else
 		condBlock->uncondJump = joinNode;
-		
 
-	return joinNode;
+	joinNode->condJump = exitNode;
+
+	return condBlock;
 }
 
-CfgNode* handleLoopStatement(AstNode* statementNodeAst, CfgNode* entryNode, CfgNode* exitNode) {
-	CfgNode* condBlock = createCfgNode("loop condition statement", statementNodeAst);
+CfgNode* handleLoopStatement(AstNode* statementNodeAst, CfgNode* entryNode, CfgNode* functionExitNode) {
+	// Создаем отдельный узел для выхода из цикла (не путать с выходом из функции)
+	CfgNode* loopExitNode = createCfgNode("loop exit", NULL);
+
+	CfgNode* condBlock = createCfgNode("loop condition", statementNodeAst);
 	entryNode->condJump = condBlock;
 
-	CfgNode* bodyBlock = createCfgNode("body block", statementNodeAst);
-	CfgNode* afterBodyBlock = NULL;
-	pushBack(breakTargets, exitNode);
+	// Добавляем loopExitNode в breakTargets (а не functionExitNode)
+	pushBack(breakTargets, loopExitNode);
 
 	Array* children = statementNodeAst->children;
-	AstNode* exprNode = getItem(children, 0);
-	condBlock->condJump = bodyBlock;
-	condBlock->opTree = handleExpression(getItem(exprNode->children, 0));
-
-	if (children->size > 1) {
-		for (size_t i = 1; i < children->size; i++) {
-			AstNode* statement = getItem(children, i);
-			afterBodyBlock = handleStatement(statement, bodyBlock, condBlock);
-			afterBodyBlock->condJump = condBlock;
-		}
-	}
-	else {
-		// обработка ошибки
+	if (children->size < 1) {
 		char childrens[4];
 		_itoa_s(children->size, childrens, 4, 10);
 		collectError(ST_ANALYZE, "loop ast children count incorrect", childrens, statementNodeAst->line);
-
+		popBack(breakTargets);
 		return NULL;
 	}
 
-	condBlock->uncondJump = exitNode;
+	AstNode* exprNode = getItem(children, 0);
+	condBlock->opTree = handleExpression(getItem(exprNode->children, 0));
 
-	return exitNode;
+	// Условие цикла:
+	// - если true: переходим в тело цикла
+	// - если false: выходим из цикла (loopExitNode)
+	CfgNode* bodyEntry = createCfgNode("loop body entry", NULL);
+	condBlock->condJump = bodyEntry;   // true -> тело цикла
+	condBlock->uncondJump = loopExitNode; // false -> выход из цикла
+
+	// Обрабатываем тело цикла
+	CfgNode* lastBodyNode = bodyEntry;
+	for (size_t i = 1; i < children->size; i++) {
+		AstNode* statement = getItem(children, i);
+		lastBodyNode = handleStatement(statement, lastBodyNode, condBlock);
+	}
+
+	// Последний узел тела цикла должен вернуться к условию
+	if (lastBodyNode) {
+		lastBodyNode->condJump = condBlock;
+	}
+
+	popBack(breakTargets); // Убираем loopExitNode из breakTargets
+
+	// Теперь loopExitNode должен вести на следующий код после цикла
+	// (пока просто соединяем с functionExitNode, но это должно быть улучшено)
+	loopExitNode->condJump = functionExitNode;
+
+	return loopExitNode;
 }
 
 CfgNode* handleRepeatStatement(AstNode* typeOfStatement, CfgNode* entryNode, CfgNode* exitNode) {
 	CfgNode* bodyBlock = createCfgNode("body block", typeOfStatement);
 	entryNode->condJump = bodyBlock;
-	
+
 	CfgNode* afterBodyBlock = NULL;
 	pushBack(breakTargets, exitNode);
 
@@ -380,6 +400,8 @@ CfgNode* handleBreakStatement(AstNode* statementNodeAst, CfgNode* entryNode, Cfg
 	CfgNode* breakTarget = popBack(breakTargets);
 	entryNode->condJump = breakTarget;
 
+	breakTarget->condJump = exitNode;
+
 	return createCfgNode("break dead node", NULL);
 }
 
@@ -389,7 +411,7 @@ CfgNode* handleExpressionStatement(AstNode* statementNodeAst, CfgNode* entryNode
 	AstNode* expressionStatementAst = getItem(statementNodeAst->children, 0);
 	newNode->opTree = handleExpression(getItem(expressionStatementAst->children, 0));
 	entryNode->condJump = newNode;
-
+	newNode->condJump = exitNode;
 
 	return newNode;
 }

@@ -17,8 +17,8 @@ jmp .cnd_3
 load gp1, [bp - 8]
 movi gp2, 4
 cmp gp1, gp2
-jl .cnd_4
-jmp .cnd_5
+jl .cnd_6
+jmp .cnd_7
 .cnd_4:
 .cnd_5:
 .cnd_6:
@@ -67,20 +67,18 @@ jmp .cnd_14
 load gp1, [bp - 32]
 movi gp2, 51
 cmp gp1, gp2
-jne 
-jmp .cnd_15
+jne .cnd_15
+jmp .cnd_16
 .cnd_15:
 movi gp0, str_1
 push gp0
 call print
-jmp .cnd_16
 .cnd_16:
-.cnd_17:
 load gp1, [bp - 32]
 load gp2, [bp - 24]
 add gp0, gp1, gp2
 store gp0, [bp - 32]
-jmp 
+.cnd_17:
 ;epilogue
 hlt
 
@@ -99,7 +97,7 @@ load gp1, [bp + 8]
 load gp2, [bp + 12]
 add gp0, gp1, gp2
 store gp0, [bp - 4]
-jmp 
+.cnd_20:
 ;epilogue
 mov tmp, gp0
 mov sp, bp
