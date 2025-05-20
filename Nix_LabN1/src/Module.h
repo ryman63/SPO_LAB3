@@ -27,7 +27,7 @@ typedef struct MarkGenerator {
 	StringPool* strPool;
 } MarkGenerator;
 
-typedef struct {
+typedef struct MachineState{
 	int offset;
 	RegisterAllocator* allocator;
 	Variable localVars[NUM_LOCAL_VARS];
@@ -36,15 +36,15 @@ typedef struct {
 	char* cfgNodeMarks[MAX_NODES];
 } MachineState;
 
-typedef struct {
+typedef struct ExprContext{
 	char* mark;
 	Array* instructions;
 	Array* constDataList;
 	MachineState* state;
-	int uncondId;
+	int condId;
 } ExprContext;
 
-typedef struct {
+typedef struct Module{
 	ProgramUnit* unit;
 	Array* prologue;
 	Array* epilogue;
@@ -52,7 +52,7 @@ typedef struct {
 } Module;
 
 Module* createModule(ProgramUnit* unit);
-ExprContext* createExprContext(const char* mark, int uncondId);
+ExprContext* createExprContext(const char* mark, int condId);
 MachineState* createMachineState(MarkGenerator* markGen);
 RegisterAllocator* createRegAllocator();
 void initRegAllocator(RegisterAllocator* allocator);

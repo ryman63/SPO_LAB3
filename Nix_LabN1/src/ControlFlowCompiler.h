@@ -33,3 +33,5 @@ reg generateSetOpCode(OpNode* opNode, ExprContext* ctx);
 
 reg generateOpTreeCode(OpNode* opNode, ExprContext* ctx);
 
+reg generateIndexOpCode(OpNode* opNode, ExprContext* ctx);
+

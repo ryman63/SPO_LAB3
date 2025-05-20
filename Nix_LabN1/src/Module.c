@@ -10,12 +10,12 @@ Module* createModule(ProgramUnit* unit) {
 	return module;
 }
 
-ExprContext* createExprContext(const char* mark, int uncondId) {
+ExprContext* createExprContext(const char* mark, int condId) {
 	ExprContext* exprCtx = malloc(sizeof(ExprContext));
 	exprCtx->mark = mark;
 	exprCtx->instructions = buildArray(sizeof(Instruction), INITIAL_COUNT_INSTR);
 	exprCtx->constDataList = buildArray(sizeof(ConstData), INITIAL_COUNT_CONST_DATA);
-	exprCtx->uncondId = uncondId;
+	exprCtx->condId = condId;
 
 	return exprCtx;
 }
@@ -39,14 +39,15 @@ RegisterAllocator* createRegAllocator()
 	return allocator;
 }
 
-void createVariable(MachineState* state, const char* name, ValueType type) {
+void createVariable(MachineState* state, const char* name, ValueType type, size_t size) {
 	Variable varParam;
 	varParam.address = state->offset;
 	varParam.name = strCpy(name);
 	varParam.type = type;
+	varParam.size = size;
 	varParam.isInit = false;
 	state->localVars[state->countLocalVars] = varParam;
-	state->offset -= VARIABLE_SIZE;
+	state->offset -= size;
 	state->countLocalVars++;
 }
 

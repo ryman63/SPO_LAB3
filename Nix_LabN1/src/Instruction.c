@@ -54,66 +54,56 @@ void I_LOAD_REG(enum reg dest, enum reg src, Array* instrArray) {
     pushBack(instrArray, instr);
 }
 
-void I_LOAD_OFF_MINUS(enum reg dest, enum reg src, int offset, Array* instrArray)
-{
-
+void I_LOAD_OFF_MINUS(enum reg dest, enum reg src, int offset, Array* instrArray) {
     Instruction* instr = createInstructionWithOffset(OC_LOAD_OFF_MINUS, dest, src, 0, NULL, offset);
 
     pushBack(instrArray, instr);
 }
 
-void I_LOAD_OFF_PLUS(enum reg dest, enum reg src, int offset, Array* instrArray)
-{
+void I_LOAD_OFF_PLUS(enum reg dest, enum reg src, int offset, Array* instrArray) {
     Instruction* instr = createInstructionWithOffset(OC_LOAD_OFF_PLUS, dest, src, 0, NULL, offset);
 
     pushBack(instrArray, instr);
 }
 
-void I_LOAD_LABEL_OFF(enum reg dest, char* address, int offset, Array* instrArray)
-{
+void I_LOAD_LABEL_OFF(enum reg dest, char* address, int offset, Array* instrArray) {
     Instruction* instr = createInstructionWithOffset(OC_LOAD_LABEL_OFF, dest, 0, 0, address, offset);
 
     pushBack(instrArray, instr);
 }
 
-void I_LOAD_LABEL(enum reg dest, char* address, Array* instrArray)
-{
+void I_LOAD_LABEL(enum reg dest, char* address, Array* instrArray) {
     Instruction* instr = createInstruction(OC_LOAD_LABEL_OFF, dest, 0, 0, address);
 
     pushBack(instrArray, instr);
 }
 
 
-void I_LOAD_OFF_PLUS_CONST(enum reg dest, enum reg src, int offset, Array* instrArray)
-{
+void I_LOAD_OFF_PLUS_CONST(enum reg dest, enum reg src, int offset, Array* instrArray) {
     Instruction* instr = createInstructionWithOffset(OC_LOAD_OFF_PLUS_CONST, dest, src, 0, NULL, offset);
 
     pushBack(instrArray, instr);
 }
 
-void I_LOAD_OFF_MINUS_CONST(enum reg dest, enum reg src, int offset, Array* instrArray)
-{
+void I_LOAD_OFF_MINUS_CONST(enum reg dest, enum reg src, int offset, Array* instrArray) {
     Instruction* instr = createInstructionWithOffset(OC_LOAD_OFF_MINUS_CONST, dest, src, 0, NULL, offset);
 
     pushBack(instrArray, instr);
 }
 
-void I_LOAD_REG_CONST(enum reg dest, enum reg src, Array* instrArray)
-{
+void I_LOAD_REG_CONST(enum reg dest, enum reg src, Array* instrArray) {
     Instruction* instr = createInstruction(OC_LOAD_REG_CONST, dest, src, 0, NULL);
 
     pushBack(instrArray, instr);
 }
 
-void I_LOAD_LABEL_CONST(enum reg dest, char* address, Array* instrArray)
-{
+void I_LOAD_LABEL_CONST(enum reg dest, char* address, Array* instrArray) {
     Instruction* instr = createInstruction(OC_LOAD_LABEL_CONST, dest, 0, 0, address);
 
     pushBack(instrArray, instr);
 }
 
-void I_LOAD_LABEL_OFF_CONST(enum reg dest, char* address, int offset, Array* instrArray)
-{
+void I_LOAD_LABEL_OFF_CONST(enum reg dest, char* address, int offset, Array* instrArray) {
     Instruction* instr = createInstructionWithOffset(OC_LOAD_LABEL_OFF_CONST, dest, 0, 0, address, offset);
 
     pushBack(instrArray, instr);
@@ -192,6 +182,16 @@ void I_SUB(enum reg dest, enum reg src1, enum reg src2, Array* instrArray) {
 
 void I_ADD(enum reg dest, enum reg src1, enum reg src2, Array* instrArray) {
     Instruction* instr = createInstruction(OC_ADD, dest, src1, src2, NULL);
+    pushBack(instrArray, instr);
+}
+
+void I_MUL(enum reg dest, enum reg src1, enum reg src2, Array* instrArray) {
+    Instruction* instr = createInstruction(OC_MUL, dest, src1, src2, NULL);
+    pushBack(instrArray, instr);
+}
+
+void I_DIV(enum reg dest, enum reg src1, enum reg src2, Array* instrArray) {
+    Instruction* instr = createInstruction(OC_DIV, dest, src1, src2, NULL);
     pushBack(instrArray, instr);
 }
 

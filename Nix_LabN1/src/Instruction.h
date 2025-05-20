@@ -16,7 +16,8 @@ typedef enum Opcode {
     OC_LOAD_REG_CONST, OC_LOAD_LABEL_CONST, OC_LOAD_LABEL_OFF_CONST, OC_LOAD_OFF_PLUS_CONST, OC_LOAD_OFF_MINUS_CONST,
     OC_STORE, OC_STORE_OFF_PLUS, OC_STORE_OFF_MINUS,  
     OC_MOV, OC_MOVI, OC_IMOV, 
-    OC_ADD, OC_SUB, OC_SUBI, 
+    OC_ADD, OC_SUB, OC_SUBI,
+    OC_MUL, OC_DIV,
     OC_CMP,
     OC_JMP, OC_JE, OC_JNE, OC_JL, OC_JLE, OC_JG, OC_JGE,
     OC_IN, OC_OUT, 
@@ -78,6 +79,9 @@ void I_CONST_STR(char* mark, char* value, Array* dataArray);
 void I_SUBI(enum reg dest, enum reg src1, int src2, Array* instrArray);
 void I_SUB(enum reg dest, enum reg src1, enum reg src2, Array* instrArray);
 void I_ADD(enum reg dest, enum reg src1, enum reg src2, Array* instrArray);
+
+void I_MUL(enum reg dest, enum reg src1, enum reg src2, Array* instrArray);
+void I_DIV(enum reg dest, enum reg src1, enum reg src2, Array* instrArray);
 
 void I_CMP(enum reg src1, enum reg src2, Array* instrArray);
 void I_JMP(char* mark, Array* instrArray);

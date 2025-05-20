@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
   <Nodes>
-    <Node Id="20" Label="def sum(a of int, b of int) of int"/>
-    <Node Id="22" Label="c = a + b;"/>
-    <Node Id="21" Label="function exit"/>
+    <Node Id="21" Label="def sum(a of int, b of int) of int"/>
+    <Node Id="23" Label="c = a + b;"/>
+    <Node Id="22" Label="function exit"/>
   </Nodes>
   <Links>
-    <Link Source="20" Target="22"/>
-    <Link Source="22" Target="21"/>
+    <Link Source="21" Target="23"/>
+    <Link Source="23" Target="22"/>
   </Links>
 </DirectedGraph>

@@ -9,11 +9,14 @@
           "message": {
             "text": "Разыменование пустого указателя \"module\". "
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/src/module.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/src/Module.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/src/Module.c"
                 },
                 "region": {
                   "startLine": 5,
@@ -40,7 +43,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/src/Module.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/src/Module.c"
                           },
                           "region": {
                             "startLine": 4,
@@ -60,7 +63,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/src/Module.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/src/Module.c"
                           },
                           "region": {
                             "startLine": 5,
@@ -87,16 +90,19 @@
           "message": {
             "text": "Разыменование пустого указателя \"exprCtx\". "
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/src/module.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/src/Module.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/src/Module.c"
                 },
                 "region": {
-                  "startLine": 16,
+                  "startLine": 15,
                   "startColumn": 2,
-                  "endLine": 16,
+                  "endLine": 15,
                   "endColumn": 18
                 }
               },
@@ -118,10 +124,10 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/src/Module.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/src/Module.c"
                           },
                           "region": {
-                            "startLine": 15,
+                            "startLine": 14,
                             "startColumn": 15
                           }
                         },
@@ -138,10 +144,10 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/src/Module.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/src/Module.c"
                           },
                           "region": {
-                            "startLine": 16,
+                            "startLine": 15,
                             "startColumn": 16
                           }
                         },
@@ -165,11 +171,14 @@
           "message": {
             "text": "Разыменование пустого указателя \"state\". "
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/src/module.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/src/Module.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/src/Module.c"
                 },
                 "region": {
                   "startLine": 25,
@@ -196,7 +205,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/src/Module.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/src/Module.c"
                           },
                           "region": {
                             "startLine": 24,
@@ -216,7 +225,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/src/Module.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/src/Module.c"
                           },
                           "region": {
                             "startLine": 25,
@@ -239,52 +248,81 @@
           ]
         },
         {
-          "ruleId": "C6262",
+          "ruleId": "C6011",
           "message": {
-            "text": "Функция использует байты стека \"40992\".  Рассмотрите возможность перемещения некоторых данных в кучу."
+            "text": "Разыменование пустого указателя \"markGen\". "
+          },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/src/module.c"
           },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/src/Module.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/src/Module.c"
                 },
                 "region": {
-                  "startLine": 69,
-                  "startColumn": 7
+                  "startLine": 72,
+                  "startColumn": 2,
+                  "endLine": 72,
+                  "endColumn": 21
                 }
               },
               "logicalLocations": [
                 {
-                  "fullyQualifiedName": "getStringMark",
-                  "decoratedName": "getStringMark",
+                  "fullyQualifiedName": "createMarkGen",
+                  "decoratedName": "createMarkGen",
                   "kind": "function"
                 }
               ]
             }
-          ]
-        },
-        {
-          "ruleId": "C6262",
-          "message": {
-            "text": "Функция использует байты стека \"40984\".  Рассмотрите возможность перемещения некоторых данных в кучу."
-          },
-          "locations": [
+          ],
+          "codeFlows": [
             {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/src/Module.c"
-                },
-                "region": {
-                  "startLine": 75,
-                  "startColumn": 7
-                }
-              },
-              "logicalLocations": [
+              "threadFlows": [
                 {
-                  "fullyQualifiedName": "getConditionMark",
-                  "decoratedName": "getConditionMark",
-                  "kind": "function"
+                  "locations": [
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/src/Module.c"
+                          },
+                          "region": {
+                            "startLine": 71,
+                            "startColumn": 17
+                          }
+                        },
+                        "message": {
+                          "text": "\"markGen\" может быть равно NULL"
+                        }
+                      },
+                      "kinds": [
+                        "declaration"
+                      ],
+                      "importance": "essential"
+                    },
+                    {
+                      "location": {
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/src/Module.c"
+                          },
+                          "region": {
+                            "startLine": 72,
+                            "startColumn": 19
+                          }
+                        },
+                        "message": {
+                          "text": "\"markGen\" разыменовано, но, возможно, по-прежнему равно NULL"
+                        }
+                      },
+                      "kinds": [
+                        "usage"
+                      ],
+                      "importance": "essential"
+                    }
+                  ]
                 }
               ]
             }
@@ -295,17 +333,20 @@
           "message": {
             "text": "Несоответствие размера: \"unsigned __int64\" передан в качестве параметра _Param_(4), хотя при вызове \"snprintf\" требуется \"int\". "
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/src/module.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/src/Module.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/src/Module.c"
                 },
                 "region": {
-                  "startLine": 78,
+                  "startLine": 84,
                   "startColumn": 2,
-                  "endLine": 78,
-                  "endColumn": 71
+                  "endLine": 84,
+                  "endColumn": 73
                 }
               },
               "logicalLocations": [
@@ -323,7 +364,7 @@
         "driver": {
           "name": "PREfast",
           "fullName": "PREfast Code Analysis",
-          "version": "14.38.33139.0",
+          "version": "14.42.34435.0",
           "informationUri": "https://aka.ms/cpp/ca"
         }
       },
@@ -335,27 +376,27 @@
       "artifacts": [
         {
           "location": {
-            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/src/Module.c"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/src/module.c"
           },
           "roles": [
             "analysisTarget",
             "resultFile"
           ],
           "hashes": {
-            "sha-256": "ebe9148065e923227be2033800313d93ac0a5ba0ea7fa11bdc22cb14fe7326f5"
+            "sha-256": "94f201ff735c06f2ab2eec18cca82eac2c12170b307bc5118149543a7722cb73"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/src/module.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/src/module.h"
           },
           "hashes": {
-            "sha-256": "3354993ea141696e3a7f63f686b83e90a1b57817c6f4f6ca508691168fa0ec85"
+            "sha-256": "b3219fcc8d2f7e097eab838e25239ea7421c0e9fccee7c606d1af5badf31db44"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/src/array.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/src/array.h"
           },
           "hashes": {
             "sha-256": "7ca5c50a1ab44d1776ca6c0f4b6cb9b82939a789340505faecf88ea617a21bdf"
@@ -363,15 +404,15 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/src/ast.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/src/ast.h"
           },
           "hashes": {
-            "sha-256": "248c34b54b6beb64a2710b8ce62d36eeda132745472c1d7652df17731fb8c7eb"
+            "sha-256": "6f01de97f36a867ad48833ef36d53e921f723467e5c3d7feeb3bcaad95014b0e"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/tree.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/tree.h"
           },
           "hashes": {
             "sha-256": "4e862a407479b297cff35b0d4fc2d9f70ac3d18e90049c6d96e204fc25f513e1"
@@ -379,7 +420,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/xmlversion.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/xmlversion.h"
           },
           "hashes": {
             "sha-256": "87d457298e5c87d3f6c7e2aaee9bde7d30f077138f8168a4739062b2868b7ae6"
@@ -387,7 +428,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/xmlexports.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/xmlexports.h"
           },
           "hashes": {
             "sha-256": "4483df67b5ef4229a41b60e2bb5f06b66d4e7b33d31629d7673dd3a01901e28c"
@@ -395,7 +436,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/xmlstring.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/xmlstring.h"
           },
           "hashes": {
             "sha-256": "ffdc82b2e779e75def391a066c29ea060d6823504423ae242d53fb2652d5c180"
@@ -403,7 +444,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/xmlregexp.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/xmlregexp.h"
           },
           "hashes": {
             "sha-256": "710e5763924e28e9ce49034dd1a18e64b34c33b2cd9e4bdddf4ff9fc4af4a409"
@@ -411,7 +452,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/dict.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/dict.h"
           },
           "hashes": {
             "sha-256": "d5c68f7b7929929f8aaafac177668bce7bb396d048cec969078d8c47720d5ee2"
@@ -419,7 +460,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/xmlmemory.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/xmlmemory.h"
           },
           "hashes": {
             "sha-256": "5e2edbc467e5d137a6482300f007fda59b3376720fd5410b2bce763697a29340"
@@ -427,7 +468,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/threads.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/threads.h"
           },
           "hashes": {
             "sha-256": "cdc861d7e39ac17d1724e800113a96b3ae782d6e0a15b465172feb57ff503447"
@@ -435,7 +476,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/globals.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/globals.h"
           },
           "hashes": {
             "sha-256": "b034ba3e8d0d9ef7c6c7481ac25e50b0ae9ad6156ed48b25d9a8f98476310476"
@@ -443,7 +484,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/parser.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/parser.h"
           },
           "hashes": {
             "sha-256": "4f57bbef1ca0cb75e5a55662a1aa93549e657e3df7d043ac50b2d1aba89b606a"
@@ -451,7 +492,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/hash.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/hash.h"
           },
           "hashes": {
             "sha-256": "db345e7916f04aa60c7614309c8a4855349042db485529c217e78b03ce62e262"
@@ -459,7 +500,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/valid.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/valid.h"
           },
           "hashes": {
             "sha-256": "48626d12b9ddebe3e0bd4ec8439593f9d6fbb6a101c04288eb764d649f019221"
@@ -467,7 +508,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/xmlerror.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/xmlerror.h"
           },
           "hashes": {
             "sha-256": "cb1916904f6678ee58f7ea37b67d1093229e1f62bb922838553931b56adfd4fd"
@@ -475,7 +516,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/list.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/list.h"
           },
           "hashes": {
             "sha-256": "67a7066c751a32be0cb0d9afd940219a41b9a2ca790d12f20839cd78f3d9ad4f"
@@ -483,7 +524,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/xmlautomata.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/xmlautomata.h"
           },
           "hashes": {
             "sha-256": "5d13007461d3f5b7ad1500f0fd870ef789e82b6e495e1b4cf02d9c72983add9b"
@@ -491,7 +532,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/entities.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/entities.h"
           },
           "hashes": {
             "sha-256": "cef73b1f9595079d6c8b2fd6db6ca92c7e5f8a9d884d7fd0dcca14c3101df35a"
@@ -499,7 +540,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/encoding.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/encoding.h"
           },
           "hashes": {
             "sha-256": "bcc8b2642ab683b0dbcca0334dfb6dae65167fb7e4ae0c4db8a319bea84ab614"
@@ -507,7 +548,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/xmlio.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/xmlio.h"
           },
           "hashes": {
             "sha-256": "017efe6eb245af537d9d51af3e955854d5c09194769b0c1f6c14f87a4551b179"
@@ -515,7 +556,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/sax.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/sax.h"
           },
           "hashes": {
             "sha-256": "7ebd478d350a640927d2b7b688de5f50662aeac95551cbbdb52b3e61bb268a46"
@@ -523,7 +564,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/xlink.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/xlink.h"
           },
           "hashes": {
             "sha-256": "276d260b71456d971d0f41f81804e728d46e9d3181fff692bdfe6b18c12e0ad9"
@@ -531,7 +572,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/sax2.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/packages/libxml2-vc140-static-32_64.2.9.4.1/lib/native/include/libxml/sax2.h"
           },
           "hashes": {
             "sha-256": "f0b80f8cce626e114111311983a649f2336222243bb4a259a592570e8ed3a08f"
@@ -539,7 +580,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/src/variable.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/src/variable.h"
           },
           "hashes": {
             "sha-256": "4195a29e333927a3d8e5f4e503e1e0cb93d504d6f8546091a6e70a7472a4b83d"
@@ -547,7 +588,7 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/src/valuetype.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/src/valuetype.h"
           },
           "hashes": {
             "sha-256": "44b934b504d536bf81f65dfa09e62244b23714240813665c471a642aa08be6ac"
@@ -555,23 +596,23 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/src/programunit.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/src/programunit.h"
           },
           "hashes": {
-            "sha-256": "69fa5b3a9c33741802443ed240fb335b104a714b33291cb91ff610efc948cf14"
+            "sha-256": "9e589cbfca41602cbeb537eae2bf36c3cb895213bf6e9796bfd4504309f33271"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/src/cfg.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/src/cfg.h"
           },
           "hashes": {
-            "sha-256": "69b630dbc4c147d6d26d2b9c33032690a72541a4c94779a06fca30c7815ba436"
+            "sha-256": "cc7a39da7f9b37b6189ceef9f28960b4c6701e521d57917404faa6f93fe24a20"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/src/sourcefile.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/src/sourcefile.h"
           },
           "hashes": {
             "sha-256": "b09305c76a5cc83cc134e97c24a62f8bf23af53ef0ab5a8785bb91b55afd549d"
@@ -579,18 +620,18 @@
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/src/instruction.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/src/instruction.h"
           },
           "hashes": {
-            "sha-256": "d52ae1d9db0c2c23df9979bce9e500eddfd9118e412438bb45a77418968d609d"
+            "sha-256": "59f50d328e3462a92dade6cf525c045e41976bb9cf815032ca3f4049fb994d8a"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/src/stringpool.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/src/stringpool.h"
           },
           "hashes": {
-            "sha-256": "5af024052f1cacb4719240f129aff04ad6c8b784a238714de37b2599f8389f51"
+            "sha-256": "9af53741ba17f4ea6986f2655ca5dd2eab7a0843b7fe4225545d107827e5f50d"
           }
         }
       ]

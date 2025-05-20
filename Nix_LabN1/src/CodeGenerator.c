@@ -61,7 +61,7 @@ void generate(Module* module, FILE* fileDescriptor) {
     // генерируем константы
     for (size_t i = 0; i < constDataArray->size; i++) {
         ConstData* data = getItem(constDataArray, i);
-        generateData(data, fileDescriptor);
+        generateData(data, fileDescriptor, i + 1);
     }
 }
 
@@ -77,8 +77,8 @@ void generateExpr(ExprContext* ctx, FILE* fileDescriptor, size_t* instructionNum
     }
 }
 
-void generateData(ConstData* data, FILE* fileDescriptor) {
-    char* parsedData = parseDataInLinearCode(data);
+void generateData(ConstData* data, FILE* fileDescriptor, int dataId) {
+    char* parsedData = parseDataInLinearCode(data, dataId);
     fwrite(parsedData, strlen(parsedData), 1, fileDescriptor);
     free(parsedData);
 }
@@ -99,8 +99,7 @@ void addSection(char* sectionName, FILE* fileDescriptor) {
     free(buffer);
 }
 
-void addMark(char* mark, FILE* fileDescriptor)
-{
+void addMark(char* mark, FILE* fileDescriptor) {
     size_t buffSize = 16;
     char* buffer = malloc(buffSize);
     snprintf(buffer, buffSize, "\n%s:\n", mark);
@@ -108,17 +107,16 @@ void addMark(char* mark, FILE* fileDescriptor)
     free(buffer);
 }
 
-char* parseInstructionInLinearCode(Instruction* instr, size_t instructionNumber)
-{
+char* parseInstructionInLinearCode(Instruction* instr, size_t instructionNumber) {
     char* resultString = (char*)malloc(INSTRUCTION_MAX_SIZE);
     if (!resultString) {
         printf("Malloc error!\n");
         return NULL;
     }
 
-    char* dest = getRegisterName(instr->dest);
-    char* src1 = getRegisterName(instr->src1);
-    char* src2 = getRegisterName(instr->src2);
+    char* dest = getRegisterName(instr->dest, instructionNumber);
+    char* src1 = getRegisterName(instr->src1, instructionNumber);
+    char* src2 = getRegisterName(instr->src2, instructionNumber);
     int offset = abs(instr->offset);
     char* imm = instr->imm;
 
@@ -203,6 +201,14 @@ char* parseInstructionInLinearCode(Instruction* instr, size_t instructionNumber)
         snprintf(resultString, INSTRUCTION_MAX_SIZE, "subi %s, %s, %s", dest, src1, instr->imm);
         break;
 
+    case OC_MUL:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "mul %s, %s, %s", dest, src1, src2);
+        break;
+
+    case OC_DIV:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "div %s, %s, %s", dest, src1, src2);
+        break;
+
     case OC_CMP:
         snprintf(resultString, INSTRUCTION_MAX_SIZE, "cmp %s, %s", src1, src2);
         break;
@@ -274,7 +280,6 @@ char* parseInstructionInLinearCode(Instruction* instr, size_t instructionNumber)
 
         free(resultString);
         return NULL;
-
     }
 
     strcat_s(resultString, INSTRUCTION_MAX_SIZE, "\n");
@@ -282,7 +287,7 @@ char* parseInstructionInLinearCode(Instruction* instr, size_t instructionNumber)
     return resultString;
 }
 
-char* parseDataInLinearCode(ConstData* data)
+char* parseDataInLinearCode(ConstData* data, int dataId)
 {
     char* resultString = (char*)malloc(CONST_DATA_MAX_SIZE);
     if (!resultString) {
@@ -306,7 +311,13 @@ char* parseDataInLinearCode(ConstData* data)
         snprintf(dataSize, 4, "dw");
     } break;
     default:
-        break;
+        // обработка ошибки
+        char buff[16];
+        _itoa_s(data->dataSize, buff, 16, 10);
+        collectError(ST_GENERATE, "unknown data size", buff, dataId);
+
+        free(resultString);
+        return NULL;
     }
 
     if (data->isRepeat) {
@@ -321,7 +332,7 @@ char* parseDataInLinearCode(ConstData* data)
     return resultString;
 }
 
-char* getRegisterName(reg reg) {
+char* getRegisterName(enum reg reg, int instructionId) {
     switch (reg)
     {
     case gp0: return "gp0";
@@ -348,6 +359,9 @@ char* getRegisterName(reg reg) {
         break;
     case tmp: return "tmp";
         break;
-    default: return NULL;
+    default: {
+            collectError(ST_GENERATE, "unknown reg name", (char)reg, instructionId);
+            return NULL;
+        };
     }
 }

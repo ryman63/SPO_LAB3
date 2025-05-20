@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="24" Label="set"/>
+    <Node Id="25" Label="b"/>
+    <Node Id="26" Label="+"/>
+    <Node Id="27" Label="read"/>
+    <Node Id="28" Label="b"/>
+    <Node Id="29" Label="const"/>
+    <Node Id="30" Label="2"/>
+  </Nodes>
+  <Links>
+    <Link Source="24" Target="25"/>
+    <Link Source="24" Target="26"/>
+    <Link Source="26" Target="27"/>
+    <Link Source="27" Target="28"/>
+    <Link Source="26" Target="29"/>
+    <Link Source="29" Target="30"/>
+  </Links>
+</DirectedGraph>

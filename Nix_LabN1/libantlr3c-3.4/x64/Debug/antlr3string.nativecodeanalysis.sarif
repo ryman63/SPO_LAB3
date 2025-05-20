@@ -9,11 +9,14 @@
           "message": {
             "text": "Разыменование пустого указателя \"string->chars\". "
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                 },
                 "region": {
                   "startLine": 435,
@@ -40,7 +43,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 423,
@@ -54,7 +57,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 425,
@@ -68,7 +71,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 427,
@@ -82,7 +85,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 434,
@@ -102,7 +105,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 435,
@@ -129,11 +132,14 @@
           "message": {
             "text": "Разыменование пустого указателя \"string->chars\". "
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                 },
                 "region": {
                   "startLine": 463,
@@ -160,7 +166,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 451,
@@ -174,7 +180,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 453,
@@ -188,7 +194,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 455,
@@ -202,7 +208,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 462,
@@ -222,7 +228,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 463,
@@ -249,11 +255,14 @@
           "message": {
             "text": "realloc может возвратить пустой указатель: присвоение пустого указателя переменной \"string->chars\", которая передается в качестве аргумента функции realloc, приведет к утечке исходного блока памяти."
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                 },
                 "region": {
                   "startLine": 803,
@@ -275,11 +284,14 @@
           "message": {
             "text": "realloc может возвратить пустой указатель: присвоение пустого указателя переменной \"string->chars\", которая передается в качестве аргумента функции realloc, приведет к утечке исходного блока памяти."
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                 },
                 "region": {
                   "startLine": 826,
@@ -301,11 +313,14 @@
           "message": {
             "text": "Разыменование пустого (NULL) указателя. \"apPoint\" содержит то же значение NULL, которое находилось в \"realloc()`826\". "
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                 },
                 "region": {
                   "startLine": 837,
@@ -332,7 +347,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 818,
@@ -346,7 +361,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 819,
@@ -360,7 +375,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 820,
@@ -374,7 +389,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 822,
@@ -388,7 +403,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 824,
@@ -402,7 +417,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 826,
@@ -416,7 +431,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 827,
@@ -430,7 +445,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 830,
@@ -450,7 +465,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 831,
@@ -464,7 +479,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 833,
@@ -478,7 +493,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 833,
@@ -497,7 +512,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 837,
@@ -524,11 +539,14 @@
           "message": {
             "text": "realloc может возвратить пустой указатель: присвоение пустого указателя переменной \"string->chars\", которая передается в качестве аргумента функции realloc, приведет к утечке исходного блока памяти."
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                 },
                 "region": {
                   "startLine": 860,
@@ -550,11 +568,14 @@
           "message": {
             "text": "realloc может возвратить пустой указатель: присвоение пустого указателя переменной \"string->chars\", которая передается в качестве аргумента функции realloc, приведет к утечке исходного блока памяти."
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                 },
                 "region": {
                   "startLine": 880,
@@ -576,11 +597,14 @@
           "message": {
             "text": "realloc может возвратить пустой указатель: присвоение пустого указателя переменной \"string->chars\", которая передается в качестве аргумента функции realloc, приведет к утечке исходного блока памяти."
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                 },
                 "region": {
                   "startLine": 903,
@@ -602,11 +626,14 @@
           "message": {
             "text": "Разыменование пустого (NULL) указателя. \"apPoint\" содержит то же значение NULL, которое находилось в \"realloc()`903\". "
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                 },
                 "region": {
                   "startLine": 913,
@@ -633,7 +660,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 896,
@@ -647,7 +674,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 897,
@@ -661,7 +688,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 898,
@@ -675,7 +702,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 900,
@@ -689,7 +716,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 901,
@@ -703,7 +730,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 903,
@@ -717,7 +744,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 904,
@@ -731,7 +758,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 906,
@@ -751,7 +778,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 907,
@@ -765,7 +792,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 909,
@@ -779,7 +806,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 909,
@@ -798,7 +825,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 913,
@@ -825,11 +852,14 @@
           "message": {
             "text": "realloc может возвратить пустой указатель: присвоение пустого указателя переменной \"string->chars\", которая передается в качестве аргумента функции realloc, приведет к утечке исходного блока памяти."
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                 },
                 "region": {
                   "startLine": 936,
@@ -851,11 +881,14 @@
           "message": {
             "text": "realloc может возвратить пустой указатель: присвоение пустого указателя переменной \"string->chars\", которая передается в качестве аргумента функции realloc, приведет к утечке исходного блока памяти."
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                 },
                 "region": {
                   "startLine": 954,
@@ -877,11 +910,14 @@
           "message": {
             "text": "Разыменование пустого указателя \"string->chars+string->len\". "
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                 },
                 "region": {
                   "startLine": 957,
@@ -908,7 +944,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 952,
@@ -922,7 +958,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 954,
@@ -942,7 +978,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 955,
@@ -956,7 +992,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 957,
@@ -983,11 +1019,14 @@
           "message": {
             "text": "Разыменование пустого указателя \"string->chars+string->len+1\". Самое раннее расположение, где это могло произойти, см. в строке 957"
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                 },
                 "region": {
                   "startLine": 958,
@@ -1014,7 +1053,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 952,
@@ -1028,7 +1067,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 954,
@@ -1048,7 +1087,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 955,
@@ -1062,7 +1101,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 957,
@@ -1076,7 +1115,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 958,
@@ -1103,11 +1142,14 @@
           "message": {
             "text": "realloc может возвратить пустой указатель: присвоение пустого указателя переменной \"string->chars\", которая передается в качестве аргумента функции realloc, приведет к утечке исходного блока памяти."
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                 },
                 "region": {
                   "startLine": 971,
@@ -1129,11 +1171,14 @@
           "message": {
             "text": "Разыменование пустого указателя \"ptr+string->len\". "
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                 },
                 "region": {
                   "startLine": 976,
@@ -1160,7 +1205,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 967,
@@ -1174,7 +1219,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 969,
@@ -1188,7 +1233,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 971,
@@ -1202,7 +1247,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 972,
@@ -1216,7 +1261,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 974,
@@ -1236,7 +1281,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 976,
@@ -1263,11 +1308,14 @@
           "message": {
             "text": "Разыменование пустого указателя \"ptr+string->len+1\". Самое раннее расположение, где это могло произойти, см. в строке 976"
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                 },
                 "region": {
                   "startLine": 977,
@@ -1294,7 +1342,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 967,
@@ -1308,7 +1356,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 969,
@@ -1322,7 +1370,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 971,
@@ -1336,7 +1384,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 972,
@@ -1350,7 +1398,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 974,
@@ -1370,7 +1418,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 976,
@@ -1384,7 +1432,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 977,
@@ -1411,11 +1459,14 @@
           "message": {
             "text": "realloc может возвратить пустой указатель: присвоение пустого указателя переменной \"string->chars\", которая передается в качестве аргумента функции realloc, приведет к утечке исходного блока памяти."
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                 },
                 "region": {
                   "startLine": 1038,
@@ -1437,11 +1488,14 @@
           "message": {
             "text": "realloc может возвратить пустой указатель: присвоение пустого указателя переменной \"string->chars\", которая передается в качестве аргумента функции realloc, приведет к утечке исходного блока памяти."
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                 },
                 "region": {
                   "startLine": 1076,
@@ -1463,11 +1517,14 @@
           "message": {
             "text": "Разыменование пустого указателя \"inPoint+count\". "
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                 },
                 "region": {
                   "startLine": 1089,
@@ -1494,7 +1551,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1058,
@@ -1508,7 +1565,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1059,
@@ -1522,7 +1579,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1060,
@@ -1536,7 +1593,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1062,
@@ -1550,7 +1607,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1067,
@@ -1564,7 +1621,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1069,
@@ -1578,7 +1635,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1074,
@@ -1592,7 +1649,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1076,
@@ -1606,7 +1663,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1077,
@@ -1620,7 +1677,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1082,
@@ -1634,7 +1691,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1084,
@@ -1648,7 +1705,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1086,
@@ -1668,7 +1725,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1087,
@@ -1682,7 +1739,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1087,
@@ -1701,7 +1758,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1089,
@@ -1728,11 +1785,14 @@
           "message": {
             "text": "realloc может возвратить пустой указатель: присвоение пустого указателя переменной \"string->chars\", которая передается в качестве аргумента функции realloc, приведет к утечке исходного блока памяти."
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                 },
                 "region": {
                   "startLine": 1123,
@@ -1754,11 +1814,14 @@
           "message": {
             "text": "Разыменование пустого указателя \"newStr->chars+i\". "
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                 },
                 "region": {
                   "startLine": 1394,
@@ -1785,7 +1848,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1367,
@@ -1799,7 +1862,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1368,
@@ -1813,7 +1876,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1372,
@@ -1827,7 +1890,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1374,
@@ -1841,7 +1904,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1381,
@@ -1861,7 +1924,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1382,
@@ -1875,7 +1938,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1383,
@@ -1889,7 +1952,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1388,
@@ -1903,7 +1966,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1388,
@@ -1922,7 +1985,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1390,
@@ -1936,7 +1999,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1392,
@@ -1950,7 +2013,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1394,
@@ -1977,11 +2040,14 @@
           "message": {
             "text": "Разыменование пустого указателя \"newStr->chars+newStr->len\". "
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                 },
                 "region": {
                   "startLine": 1399,
@@ -2008,7 +2074,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1367,
@@ -2022,7 +2088,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1368,
@@ -2036,7 +2102,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1372,
@@ -2050,7 +2116,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1374,
@@ -2064,7 +2130,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1381,
@@ -2084,7 +2150,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1382,
@@ -2098,7 +2164,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1383,
@@ -2112,7 +2178,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1388,
@@ -2126,7 +2192,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1388,
@@ -2145,7 +2211,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
                           },
                           "region": {
                             "startLine": 1399,
@@ -2172,7 +2238,7 @@
         "driver": {
           "name": "PREfast",
           "fullName": "PREfast Code Analysis",
-          "version": "14.38.33139.0",
+          "version": "14.42.34435.0",
           "informationUri": "https://aka.ms/cpp/ca"
         }
       },
@@ -2184,70 +2250,70 @@
       "artifacts": [
         {
           "location": {
-            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3string.c"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3string.c"
           },
           "roles": [
             "analysisTarget",
             "resultFile"
           ],
           "hashes": {
-            "sha-256": "28ec3fb0d16a6876b02c3eecbe7b1fd283f642bab5ba3e631ef05b2045836787"
+            "sha-256": "0319480c1aee1b161b03d33322595397cb0cbbb8257eb393405fa76d803fc2c9"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3string.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3string.h"
           },
           "hashes": {
-            "sha-256": "07176c48b71cae9a216dd444f3dedb193a93dd895f1f4e435a2f782895678efe"
+            "sha-256": "fd404fee47a04ab9cd8b03a14b3b7dd0082864693f0e5b10d0cdd6bd3cd5a28e"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3defs.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3defs.h"
           },
           "hashes": {
-            "sha-256": "991565fd8fdc99206c1ce5013607216f22fb83209e83b62ffbc06a65266f0ae9"
+            "sha-256": "d3e336a391bce0d03b24c6c175ff0f5d6351726e22ac7ce62b982ba38d889da4"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3errors.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3errors.h"
           },
           "hashes": {
-            "sha-256": "f8c5f4a2af0fdb1875e56e7b0e5fe708aa59432d27fd6313a0e04c960b509e53"
+            "sha-256": "31ee33727e76f7715b01010926aba24c850d8f44f3e487f9a3b42263e9ced585"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3interfaces.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3interfaces.h"
           },
           "hashes": {
-            "sha-256": "6b3a8f15b25aa30ab71eb783657cd1f91bc12dbe9138c98964f8563587c097d4"
+            "sha-256": "aebf00b6010a5d57052b8933c10ad3f23f5ef34eb91d57f57bf6e79540e8976c"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3convertutf.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3convertutf.h"
           },
           "hashes": {
-            "sha-256": "74d28be02386cf32e62f873c339e93ea5cb3de19d1787a9600d17951e55cec93"
+            "sha-256": "91a740c5b076b852c7add91d866566eff4dc16c8fb5b072b9fa62c2c9558a1d4"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3collections.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3collections.h"
           },
           "hashes": {
-            "sha-256": "efc122caa18134e851c01eb3746a66321ee8f67552e81ced94b60d2161f05a9c"
+            "sha-256": "d47067813d658da9f8fa7e5cb2c73b2d6d4544cd1feed278490f6331f17996e4"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3bitset.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3bitset.h"
           },
           "hashes": {
-            "sha-256": "e35600da6d92397ef38015dd7f782188931308f5087415f6ea57c108a0e29269"
+            "sha-256": "f665dd90b2a6fa6c2bdff034c2721ce5a46a4ca1d067eedd73bcf0a7a8f8a703"
           }
         }
       ]

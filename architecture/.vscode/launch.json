@@ -17,7 +17,7 @@
             "externalConsole": false,
             "MIMode": "gdb",
             "miDebuggerArgs": "-ul u472446 -up 62462b19-2cb8-48c3-90ce-572a8952379a -il -q -w -s MachineDebugBinary definitionFile target.pdsl archName DynamicVM binaryFileToRun util/assmfile codeRamBankName code dataRamBankName data_bank ipRegStorageName PC finishMnemonicName hlt",
-            "miDebuggerPath": "C:/SPO_LAB3/architecture/Portable.RemoteTasks.Manager.exe"
+            "miDebuggerPath": "${workspaceFolder}/Portable.RemoteTasks.Manager.exe"
         }
     ]
 }

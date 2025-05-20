@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\</FILEPATH>
+      <FILENAME>ErrorCollector.c</FILENAME>
+      <LINE>21</LINE>
+      <COLUMN>17</COLUMN>
+    </SFA>
+    <DEFECTCODE>6011</DEFECTCODE>
+    <DESCRIPTION>Разыменование пустого указателя "error". </DESCRIPTION>
+    <FUNCTION>createError</FUNCTION>
+    <DECORATED>createError</DECORATED>
+    <FUNCLINE>18</FUNCLINE>
+    <PROBABILITY>1</PROBABILITY>
+    <RANK>4</RANK>
+    <CATEGORY>
+      <RULECATEGORY>mspft</RULECATEGORY>
+    </CATEGORY>
+    <PATH>
+      <SFA>
+        <FILEPATH>C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\</FILEPATH>
+        <FILENAME>ErrorCollector.c</FILENAME>
+        <LINE>20</LINE>
+        <COLUMN>11</COLUMN>
+        <KEYEVENT>
+          <ID>1</ID>
+          <KIND>declaration</KIND>
+          <IMPORTANCE>Essential</IMPORTANCE>
+          <MESSAGE>"error" может быть равно NULL</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\</FILEPATH>
+        <FILENAME>ErrorCollector.c</FILENAME>
+        <LINE>21</LINE>
+        <COLUMN>17</COLUMN>
+        <KEYEVENT>
+          <ID>2</ID>
+          <KIND>usage</KIND>
+          <IMPORTANCE>Essential</IMPORTANCE>
+          <MESSAGE>"error" разыменовано, но, возможно, по-прежнему равно NULL</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+    </PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\</FILEPATH>
+      <FILENAME>ErrorCollector.c</FILENAME>
+      <LINE>48</LINE>
+      <COLUMN>4</COLUMN>
+    </SFA>
+    <DEFECTCODE>6386</DEFECTCODE>
+    <DESCRIPTION>Переполнение буфера при записи в "resultStr".</DESCRIPTION>
+    <FUNCTION>printError</FUNCTION>
+    <DECORATED>printError</DECORATED>
+    <FUNCLINE>41</FUNCLINE>
+    <PROBABILITY>1</PROBABILITY>
+    <RANK>4</RANK>
+    <CATEGORY>
+      <RULECATEGORY>mspft</RULECATEGORY>
+    </CATEGORY>
+    <PATH>
+      <SFA>
+        <FILEPATH>C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\</FILEPATH>
+        <FILENAME>ErrorCollector.c</FILENAME>
+        <LINE>42</LINE>
+        <COLUMN>14</COLUMN>
+        <KEYEVENT>
+          <ID>1</ID>
+          <KIND>declaration</KIND>
+          <IMPORTANCE>Essential</IMPORTANCE>
+          <MESSAGE>"RESULT_STRING_SIZE" равно 512</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\</FILEPATH>
+        <FILENAME>ErrorCollector.c</FILENAME>
+        <LINE>44</LINE>
+        <COLUMN>9</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\</FILEPATH>
+        <FILENAME>ErrorCollector.c</FILENAME>
+        <LINE>45</LINE>
+        <COLUMN>4</COLUMN>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\</FILEPATH>
+        <FILENAME>ErrorCollector.c</FILENAME>
+        <LINE>47</LINE>
+        <COLUMN>10</COLUMN>
+        <KEYEVENT>
+          <ID>2</ID>
+          <KIND>declaration</KIND>
+          <IMPORTANCE>Essential</IMPORTANCE>
+          <MESSAGE>"resultStr" является массивом размером 4 байт</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\</FILEPATH>
+        <FILENAME>ErrorCollector.c</FILENAME>
+        <LINE>48</LINE>
+        <COLUMN>4</COLUMN>
+        <KEYEVENT>
+          <ID>3</ID>
+          <KIND>usage</KIND>
+          <IMPORTANCE>Full</IMPORTANCE>
+          <MESSAGE>"RESULT_STRING_SIZE" является входными данными для "snprintf" (объявлено в c:\program files (x86)\windows kits\10\include\10.0.22621.0\ucrt\stdio.h:1919)</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+      <SFA>
+        <FILEPATH>C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\</FILEPATH>
+        <FILENAME>ErrorCollector.c</FILENAME>
+        <LINE>48</LINE>
+        <COLUMN>4</COLUMN>
+        <KEYEVENT>
+          <ID>4</ID>
+          <KIND>usage</KIND>
+          <IMPORTANCE>Essential</IMPORTANCE>
+          <MESSAGE>Недопустимая операция записи в "resultStr" (за пределами доступного для записи диапазона)</MESSAGE>
+        </KEYEVENT>
+      </SFA>
+    </PATH>
+  </DEFECT>
+</DEFECTS>

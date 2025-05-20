@@ -4,12 +4,13 @@ mov bp, sp
 load gp0, [bp + 8]
 
 .loop:
-	load gp1, const[gp0]
+	load8 gp1, const[gp0+gp2]
 	movi gp2, 0
 	cmp gp1, gp2
 	je .end
 	out gp1
-	movi gp1, 1
+	movi gp3, 1
+	add gp2, gp2, gp3
 	add gp0, gp0, gp1
 	jmp .loop
 

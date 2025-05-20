@@ -5,7 +5,7 @@ C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\cfg.h(29,2): warning C4091: typ
 C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\SymbolTable.h(21,2): warning C4091: typedef : пропускается слева от "SymbolLocation", когда ни одна переменная не объявлена
   (компиляция исходного файла "../Nix_LabN1/src/ControlFlowCompiler.c")
   
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\Instruction.h(58,22): warning C4115: reg: определение именованного типа в круглых скобках
+C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\Instruction.h(59,22): warning C4115: reg: определение именованного типа в круглых скобках
   (компиляция исходного файла "../Nix_LabN1/src/ControlFlowCompiler.c")
   
 C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(38,59): warning C4267: +=: преобразование из "size_t" в "int"; возможна потеря данных
@@ -24,8 +24,44 @@ C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(156,10): 
       C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\cfg.h(15,13):
        см. объявление "visited"
   
+C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(393,9): warning C4189: index: локальная переменная инициализирована, но не использована
+C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(392,9): warning C4189: ptr: локальная переменная инициализирована, но не использована
+  main.c
+C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\cfg.h(29,2): warning C4091: typedef : пропускается слева от "OpType", когда ни одна переменная не объявлена
+  (компиляция исходного файла "../Nix_LabN1/src/main.c")
+  
+C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\libantlr3c-3.4\include\antlr3convertutf.h(121,9): warning C4005: false: изменение макроопределения
+  (компиляция исходного файла "../Nix_LabN1/src/main.c")
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\stdbool.h(16,9):
+      см. предыдущее определение "false"
+  
+C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\libantlr3c-3.4\include\antlr3convertutf.h(122,9): warning C4005: true: изменение макроопределения
+  (компиляция исходного файла "../Nix_LabN1/src/main.c")
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\stdbool.h(17,9):
+      см. предыдущее определение "true"
+  
+C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\SymbolTable.h(21,2): warning C4091: typedef : пропускается слева от "SymbolLocation", когда ни одна переменная не объявлена
+  (компиляция исходного файла "../Nix_LabN1/src/main.c")
+  
+C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\Instruction.h(59,22): warning C4115: reg: определение именованного типа в круглых скобках
+  (компиляция исходного файла "../Nix_LabN1/src/main.c")
+  
+C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\main.c(14,57): warning C4459: объявление "visited" скрывает глобальное объявление
+      C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\cfg.h(15,13):
+       см. объявление "visited"
+  
+C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\main.c(31,21): warning C4553: "==": результат выражения не используется; вы хотели использовать "="?
+C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\main.c(50,13): warning C4047: функция: "FILE **" отличается по уровням косвенного обращения от "FILE *"
+C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\main.c(50,13): warning C4024: freopen_s: различные типы для формального и фактического параметров 1
+C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\main.c(62,11): warning C4047: функция: "const char *const " отличается по уровням косвенного обращения от "errno_t"
+C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\main.c(62,11): warning C4024: printf: различные типы для формального и фактического параметров 1
+C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\main.c(85,7): warning C4459: объявление "visited" скрывает глобальное объявление
+      C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\cfg.h(15,13):
+       см. объявление "visited"
+  
+  Создание кода...
+C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(385,1): warning C4715: generateOpTreeCode: значение возвращается не при всех путях выполнения
 C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(210,1): warning C4715: bfsCfg: значение возвращается не при всех путях выполнения
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(382,1): warning C4715: generateOpTreeCode: значение возвращается не при всех путях выполнения
   antlr3c.lib(antlr3lexer.obj) : найден .netmodule MSIL или модуль, откомпилированный с параметром /GL; перезапускается компоновка с параметром /LTCG; добавьте /LTCG в командную строку компоновки для повышения производительности компоновщика
 LINK : warning LNK4075: не учитывается "/INCREMENTAL" из-за спецификации "/LTCG"
      Создается библиотека C:\Users\TBG\source\repos\SPO_LAB3\x64\Debug\Win_LabN3.lib и объект C:\Users\TBG\source\repos\SPO_LAB3\x64\Debug\Win_LabN3.exp

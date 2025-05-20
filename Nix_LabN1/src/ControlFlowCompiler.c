@@ -34,7 +34,7 @@ void traverseCallGraph(CallGraphNode* root, Array* modules, MarkGenerator* markG
 
 void prepareMachineState(MachineState* state, ProgramUnit* unit, Array* prologue) {
     state->offset = 0;
-    state->offset += 4; // ret
+    state->offset += VARIABLE_SIZE; // ret
     state->offset += (unit->funcSignature->funcArgs->size * VARIABLE_SIZE); // выделяем место под аргументы
     I_PUSH(bp, prologue);
     I_MOV(bp, sp, prologue);
@@ -80,7 +80,7 @@ Module* generateFunctionCode(ProgramUnit* unit, MachineState* state, SymbolTable
 
     addSymbol(globalTable, unit->funcSignature->name, SYMBOL_FUNCTION, 0, unit->funcSignature->returnType);
 
-    state->offset = -4;
+    state->offset = -VARIABLE_SIZE;
 
     // Пролог функции: сохраняем контекст
     if (strcmp(unit->funcSignature->name, "main") != 0)
@@ -144,8 +144,8 @@ Module* generateFunctionCode(ProgramUnit* unit, MachineState* state, SymbolTable
 }
 
 CfgNode* resolveEmptyBlock(CfgNode* node) {
-    while (node && !node->opTree && !node->uncondJump)
-        node = node->condJump;
+    while (node && !node->opTree && !node->condJump)
+        node = node->uncondJump;
     return node;
 }
 
@@ -176,7 +176,7 @@ reg bfsCfg(CfgNode* start, Module* genModule, MachineState* state, reg returnReg
             if (node) condJumpId = node->id;
         }
 
-        ExprContext* ctx = createExprContext(current->label, uncondJumpId);
+        ExprContext* ctx = createExprContext(current->label, condJumpId);
 
         if (state->cfgNodeMarks[current->id]) {
             I_MARK(ctx->instructions, state->cfgNodeMarks[current->id]);
@@ -189,8 +189,8 @@ reg bfsCfg(CfgNode* start, Module* genModule, MachineState* state, reg returnReg
 
             returnReg = generateOpTreeCode(current->opTree, ctx);
 
-            if (condJumpId >= 0 && state->cfgNodeMarks[condJumpId])
-                I_JMP(state->cfgNodeMarks[condJumpId], ctx->instructions);
+            if (uncondJumpId >= 0 && state->cfgNodeMarks[uncondJumpId])
+                I_JMP(state->cfgNodeMarks[uncondJumpId], ctx->instructions);
         }
         
         pushBack(genModule->exprContextList, ctx);
@@ -242,34 +242,40 @@ reg generateBinaryOpCode(OpNode* opNode, ExprContext* ctx) {
     else if (!strcmp(opNode->value, "-")) {
         I_SUB(regDest, regSrc1, regSrc2, ctx->instructions);
     }
+    else if (!strcmp(opNode->value, "*")) {
+        I_MUL(regDest, regSrc1, regSrc2, ctx->instructions);
+    }
+    else if (!strcmp(opNode->value, "/")) {
+        I_DIV(regDest, regSrc1, regSrc2, ctx->instructions);
+    }
     else if (!strcmp(opNode->value, "==")) {
         I_CMP(regSrc1, regSrc2, ctx->instructions);
-        char* condMark = ctx->state->cfgNodeMarks[ctx->uncondId];
+        char* condMark = ctx->state->cfgNodeMarks[ctx->condId];
         I_JE(condMark, ctx->instructions);
     }
     else if (!strcmp(opNode->value, "!=")) {
         I_CMP(regSrc1, regSrc2, ctx->instructions);
-        char* condMark = ctx->state->cfgNodeMarks[ctx->uncondId];
+        char* condMark = ctx->state->cfgNodeMarks[ctx->condId];
         I_JNE(condMark, ctx->instructions);
     }
     else if (!strcmp(opNode->value, "<")) {
         I_CMP(regSrc1, regSrc2, ctx->instructions);
-        char* condMark = ctx->state->cfgNodeMarks[ctx->uncondId];
+        char* condMark = ctx->state->cfgNodeMarks[ctx->condId];
         I_JL(condMark, ctx->instructions);
     }
     else if (!strcmp(opNode->value, ">")) {
         I_CMP(regSrc1, regSrc2, ctx->instructions);
-        char* condMark = ctx->state->cfgNodeMarks[ctx->uncondId];
+        char* condMark = ctx->state->cfgNodeMarks[ctx->condId];
         I_JG(condMark, ctx->instructions);
     }
     else if (!strcmp(opNode->value, "<=")) {
         I_CMP(regSrc1, regSrc2, ctx->instructions);
-        char* condMark = ctx->state->cfgNodeMarks[ctx->uncondId];
+        char* condMark = ctx->state->cfgNodeMarks[ctx->condId];
         I_JLE(condMark, ctx->instructions);
     }
     else if (!strcmp(opNode->value, ">=")) {
         I_CMP(regSrc1, regSrc2, ctx->instructions);
-        char* condMark = ctx->state->cfgNodeMarks[ctx->uncondId];
+        char* condMark = ctx->state->cfgNodeMarks[ctx->condId];
         I_JGE(condMark, ctx->instructions);
     }
     else {
@@ -344,7 +350,7 @@ reg generateConstOpCode(OpNode* opNode, ExprContext* ctx) {
     const int INDEX_CONST_VALUE = 0;
     OpNode* constValueOpNode = getItem(opNode->args, INDEX_CONST_VALUE);
 
-    int32_t reg = allocateRegister(ctx->state->allocator);
+    reg reg = allocateRegister(ctx->state->allocator);
 
     if (opNode->valueType == TYPE_INT) {
         I_MOVI(reg, constValueOpNode->value, ctx->instructions);
@@ -363,21 +369,33 @@ reg generateConstOpCode(OpNode* opNode, ExprContext* ctx) {
 
 reg generateOpTreeCode(OpNode* opNode, ExprContext* ctx) {
     switch (opNode->opType) {
-    case OT_BINARY:
-        return generateBinaryOpCode(opNode, ctx);
+    case OT_BINARY: return generateBinaryOpCode(opNode, ctx);
         break;
-    case OT_READ:
-        return generateReadOpCode(opNode, ctx);
+    case OT_READ: return generateReadOpCode(opNode, ctx);
         break;
-    case OT_WRITE:
-        return generateSetOpCode(opNode, ctx);
+    case OT_WRITE: return generateSetOpCode(opNode, ctx);
         break;
-    case OT_CONST:
-        return generateConstOpCode(opNode, ctx);
+    case OT_CONST: return generateConstOpCode(opNode, ctx);
         break;
-    case OT_CALL:
-        return generateFunctionCall(opNode, ctx);
+    case OT_CALL: return generateFunctionCall(opNode, ctx);
+        break;
+    case OT_INDEX: return generateIndexOpCode(opNode, ctx);
         break;
     }
+}
+
+reg generateIndexOpCode(OpNode* opNode, ExprContext* ctx)
+{
+    OpNode* ptrNameOp = getItem(opNode->args, 0);
+    OpNode* indexOp = getItem(opNode->args, 1);
+
+    reg ptr = generateBinaryOpCode(ptrNameOp, ctx);
+    reg index = generateBinaryOpCode(indexOp, ctx);
+
+    reg dest = allocateRegister(ctx->state->allocator);
+
+   // I_LOAD_OFF_PLUS(dest, ptr, )
+
+    return dest;
 }
 

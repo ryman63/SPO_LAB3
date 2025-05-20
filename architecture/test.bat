@@ -31,7 +31,7 @@ IF "%~1" neq "" (
 	)
 
 	IF "%~1" == "asm" (
-		Portable.RemoteTasks.Manager.exe -w -id -s AssembleDebug asmListing !asmListing! definitionFile !defFile! archName !archName! sourcesDir "C:\SPO_LAB3\architecture"  > util\tmp.txt
+		Portable.RemoteTasks.Manager.exe -w -id -s AssembleDebug asmListing !asmListing! definitionFile !defFile! archName !archName! sourcesDir %~dp0  > util\tmp.txt
 		for /F %%i in (util\tmp.txt) do set id=%%i
 		echo TaskID: !id!
 

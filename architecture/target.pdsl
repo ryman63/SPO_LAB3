@@ -84,57 +84,83 @@ architecture DynamicVM {
  
         instruction load = { 0000 0001, sequence r_bank, 000, reg as dest, imm32 as src } {
             when r_data then
-                dest = data_bank[src];
+                dest = data_bank:4[src];
             else 
-                dest = code[src];
+                dest = code:4[src];
             PC = PC + 6;
         };
 
         instruction load_reg = { 0000 0010, sequence r_bank, 000 0000, reg as dest, reg as src } {
             when r_data then
-                dest = data_bank[src];
+                dest = data_bank:4[src];
             else 
-                dest = code[src];
+                dest = code:4[src];
             PC = PC + 3;
         };
 
         instruction load_label_off = { 0000 0011, sequence r_bank, 000, reg as dest, imm32 as src, imm32 as off } {
             when r_data then
-                dest = data_bank[(src + off) & 0xFFFFFFFF];
-            else 
-                dest = code[(src + off) & 0x3FFF];
+                dest = data_bank:4[(src + off) & 0xFFFFFFFF];
+            else
+                dest = code:4[(src + off) & 0x3FFF];
             PC = PC + 10;
         };
 
         instruction load_off_minus = { 0001 0001 0000 000, sequence r_bank, reg as dest, reg as src, imm32 as off } {
             when r_data then
-                dest = data_bank[(src - off) & 0xFFFFFFFF];
+                dest = data_bank:4[(src - off) & 0xFFFFFFFF];
             else 
-                dest = code[(src - off) & 0x3FFF];
+                dest = code:4[(src - off) & 0x3FFF];
             PC = PC + 7;
         };
 
          instruction load_off_plus = { 0001 0011 0000 000, sequence r_bank, reg as dest, reg as src, imm32 as off } {
             when r_data then
-                dest = data_bank[(src + off) & 0xFFFFFFFF];
+                dest = data_bank:4[(src + off) & 0xFFFFFFFF];
             else 
-                dest = code[(src + off) & 0x3FFF];
+                dest = code:4[(src + off) & 0x3FFF];
             PC = PC + 7;
         };
 
+        instruction load8 = { 0001 0011 001, sequence r_bank, reg as dest, reg as src, reg as off } {
+            when r_data then
+                dest = data_bank:1[(src + off) & 0xFFFFFFFF];
+            else 
+                dest = code:1[(src + off) & 0x3FFF];
+            PC = PC + 3;
+        };
+
+        instruction load32 = { 0001 0011 010, sequence r_bank, reg as dest, reg as src, reg as off } {
+            when r_data then
+                dest = data_bank:4[(src + off) & 0xFFFFFFFF];
+            else 
+                dest = code:4[(src + off) & 0x3FFF];
+            PC = PC + 3;
+        };
+
         instruction store = { 0000 0010 0000, reg as src, imm32 as dest } {
-            data_bank[dest] = src;
+            data_bank:4[dest] = src;
             PC = PC +  6;
         };
 
-        instruction store_off_minus = {0000 0011 0000 0000,reg as src, reg as dest, imm32 as off } {
-            data_bank[(dest - off) & 0xFFFFFFFF] = src;
+        instruction store_off_minus = {0000 0011 0000 0000, reg as src, reg as dest, imm32 as off } {
+            data_bank:4[(dest - off) & 0xFFFFFFFF] = src;
             PC = PC + 7;
         };
 
          instruction store_off_plus = { 0000 0100 0000 0000, reg as src, reg as dest, imm32 as off } {
-            data_bank[(dest + off) & 0xFFFFFFFF] = src;
+            data_bank:4[(dest + off) & 0xFFFFFFFF] = src;
             PC = PC +  7;
+        };
+
+        instruction store8 = { 0100 0000 0001, reg as src, reg as dest, reg as off } {
+            data_bank:1[(dest + off) & 0xFFFFFFFF] = src;
+            PC = PC + 3;
+        };
+
+        instruction store32 = { 0100 0000 0010, reg as src, reg as dest, reg as off } {
+            data_bank:4[(dest + off) & 0xFFFFFFFF] = src;
+            PC = PC + 3;
         };
 
         instruction mov = { 0000 1001, reg as dest, reg as src } {
@@ -154,7 +180,7 @@ architecture DynamicVM {
         };
 
         instruction add = { 0 011, reg as dest, reg as src1, reg as src2 } {
-            let result = src1 + src2;
+            let result = (src1 + src2) & 0xFFFFFFFF;
             dest = result;
             if result == 0 then
                 ZeroFlag = 1;
@@ -164,7 +190,27 @@ architecture DynamicVM {
         };
 
         instruction sub = { 0100, reg as dest, reg as src1, reg as src2 } {
-            let result = src1 - src2;
+            let result = (src1 - src2) & 0xFFFFFFFF;
+            dest = result;
+            if result == 0 then
+                ZeroFlag = 1;
+            if result < 0 then
+                NegativeFlag = 1;
+            PC = PC + 2;
+        };
+
+        instruction mul = { 0000 0101 0000, reg as dest, reg as src1, reg as src2 } {
+            let result = (src1 * src2) & 0xFFFFFFFF;
+            dest = result;
+            if result == 0 then
+                ZeroFlag = 1;
+            if result < 0 then
+                NegativeFlag = 1;
+            PC = PC + 2;
+        };
+
+        instruction div = { 0000 0110 0000, reg as dest, reg as src1, reg as src2 } {
+            let result = (src1 / src2) & 0xFFFFFFFF;
             dest = result;
             if result == 0 then
                 ZeroFlag = 1;
@@ -182,6 +228,8 @@ architecture DynamicVM {
                 NegativeFlag = 1;
             PC = PC + 6;
         };
+
+        
 
         instruction jmp = { 0101 0000, imm32 as address } {
             PC = address;
@@ -227,7 +275,7 @@ architecture DynamicVM {
 
         instruction push = { 1000 1111, reg as src, 0000 } {
             sp = sp - 4;
-            data_bank[sp] = src;
+            data_bank:4[sp] = src;
             PC = PC + 2;
         };
 
@@ -246,7 +294,7 @@ architecture DynamicVM {
         };
 
         instruction pop = { 1101, reg as dest} {
-            dest = data_bank[sp];
+            dest = data_bank:4[sp];
             sp = sp + 4;
             PC = PC + 1;
         };
@@ -263,13 +311,13 @@ architecture DynamicVM {
 
         instruction call = { 0000 1100, imm32 as address } {
             sp = sp - 4;
-            data_bank[sp] = PC + 5;
+            data_bank:4[sp] = PC + 5;
 
             PC = address;
         };
 
         instruction ret = { 0010 1111 } {
-            let return_address = data_bank[sp];
+            let return_address = data_bank:4[sp];
             sp = sp + 4;
 
             PC = return_address;
@@ -301,23 +349,33 @@ architecture DynamicVM {
         mnemonic load for load_reg(dest, src) reg_label when r_data,
                                   (dest, src) "{1}, const[{2}]" when r_const;
 
-        mnemonic load for load_label_off(dest, src, off) "{1}, [{2} + {3}]" when r_data,
+        mnemonic load for load_label_off(dest, src, off) reg_reg_off_plus when r_data,
                                         (dest, src, off) "{1}, const[{2} + {3}]" when r_const;
 
         mnemonic load for load_off_plus(dest, src, off) reg_reg_off_plus when r_data,
                                         (dest, src, off) "{1}, const[{2} + {3}]" when r_const;
         mnemonic load for load_off_minus(dest, src, off) reg_reg_off_minus when r_data,
                                         (dest, src, off) "{1}, const[{2} - {3}]" when r_const;
+        
+        mnemonic load8(src, dest, off) reg_reg_off_plus when r_data,
+                                        (dest, src, off) "{1}, const[{2} + {3}]" when r_const;
+        mnemonic load32(src, dest, off) reg_reg_off_plus when r_data,
+                                        (dest, src, off) "{1}, const[{2} + {3}]" when r_const;
 
         mnemonic store(src, dest) reg_label;
         mnemonic store for store_off_plus(src, dest, off) reg_reg_off_plus;
         mnemonic store for store_off_minus(src, dest, off) reg_reg_off_minus;
+
+        mnemonic store8(src, dest, off) reg_reg_off_plus;
+        mnemonic store32(src, dest, off) reg_reg_off_plus;
                                           
         mnemonic mov(dest, src) reg_reg;
         mnemonic movi(src, imm) reg_imm;
         mnemonic imov(dest, offset1) reg_imm;
         mnemonic add(dest, src1, src2) reg_reg_reg;
         mnemonic sub(dest, src1, src2) reg_reg_reg;
+        mnemonic mul(dest, src1, src2) reg_reg_reg;
+        mnemonic div(dest, src1, src2) reg_reg_reg;
         mnemonic subi(dest, src1, value) reg_reg_imm;
         mnemonic jmp(address) imm_only;
         mnemonic je(address) imm_only;

@@ -6,7 +6,7 @@
 #include <ctype.h>
 
 #define SIZE_OF_INT 4
-#define SIZE_OF_STRING 8
+#define SIZE_OF_STRING 4
 #define SIZE_OF_BOOL 1
 #define SIZE_OF_FLOAT 8
 #define SIZE_OF_ARRAY 4

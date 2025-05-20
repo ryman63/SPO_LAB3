@@ -1,20 +1,21 @@
 def main()
 {
 	a = 5;
-	i = 4;
+	i = 0;
+	b = 10;
 	while i < 4 
 	{
 		a = a + a;
-		b = 1 + 2;
+		b = b + 2;
+		i = i + 1;
 	} end
-	b = 10;
 	c = 15;
 	d = 20;
 	e = 25;
-	l = "succes";
+	l = "success";
 	f = sum(a + 1, b);
 	
-	if f != 51 then
+	if f == 99 then
 		print(l);
 	else
 		print("error");

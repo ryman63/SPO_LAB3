@@ -9,11 +9,14 @@
           "message": {
             "text": "\"bitset->blist.bits\" может быть равен \"0\":  это не соответствует спецификации функции \"memset\". "
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3bitset.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
                 },
                 "region": {
                   "startLine": 104,
@@ -40,7 +43,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
                           },
                           "region": {
                             "startLine": 78,
@@ -54,7 +57,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
                           },
                           "region": {
                             "startLine": 80,
@@ -68,7 +71,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
                           },
                           "region": {
                             "startLine": 84,
@@ -82,7 +85,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
                           },
                           "region": {
                             "startLine": 86,
@@ -101,7 +104,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
                           },
                           "region": {
                             "startLine": 93,
@@ -120,7 +123,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
                           },
                           "region": {
                             "startLine": 101,
@@ -134,7 +137,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
                           },
                           "region": {
                             "startLine": 103,
@@ -148,7 +151,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
                           },
                           "region": {
                             "startLine": 104,
@@ -156,7 +159,7 @@
                           }
                         },
                         "message": {
-                          "text": "\"blist\" является аргументом ввода-вывода для \"memset\" (объявлено в c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.38.33130\\include\\vcruntime_string.h: 63)"
+                          "text": "\"blist\" является аргументом ввода-вывода для \"memset\" (объявлено в c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.42.34433\\include\\vcruntime_string.h: 63)"
                         }
                       },
                       "kinds": [
@@ -167,7 +170,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
                           },
                           "region": {
                             "startLine": 104,
@@ -194,11 +197,14 @@
           "message": {
             "text": "\"newBits\" может быть равен \"0\":  это не соответствует спецификации функции \"memcpy\". "
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3bitset.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
                 },
                 "region": {
                   "startLine": 407,
@@ -223,7 +229,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
                           },
                           "region": {
                             "startLine": 397,
@@ -237,7 +243,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
                           },
                           "region": {
                             "startLine": 402,
@@ -257,7 +263,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
                           },
                           "region": {
                             "startLine": 403,
@@ -276,7 +282,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
                           },
                           "region": {
                             "startLine": 407,
@@ -284,7 +290,7 @@
                           }
                         },
                         "message": {
-                          "text": "\"newBits\" является аргументом ввода-вывода для \"memcpy\" (объявлено в c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.38.33130\\include\\vcruntime_string.h: 43)"
+                          "text": "\"newBits\" является аргументом ввода-вывода для \"memcpy\" (объявлено в c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.42.34433\\include\\vcruntime_string.h: 43)"
                         }
                       },
                       "kinds": [
@@ -295,7 +301,7 @@
                       "location": {
                         "physicalLocation": {
                           "artifactLocation": {
-                            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
+                            "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
                           },
                           "region": {
                             "startLine": 407,
@@ -322,7 +328,7 @@
         "driver": {
           "name": "PREfast",
           "fullName": "PREfast Code Analysis",
-          "version": "14.38.33139.0",
+          "version": "14.42.34435.0",
           "informationUri": "https://aka.ms/cpp/ca"
         }
       },
@@ -334,62 +340,62 @@
       "artifacts": [
         {
           "location": {
-            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/libantlr3c-3.4/src/antlr3bitset.c"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/src/antlr3bitset.c"
           },
           "roles": [
             "analysisTarget",
             "resultFile"
           ],
           "hashes": {
-            "sha-256": "0c1ecfcc0e4f9f584680a44db9c497ced29eb59b82258864fa00168976d26641"
+            "sha-256": "6f095c1e4c0b911a2397c01cfd3a59cb667d8beb93a4b042b6c4fc7ee378371b"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3bitset.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3bitset.h"
           },
           "hashes": {
-            "sha-256": "e35600da6d92397ef38015dd7f782188931308f5087415f6ea57c108a0e29269"
+            "sha-256": "f665dd90b2a6fa6c2bdff034c2721ce5a46a4ca1d067eedd73bcf0a7a8f8a703"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3defs.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3defs.h"
           },
           "hashes": {
-            "sha-256": "991565fd8fdc99206c1ce5013607216f22fb83209e83b62ffbc06a65266f0ae9"
+            "sha-256": "d3e336a391bce0d03b24c6c175ff0f5d6351726e22ac7ce62b982ba38d889da4"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3errors.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3errors.h"
           },
           "hashes": {
-            "sha-256": "f8c5f4a2af0fdb1875e56e7b0e5fe708aa59432d27fd6313a0e04c960b509e53"
+            "sha-256": "31ee33727e76f7715b01010926aba24c850d8f44f3e487f9a3b42263e9ced585"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3interfaces.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3interfaces.h"
           },
           "hashes": {
-            "sha-256": "6b3a8f15b25aa30ab71eb783657cd1f91bc12dbe9138c98964f8563587c097d4"
+            "sha-256": "aebf00b6010a5d57052b8933c10ad3f23f5ef34eb91d57f57bf6e79540e8976c"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3convertutf.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3convertutf.h"
           },
           "hashes": {
-            "sha-256": "74d28be02386cf32e62f873c339e93ea5cb3de19d1787a9600d17951e55cec93"
+            "sha-256": "91a740c5b076b852c7add91d866566eff4dc16c8fb5b072b9fa62c2c9558a1d4"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3collections.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/libantlr3c-3.4/include/antlr3collections.h"
           },
           "hashes": {
-            "sha-256": "efc122caa18134e851c01eb3746a66321ee8f67552e81ced94b60d2161f05a9c"
+            "sha-256": "d47067813d658da9f8fa7e5cb2c73b2d6d4544cd1feed278490f6331f17996e4"
           }
         }
       ]

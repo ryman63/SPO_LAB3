@@ -9,11 +9,14 @@
           "message": {
             "text": "realloc может возвратить пустой указатель: присвоение пустого указателя переменной \"table->symbols\", которая передается в качестве аргумента функции realloc, приведет к утечке исходного блока памяти."
           },
+          "analysisTarget": {
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/src/symboltable.c"
+          },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "file:///C:/SPO_LAB3/Nix_LabN1/src/SymbolTable.c"
+                  "uri": "file:///C:/Users/TBG/source/repos/SPO_LAB3/Nix_LabN1/src/SymbolTable.c"
                 },
                 "region": {
                   "startLine": 19,
@@ -37,7 +40,7 @@
         "driver": {
           "name": "PREfast",
           "fullName": "PREfast Code Analysis",
-          "version": "14.38.33139.0",
+          "version": "14.42.34435.0",
           "informationUri": "https://aka.ms/cpp/ca"
         }
       },
@@ -49,22 +52,22 @@
       "artifacts": [
         {
           "location": {
-            "uri": "file:///C:/SPO_LAB3/Nix_LabN1/src/SymbolTable.c"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/src/symboltable.c"
           },
           "roles": [
             "analysisTarget",
             "resultFile"
           ],
           "hashes": {
-            "sha-256": "0f6b4df457abc87931d784df4a0787caf7f230f3be730a304373c46125b457d1"
+            "sha-256": "5fdfed8cba8310a21d8cf8cc766e3395e2e7a1ca26f4a38b2101cea4d1897194"
           }
         },
         {
           "location": {
-            "uri": "file:///c:/spo_lab3/nix_labn1/src/symboltable.h"
+            "uri": "file:///c:/users/tbg/source/repos/spo_lab3/nix_labn1/src/symboltable.h"
           },
           "hashes": {
-            "sha-256": "0303ec11a1043680f3407ceecd5b018794891258134e95c3b1c465c7c4c69adb"
+            "sha-256": "18d8338f2b5af8f5aabd17b863233273b7d12f11fb37f665b5b70bd60a76cc6b"
           }
         }
       ]
