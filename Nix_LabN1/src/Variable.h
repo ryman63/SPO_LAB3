@@ -9,4 +9,5 @@ typedef struct Variable {
 	ValueType type;
 	int address;
 	bool isInit;
+	size_t size;
 } Variable;

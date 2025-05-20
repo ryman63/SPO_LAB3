@@ -11,7 +11,6 @@ load gp0, [bp + 8]
 	out gp1
 	movi gp3, 1
 	add gp2, gp2, gp3
-	add gp0, gp0, gp1
 	jmp .loop
 
 .end:
