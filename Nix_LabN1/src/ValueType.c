@@ -60,9 +60,9 @@ int getTypeSize(ValueType type)
         break;
     case TYPE_BOOL: return SIZE_OF_BOOL;
         break;
-    case TYPE_ARRAY: return SIZE_OF_ARRAY;
+    case TYPE_PTR: return SIZE_OF_PTR;
         break;
-    case TYPE_STRING: return SIZE_OF_STRING;
+    case TYPE_CHAR: return SIZE_OF_CHAR;
         break;
     }
 

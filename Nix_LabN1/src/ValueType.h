@@ -6,16 +6,16 @@
 #include <ctype.h>
 
 #define SIZE_OF_INT 4
-#define SIZE_OF_STRING 4
+#define SIZE_OF_CHAR 1
 #define SIZE_OF_BOOL 1
-#define SIZE_OF_FLOAT 8
-#define SIZE_OF_ARRAY 4
+#define SIZE_OF_FLOAT 4
+#define SIZE_OF_PTR 4
 
 typedef enum ValueType{
 	TYPE_INT,
 	TYPE_FLOAT,
-	TYPE_STRING,
-	TYPE_ARRAY,
+	TYPE_PTR,
+	TYPE_CHAR,
 	TYPE_BOOL,
 	TYPE_CUSTOM,
 	TYPE_VOID,

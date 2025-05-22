@@ -91,6 +91,20 @@ void I_LOAD_OFF_MINUS_CONST(enum reg dest, enum reg src, int offset, Array* inst
     pushBack(instrArray, instr);
 }
 
+void I_LOAD8_CONST(reg dest, reg src, reg off, Array* instrArray)
+{
+    Instruction* instr = createInstruction(OC_LOAD8_CONST, dest, src, off, NULL);
+
+    pushBack(instrArray, instr);
+}
+
+void I_LOAD8(reg dest, reg src, reg off, Array* instrArray)
+{
+    Instruction* instr = createInstruction(OC_LOAD8, dest, src, off, NULL);
+
+    pushBack(instrArray, instr);
+}
+
 void I_LOAD_REG_CONST(enum reg dest, enum reg src, Array* instrArray) {
     Instruction* instr = createInstruction(OC_LOAD_REG_CONST, dest, src, 0, NULL);
 
@@ -109,6 +123,19 @@ void I_LOAD_LABEL_OFF_CONST(enum reg dest, char* address, int offset, Array* ins
     pushBack(instrArray, instr);
 }
 
+
+void I_LOAD32(reg dest, reg src, reg off, Array* instrArray)
+{
+    Instruction* instr = createInstruction(OC_LOAD32, dest, src, off, NULL);
+    pushBack(instrArray, instr);
+
+}
+
+void I_LOAD32_CONST(reg dest, reg src, reg off, Array* instrArray)
+{
+    Instruction* instr = createInstruction(OC_LOAD32_CONST, dest, src, off, NULL);
+    pushBack(instrArray, instr);
+}
 
 void I_STORE(enum reg src, int address, Array* instrArray) {
     char* buffAddress = malloc(sizeof(char) * 16);
@@ -130,6 +157,20 @@ void I_STORE_OFF_PLUS(enum reg src, enum reg dest, int offset, Array* instrArray
 void I_STORE_OFF_MINUS(enum reg src, enum reg dest, int offset, Array* instrArray)
 {
     Instruction* instr = createInstructionWithOffset(OC_STORE_OFF_MINUS, dest, src, 0, NULL, offset);
+
+    pushBack(instrArray, instr);
+}
+
+void I_STORE8(reg dest, reg src, reg off, Array* instrArray)
+{
+    Instruction* instr = createInstruction(OC_STORE8, dest, src, off, NULL);
+
+    pushBack(instrArray, instr);
+}
+
+void I_STORE32(reg dest, reg src, reg off, Array* instrArray)
+{
+    Instruction* instr = createInstruction(OC_STORE32, dest, src, off, NULL);
 
     pushBack(instrArray, instr);
 }

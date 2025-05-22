@@ -14,7 +14,9 @@ typedef enum Opcode {
     OC_NOP = 0, 
     OC_LOAD_REG, OC_LOAD_LABEL, OC_LOAD_LABEL_OFF, OC_LOAD_OFF_PLUS, OC_LOAD_OFF_MINUS,
     OC_LOAD_REG_CONST, OC_LOAD_LABEL_CONST, OC_LOAD_LABEL_OFF_CONST, OC_LOAD_OFF_PLUS_CONST, OC_LOAD_OFF_MINUS_CONST,
+    OC_LOAD8, OC_LOAD8_CONST, OC_LOAD32, OC_LOAD32_CONST,
     OC_STORE, OC_STORE_OFF_PLUS, OC_STORE_OFF_MINUS,  
+    OC_STORE8, OC_STORE32,
     OC_MOV, OC_MOVI, OC_IMOV, 
     OC_ADD, OC_SUB, OC_SUBI,
     OC_MUL, OC_DIV,
@@ -67,9 +69,18 @@ void I_LOAD_LABEL_OFF_CONST(enum reg dest, char* address, int offset, Array* ins
 void I_LOAD_OFF_PLUS_CONST(enum reg dest, enum reg src, int offset, Array* instrArray);
 void I_LOAD_OFF_MINUS_CONST(enum reg dest, enum reg src, int offset, Array* instrArray);
 
+void I_LOAD8(enum reg dest, enum reg src, enum reg off, Array* instrArray);
+void I_LOAD8_CONST(enum reg dest, enum reg src, enum reg off, Array* instrArray);
+void I_LOAD32(enum reg dest, enum reg src, enum reg off, Array* instrArray);
+void I_LOAD32_CONST(enum reg dest, enum reg src, enum reg off, Array* instrArray);
+
 void I_STORE(enum reg src, int address, Array* instrArray);
 void I_STORE_OFF_PLUS(enum reg src, enum reg dest, int offset, Array* instrArray);
 void I_STORE_OFF_MINUS(enum reg src, enum reg dest, int offset, Array* instrArray);
+
+void I_STORE8(enum reg dest, enum reg src, enum reg off, Array* instrArray);
+void I_STORE32(enum reg dest, enum reg src, enum reg off, Array* instrArray);
+
 void I_MOV(enum reg dest, enum reg src, Array* instrArray);
 void I_MOVI(enum reg dest, char* immediate, Array* instrArray);
 

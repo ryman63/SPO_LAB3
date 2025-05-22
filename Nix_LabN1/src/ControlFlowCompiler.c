@@ -393,8 +393,13 @@ reg generateIndexOpCode(OpNode* opNode, ExprContext* ctx)
     reg index = generateBinaryOpCode(indexOp, ctx);
 
     reg dest = allocateRegister(ctx->state->allocator);
-
-   // I_LOAD_OFF_PLUS(dest, ptr, )
+    Variable* var = findVariable(ptrNameOp->value, ctx->state);
+    getTypeSize(var->type);
+    switch ()
+    {
+    default:
+        break;
+    }
 
     return dest;
 }

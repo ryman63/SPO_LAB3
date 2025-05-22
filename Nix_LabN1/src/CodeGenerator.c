@@ -165,6 +165,22 @@ char* parseInstructionInLinearCode(Instruction* instr, size_t instructionNumber)
         snprintf(resultString, INSTRUCTION_MAX_SIZE, "load %s, const[%s]", dest, src1);
         break;
 
+    case OC_LOAD8:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "load %s, [%s + %s]", dest, src1, src2);
+        break;
+
+    case OC_LOAD8_CONST:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "load %s, const[%s + %s]", dest, src1, src2);
+        break;
+
+    case OC_LOAD32:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "load %s, [%s + %s]", dest, src1, src2);
+        break;
+
+    case OC_LOAD32_CONST:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "load %s, const[%s + %s]", dest, src1, src2);
+        break;
+
     case OC_STORE:
         snprintf(resultString, INSTRUCTION_MAX_SIZE, "store %s, %s", src1, instr->imm);
         break;
@@ -175,6 +191,14 @@ char* parseInstructionInLinearCode(Instruction* instr, size_t instructionNumber)
 
     case OC_STORE_OFF_MINUS:
         snprintf(resultString, INSTRUCTION_MAX_SIZE, "store %s, [%s - %d]", src1, dest, offset);
+        break;
+
+    case OC_STORE8:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "store %s, [%s + %s]", src1, dest, src2);
+        break;
+
+    case OC_STORE32:
+        snprintf(resultString, INSTRUCTION_MAX_SIZE, "store %s, [%s + %s]", src1, dest, src2);
         break;
 
     case OC_MOV:
