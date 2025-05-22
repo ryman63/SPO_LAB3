@@ -394,9 +394,12 @@ reg generateIndexOpCode(OpNode* opNode, ExprContext* ctx)
 
     reg dest = allocateRegister(ctx->state->allocator);
     Variable* var = findVariable(ptrNameOp->value, ctx->state);
-    getTypeSize(var->type);
-    switch ()
+    //getTypeSize(var->type);
+    switch (getTypeSize(var->type))
     {
+    case 1: {
+
+    }
     default:
         break;
     }

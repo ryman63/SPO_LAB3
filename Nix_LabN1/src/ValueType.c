@@ -31,6 +31,14 @@ ValueType typeIdentify(char* value) {
         return TYPE_STRING;
     }
 
+    // Проверка на символ (начало и конец с апострофами)
+    size_t len = strlen(value);
+    if (len >= 2 && value[0] == '\'' && value[len - 1] == '\'') {
+        return TYPE_;
+    }
+
+    if
+
     // Проверка на число с плавающей точкой
     char* endPtr = NULL;
     double floatValue = strtod(value, &endPtr);
