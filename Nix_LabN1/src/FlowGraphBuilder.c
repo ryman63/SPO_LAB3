@@ -1,10 +1,44 @@
 #include "FlowGraphBuilder.h"
 
+void registerAllBuiltInFuncs() {
+	REGISTER_BUILTIN("print",
+		"iostream.asm",
+		createBuiltInType(TYPE_VOID, NULL),
+		FUNC_ARGS(
+			FUNC_ARG("str", createBuiltInPtr(TYPE_CHAR, NULL))
+		)
+	);
+	REGISTER_BUILTIN("input",
+		"iostream.asm",
+		createBuiltInType(TYPE_VOID, NULL),
+		FUNC_ARGS(
+			FUNC_ARG("str", createBuiltInArray(TYPE_CHAR, STRING_CAPACITY, NULL))
+		)
+	);
+	REGISTER_BUILTIN("atoi",
+		"convert.asm",
+		createBuiltInType(TYPE_INT, NULL),
+		FUNC_ARGS(
+			FUNC_ARG("str", createBuiltInPtr(TYPE_CHAR, NULL))
+		)
+	);
+	REGISTER_BUILTIN("itoa",
+		"convert.asm",
+		createBuiltInType(TYPE_VOID, NULL),
+		FUNC_ARGS(
+			FUNC_ARG("src", createBuiltInType(TYPE_INT, NULL)),
+			FUNC_ARG("buffer", createBuiltInPtr(TYPE_CHAR, NULL))
+		)
+	);
+}
+
 void defineAllBuiltInFuncs(Array* programUnitStorage) {
-	for (size_t i = 0; i < COUNT_BUILTIN_FUNCS; i++) {
-		BuiltInFunc srcFunc = BuiltInFuncs[i];
-		ProgramUnit builtInFunc;
-		builtInFunc.funcSignature = createFuncSignature();
+	registerAllBuiltInFuncs();
+	
+	size_t countBuiltInFuncs = getBuiltInFuncCount();
+	for (size_t i = 0; i < countBuiltInFuncs; i++) {
+		BuiltInFunc srcFunc = getBuiltInFunc(i);
+
 		Array* funcArgsArray = buildArray(sizeof(FuncArg), BUILTIN_MAX_COUNT_ARGS);
 		for (size_t j = 0; j < srcFunc.countArgs; j++) {
 			FuncArg* arg = malloc(sizeof(FuncArg));
@@ -12,15 +46,10 @@ void defineAllBuiltInFuncs(Array* programUnitStorage) {
 			arg->type = srcFunc.args[j].type;
 			pushBack(funcArgsArray, &arg);
 		}
-		builtInFunc.funcSignature->funcArgs = funcArgsArray;
-		builtInFunc.funcSignature->name = srcFunc.name;
-		builtInFunc.funcSignature->returnType = srcFunc.returnType;
-		builtInFunc.cfg = NULL;
-		builtInFunc.ast = NULL;
-		builtInFunc.isBuiltIn = true;
-		builtInFunc.currentTable = NULL;
-		builtInFunc.sourceFile = GetSrcFile(srcFunc.sourceFileName, BUILTIN_FUNC_DIRECTORY);
-		pushBack(programUnitStorage, &builtInFunc);
+
+		ProgramUnit builtInProgramUnit = createBuiltInProgramUnit(funcArgsArray, srcFunc.name, srcFunc.returnType, srcFunc.sourceFileName);
+
+		pushBack(programUnitStorage, &builtInProgramUnit);
 	}
 }
 
@@ -109,30 +138,39 @@ CallGraphNode* analysis(Array* srcFiles, char* outputDir, Array* astList) {
 	}
 }
 
-ValueType getType(AstNode* rootTypeRefAst) {
+ValueType* getType(AstNode* rootTypeRefAst) {
 	AstNode* typeOfType = getItem(rootTypeRefAst->children, 0);
-	if (!strcmp(typeOfType->token, "BUILTIN")) {
+	TypeKind kind = getTypeKindFromString(typeOfType->token);
+	switch (kind)
+	{
+	case TYPE_KIND_BUILTIN: {
 		AstNode* builtInType = getItem(typeOfType->children, 0);
-		if (!strcmp(builtInType->token, "int")) {
-			return TYPE_INT;
+		BuiltInType type = getBuiltInTypeFromString(builtInType->token);
+		return createBuiltInType(type, rootTypeRefAst);
+	} break;
+	case TYPE_KIND_ARRAY: {
+		AstNode* typeOfArray = getItem(typeOfType->children, 0);
+		BuiltInType type = getBuiltInTypeFromString(typeOfArray->token);
+		AstNode* sizeOfArray = NULL;
+		if (typeOfType->children->size > 1)
+			sizeOfArray = getItem(typeOfType->children, 1);
+
+		if (sizeOfArray) {
+			int size = atoi(sizeOfArray->token);
+			return createBuiltInArray(type, size, rootTypeRefAst);
 		}
-		else if (!strcmp(builtInType->token, "float")) {
-			return TYPE_FLOAT;
-		}
-		else if (!strcmp(builtInType->token, "bool")) {
-			return TYPE_BOOL;
-		}
-		else if (!strcmp(builtInType->token, "string")) {
-			return TYPE_STRING;
-		}
+		return createBuiltInArray(type, 0, rootTypeRefAst);
 	}
-	else if (!strcmp(typeOfType->token, "ARRAY")) {
-		return TYPE_ARRAY;
+	/*case TYPE_KIND_POINTER: {
+		
+	} break;*/
+	default: {
+		collectError(ST_TYPING, "kind of type unsupported", rootTypeRefAst->token, rootTypeRefAst->line);
+		
+	} break;
 	}
-	else if (!strcmp(typeOfType->token, "CUSTOM")) {
-		return TYPE_CUSTOM;
-	}
-	return TYPE_ERROR;
+
+	return NULL;
 }
 
 FuncSignature* buildFuncSignature(AstNode* rootFuncAst) {
@@ -148,16 +186,14 @@ FuncSignature* buildFuncSignature(AstNode* rootFuncAst) {
 		if (args) {
 			for (size_t i = 0; i < args->size; i++) {
 				FuncArg* funcArg = (FuncArg*)malloc(sizeof(FuncArg));
-
 				AstNode* argNode = getItem(args, i);
 				Array* argChildren = argNode->children;
+
 				AstNode* ArgNameNode = getItem(argChildren, 0);
-				
 				funcArg->name = strCpy(ArgNameNode->token);
 				
 				AstNode* argType = getItem(argChildren, 1);
-				
-				ValueType type = getType(argType);
+				ValueType* type = getType(argType);
 				funcArg->type = type;
 
 				pushBack(signature->funcArgs, funcArg);
@@ -170,7 +206,7 @@ FuncSignature* buildFuncSignature(AstNode* rootFuncAst) {
 		signature->returnType = getType(returnTypeNode);
 	}
 	else
-		signature->returnType = TYPE_VOID;
+		signature->returnType = createBuiltInType(TYPE_VOID, rootFuncAst);
 	
 
 	return signature;
@@ -294,8 +330,10 @@ CfgNode* handleConditionStatement(AstNode* statementNodeAst, CfgNode* entryNode,
 		condBlock->condJump = thenNode;
 		elseNode->uncondJump = joinNode;
 	}
-	else
+	else {
+		condBlock->condJump = thenNode;
 		condBlock->uncondJump = joinNode;
+	}
 
 	joinNode->uncondJump = exitNode;
 
@@ -427,6 +465,9 @@ OpNode* handleExpression(AstNode* exprNode) {
 	else if (!strcmp(firstToken, "+")) {
 		return handleBinaryOp(exprNode);
 	}
+	else if (!strcmp(firstToken, "-")) {
+		return handleBinaryOp(exprNode);
+	}
 	else if (!strcmp(firstToken, ">")) {
 		return handleBinaryOp(exprNode);
 	}
@@ -446,7 +487,7 @@ OpNode* handleExpression(AstNode* exprNode) {
 		return handleBinaryOp(exprNode);
 	}
 	else if(!strcmp(firstToken, "LITERAL_EXPR")) {
-		return handleLiteralOp(getItem(exprNode->children, 0));
+		return handleLiteralOp(exprNode);
 	}
 	else if (!strcmp(firstToken, "CALL_EXPR")) {
 		return handleCallOp(exprNode);
@@ -454,16 +495,20 @@ OpNode* handleExpression(AstNode* exprNode) {
 	else if (!strcmp(firstToken, "SLICE_EXPR")) {
 		return handleSliceOp(exprNode);
 	}
-	else {
+	else if (!strcmp(firstToken, "IDENTIFIER")) {
 		return handleVarOp(exprNode);
+	}
+	else {
+		collectError(ST_ANALYZE, "unsupported operation", firstToken, exprNode->line);
 	}
 	
 	return NULL;
 }
 
 OpNode* handleSet(AstNode* opNodeAst) {
-	AstNode* lValue = getItem(opNodeAst->children, 0);
-	AstNode* rValue = getItem(opNodeAst->children, 1);
+	AstNode* lValueIdentifier = getItem(opNodeAst->children, 0);
+	AstNode* lValue = getItem(lValueIdentifier->children, 0);
+	AstNode* rValueIdentifier = getItem(opNodeAst->children, 1);
 
 	OpNode* resultOp = createOpNode("set", OT_WRITE, opNodeAst);
 
@@ -473,26 +518,27 @@ OpNode* handleSet(AstNode* opNodeAst) {
 	else
 		lValueOp = createOpNode(strCpy(lValue->token), OT_PLACE, opNodeAst);
 
-	OpNode* rValueOp = handleExpression(rValue);
+	OpNode* rValueOp = handleExpression(rValueIdentifier);
 
-	lValueOp->valueType = rValueOp->valueType;
+	if(rValueOp)
+		lValueOp->valueType = rValueOp->valueType;
 
 	pushBack(resultOp->args, lValueOp);
-
-	
-	
 
 	if(rValueOp)
 		pushBack(resultOp->args, rValueOp);
 	else {
 		// обработка ошибки
-		collectError(ST_ANALYZE, "is not found", rValue->token, rValue->line);
+		collectError(ST_ANALYZE, "is not found", rValueIdentifier->token, rValueIdentifier->line);
 
 		return NULL;
 	}
 
-	if(!findSymbol(currentTable, lValueOp->value))
+	if (!findSymbol(currentTable, lValueOp->value)) {
+
 		addSymbol(currentTable, lValueOp->value, SYMBOL_VARIABLE, -1, lValueOp->valueType);
+	}
+		
 
 	return resultOp;
 }
@@ -506,7 +552,7 @@ OpNode* handleBinaryOp(AstNode* opNodeAst) {
 	OpNode* lValueOp = handleExpression(lValue);
 	OpNode* rValueOp = handleExpression(rValue);
 	
-	resultOp->valueType = compareTypes(lValueOp->valueType, rValueOp->valueType);
+	resultOp->valueType = compareTypes(lValueOp->valueType, rValueOp->valueType, opNodeAst);
 
 	if(lValueOp)
 		pushBack(resultOp->args, lValueOp);
@@ -516,32 +562,36 @@ OpNode* handleBinaryOp(AstNode* opNodeAst) {
 	return resultOp;
 }
 
-OpNode* handleLiteralOp(AstNode* varOrLit) {
-	OpNode* resultOp = createOpNode("const", OT_CONST, varOrLit);
+OpNode* handleLiteralOp(AstNode* exprNode) {
+	AstNode* literalNodeType = getItem(exprNode->children, 0);
+	AstNode* literalNode = getItem(literalNodeType->children, 0);
 
-	OpNode* litOp = createOpNode(strCpy(varOrLit->token), OT_LITERAL, varOrLit);
+	OpNode* resultOp = createOpNode("const", OT_CONST, literalNode);
+	OpNode* litOp = createOpNode(strCpy(literalNode->token), OT_LITERAL, literalNode);
 
 	pushBack(resultOp->args, litOp);
 
-	litOp->valueType = typeIdentify(varOrLit->token);
+	litOp->valueType = builtInTypeIdentify(literalNodeType);
 	resultOp->valueType = litOp->valueType;
 
 	return resultOp;
 }
 
-OpNode* handleVarOp(AstNode* var) {
-	Symbol* varSymbol = findSymbol(currentTable, var->token);
+OpNode* handleVarOp(AstNode* exprNode) {
+	AstNode* varAst = getItem(exprNode->children, 0);
+
+	Symbol* varSymbol = findSymbol(currentTable, varAst->token);
 
 	if (!varSymbol) {
 		// обработка ошибки - переменная не инициализирована
-		collectError(ST_ANALYZE, "unknown variable", var->token, var->line);
+		collectError(ST_ANALYZE, "unknown variable", varAst->token, varAst->line);
 
 		return NULL;
 	}
 
-	OpNode* resultOp = createOpNode("read", OT_READ, var);
+	OpNode* resultOp = createOpNode("read", OT_READ, varAst);
 
-	OpNode* varOp = createOpNode(strCpy(var->token), OT_PLACE, var);
+	OpNode* varOp = createOpNode(strCpy(varAst->token), OT_PLACE, varAst);
 
 	varOp->valueType = varSymbol->valueType;
 
@@ -555,9 +605,10 @@ OpNode* handleVarOp(AstNode* var) {
 OpNode* handleCallOp(AstNode* opNodeAst) {
 	OpNode* resultOp = createOpNode("call", OT_CALL, opNodeAst);
 
-	AstNode* funcNameAst = getItem(opNodeAst->children, 0);
+	AstNode* funcNameIdentifier = getItem(opNodeAst->children, 0);
+	AstNode* funcName = getItem(funcNameIdentifier->children, 0);
 
-	OpNode* funcNameOp = createOpNode(strCpy(funcNameAst->token), OT_PLACE, funcNameAst);
+	OpNode* funcNameOp = createOpNode(strCpy(funcName->token), OT_PLACE, funcName);
 	if(funcNameOp)
 		pushBack(resultOp->args, funcNameOp);
 
@@ -573,7 +624,7 @@ OpNode* handleCallOp(AstNode* opNodeAst) {
 
 	if (!callUnit) {
 		// обработка ошибки
-		collectError(ST_ANALYZE, "func is not find", funcNameAst->token, funcNameAst->line);
+		collectError(ST_ANALYZE, "func is not find", funcName->token, funcName->line);
 
 		return NULL;
 	}
@@ -647,4 +698,45 @@ OpNode* handleMultiDimSlice(Array* dimensions, OpNode* identifierOp) {
 	}
 
 	return resultOp;
+}
+
+ValueType* builtInTypeIdentify(AstNode* astNode) {
+	AstNode* value = getItem(astNode->children, 0);
+
+	if (strcmp(astNode->token, "BOOL") == 0) {
+		return createBuiltInType(TYPE_BOOL, astNode);
+	}
+	else if (strcmp(astNode->token, "STRING") == 0) {
+		size_t len = strlen(value->token);
+		if (len == 2) { // одни кавычки "" то массив символов
+			return createBuiltInArray(TYPE_CHAR, STRING_CAPACITY, astNode);
+		}
+		else if (len > 2) { // константная строка "str"
+			return createBuiltInPtr(TYPE_CHAR, astNode);
+		}
+	}
+	else if (strcmp(astNode->token, "CHAR") == 0) {
+		return createBuiltInType(TYPE_CHAR, astNode);
+	}
+	//else if (strcmp(astNode->token, "HEX") == 0) {
+
+	//}
+	//else if (strcmp(astNode->token, "BITS") == 0) {
+
+	//}
+	else if (strcmp(astNode->token, "DEC") == 0) {
+		char* endPtr = NULL;
+		double floatValue = strtod(value->token, &endPtr);
+		if (*endPtr == '\0' && strchr(value->token, '.') != NULL) {
+			return createBuiltInType(TYPE_FLOAT, astNode);
+		}
+
+		return createBuiltInType(TYPE_INT, astNode);
+	}
+	else {
+		// Если ничего не подошло
+		collectError(ST_TYPING, "unknown type", astNode->token, astNode->line);
+		// обработка ошибки
+		return NULL;
+	}
 }

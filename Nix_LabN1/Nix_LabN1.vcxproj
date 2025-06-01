@@ -227,6 +227,7 @@
     <ClInclude Include="libxml2-vc140-static-32_64.2.9.4.1\lib\native\include\wsockcompat.h" />
     <ClInclude Include="src\Array.h" />
     <ClInclude Include="src\ast.h" />
+    <ClInclude Include="src\BuiltInFunc.h" />
     <ClInclude Include="src\CallGraph.h" />
     <ClInclude Include="src\cfg.h" />
     <ClInclude Include="src\CodeGenerator.h" />
@@ -248,6 +249,7 @@
   <ItemGroup>
     <ClCompile Include="src\Array.c" />
     <ClCompile Include="src\ast.c" />
+    <ClCompile Include="src\BuiltInFunc.c" />
     <ClCompile Include="src\CallGraph.c" />
     <ClCompile Include="src\cfg.c" />
     <ClCompile Include="src\CodeGenerator.c" />

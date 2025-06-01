@@ -114,7 +114,7 @@ void handleParserError(pANTLR3_BASE_RECOGNIZER recognizer, char* buffer) {
     pANTLR3_EXCEPTION exception = recognizer->state->exception;
 
     if (exception) {
-        snprintf(buffer,1024, "Erron on line %d, position %d: %s\n",
+        snprintf(buffer,1024, "Error on line %d, position %d: %s\n",
             exception->line,
             exception->charPositionInLine,
             (char*)exception->message);

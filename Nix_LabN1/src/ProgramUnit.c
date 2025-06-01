@@ -66,3 +66,17 @@ char* getBuiltInFuncCode(SourceFile* srcFile, const char* funcName, FILE* fileDe
 
     return result;
 }
+
+ProgramUnit createBuiltInProgramUnit(Array* funcArgs, char* funcName, ValueType* returnValueType, char* sourceFileName) {
+    ProgramUnit builtInFunc;
+    builtInFunc.funcSignature = createFuncSignature();
+    builtInFunc.funcSignature->funcArgs = funcArgs;
+    builtInFunc.funcSignature->name = funcName;
+    builtInFunc.funcSignature->returnType = returnValueType;
+    builtInFunc.cfg = NULL;
+    builtInFunc.ast = NULL;
+    builtInFunc.isBuiltIn = true;
+    builtInFunc.currentTable = NULL;
+    builtInFunc.sourceFile = GetSrcFile(sourceFileName, BUILTIN_FUNC_DIRECTORY);
+    return builtInFunc;
+}

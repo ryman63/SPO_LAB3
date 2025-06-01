@@ -58,7 +58,7 @@ RegisterAllocator* createRegAllocator();
 void initRegAllocator(RegisterAllocator* allocator);
 MarkGenerator* createMarkGen();
 
-void createVariable(MachineState* module, const char* name, ValueType type);
+size_t createVariable(MachineState* module, const char* name, ValueType* valueType);
 Variable* findVariable(char* name, MachineState* state);
 
 enum reg allocateRegister(RegisterAllocator* allocator);

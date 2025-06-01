@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="30" Label="def sum_2(a of int, b of int) of int {"/>
+    <Node Id="32" Label="c = a + b;"/>
+    <Node Id="31" Label="function exit"/>
+  </Nodes>
+  <Links>
+    <Link Source="30" Target="32"/>
+    <Link Source="32" Target="31"/>
+  </Links>
+</DirectedGraph>

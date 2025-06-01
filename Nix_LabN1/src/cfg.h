@@ -26,7 +26,7 @@ typedef enum OpType {
 	OT_UNARY,
 	OT_CALL,
 	OT_CONST
-};
+} OpType;
 
 typedef struct OpNode {
 	int id;
@@ -36,7 +36,7 @@ typedef struct OpNode {
 	struct Array* args;
 
 	enum OpType opType;
-	enum ValueType valueType;
+	ValueType* valueType;
 } OpNode;
 
 typedef struct CfgNode {

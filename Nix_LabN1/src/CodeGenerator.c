@@ -4,6 +4,7 @@ void generateBuiltIn(ProgramUnit* unit, FILE* fileDescriptor) {
     addComment("BuiltInFunc", fileDescriptor);
     char* srcCodeFunc = getBuiltInFuncCode(unit->sourceFile, unit->funcSignature->name, fileDescriptor);
     fwrite(srcCodeFunc, strlen(srcCodeFunc), 1, fileDescriptor);
+    fwrite("\n", 1, 1, fileDescriptor);
     free(srcCodeFunc);
 }
 

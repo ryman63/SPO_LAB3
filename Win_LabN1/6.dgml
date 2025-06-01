@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="33" Label="def sub_2(a of int, b of int) of int {"/>
+    <Node Id="35" Label="c = a - b;"/>
+    <Node Id="34" Label="function exit"/>
+  </Nodes>
+  <Links>
+    <Link Source="33" Target="35"/>
+    <Link Source="35" Target="34"/>
+  </Links>
+</DirectedGraph>

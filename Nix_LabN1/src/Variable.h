@@ -6,8 +6,7 @@
 
 typedef struct Variable {
 	char* name;
-	ValueType type;
+	ValueType* type;
 	int address;
 	bool isInit;
-	size_t size;
 } Variable;

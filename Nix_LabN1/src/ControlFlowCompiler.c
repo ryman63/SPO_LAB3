@@ -80,7 +80,7 @@ Module* generateFunctionCode(ProgramUnit* unit, MachineState* state, SymbolTable
 
     addSymbol(globalTable, unit->funcSignature->name, SYMBOL_FUNCTION, 0, unit->funcSignature->returnType);
 
-    state->offset = -VARIABLE_SIZE;
+    state->offset = -SIZE_OF_PTR;
 
     // Ïğîëîã ôóíêöèè: ñîõğàíÿåì êîíòåêñò
     if (strcmp(unit->funcSignature->name, "main") != 0)
@@ -103,8 +103,8 @@ Module* generateFunctionCode(ProgramUnit* unit, MachineState* state, SymbolTable
             }
         }
 
-        state->offset -= 4; // ret
-        state->offset -= 4; // bp
+        state->offset -= SIZE_OF_PTR; // ret
+        state->offset -= SIZE_OF_PTR; // bp
     }
     
     size_t localOffset = 0;
@@ -115,8 +115,8 @@ Module* generateFunctionCode(ProgramUnit* unit, MachineState* state, SymbolTable
             Symbol symbol = unit->currentTable->symbols[i];
             symbol.location = LOC_STACK;
             symbol.address = state->offset;
-            createVariable(state, symbol.name, symbol.type);
-            localOffset += 4;
+            
+            localOffset += createVariable(state, symbol.name, symbol.valueType);;
         }
     }
     I_SUBI(sp, sp, localOffset, generateModule->prologue);
@@ -317,12 +317,12 @@ reg generateSetOpCode(OpNode* opNode, ExprContext* ctx) {
     OpNode* rValueOpNode = getItem(opNode->args, R_VALUE_INDEX);
 
     reg rValueReg = generateOpTreeCode(rValueOpNode, ctx);
+    int32_t reg3 = allocateRegister(ctx->state->allocator);
 
     if (lValueOpNode->opType == OT_PLACE) {
         Variable* var = findVariable(lValueOpNode->value, ctx->state);
 
         if (var) {
-            int32_t reg3 = allocateRegister(ctx->state->allocator);
 
             if (reg3 >= 0) {
                 if (var->address >= 0)
@@ -350,21 +350,35 @@ reg generateConstOpCode(OpNode* opNode, ExprContext* ctx) {
     const int INDEX_CONST_VALUE = 0;
     OpNode* constValueOpNode = getItem(opNode->args, INDEX_CONST_VALUE);
 
-    reg reg = allocateRegister(ctx->state->allocator);
+    reg dest = allocateRegister(ctx->state->allocator);
 
-    if (opNode->valueType == TYPE_INT) {
-        I_MOVI(reg, constValueOpNode->value, ctx->instructions);
-    }
-    else if(opNode->valueType == TYPE_STRING) {
-        bool isRepeat = false;
-        char* mark = getStringMark(ctx->state->markGen, constValueOpNode->value, &isRepeat);
-        if (!isRepeat) {
-            I_CONST_STR(mark, constValueOpNode->value, ctx->constDataList);
+    switch (opNode->valueType->kind)
+    {
+    case TYPE_KIND_BUILTIN: {
+        I_MOVI(dest, constValueOpNode->value, ctx->instructions);
+    } break;
+    case TYPE_KIND_POINTER: {
+        if (isConstString(opNode->valueType)) {
+            bool isRepeat = false;
+            char* mark = getStringMark(ctx->state->markGen, constValueOpNode->value, &isRepeat);
+
+            if (!isRepeat)
+                I_CONST_STR(mark, constValueOpNode->value, ctx->constDataList);
+
+            I_MOVI(dest, mark, ctx->instructions);
         }
-        I_MOVI(reg, mark, ctx->instructions);
+    } break;
+    case TYPE_KIND_ARRAY: {
+        I_MOV(dest, sp, ctx->instructions);
+    } break;
+    default: {
+        // îáğàáîòêà îøèáêè
+        collectError(ST_COMPILE, "kind of type is not supported", opNode->value, opNode->ast->line);
+    }
+        break;
     }
 
-    return reg;
+    return dest;
 }
 
 reg generateOpTreeCode(OpNode* opNode, ExprContext* ctx) {
@@ -386,8 +400,11 @@ reg generateOpTreeCode(OpNode* opNode, ExprContext* ctx) {
 
 reg generateIndexOpCode(OpNode* opNode, ExprContext* ctx)
 {
-    OpNode* ptrNameOp = getItem(opNode->args, 0);
-    OpNode* indexOp = getItem(opNode->args, 1);
+    const int PTR_VALUE_INDEX = 0;
+    const int INDEX_VALUE_INDEX = 1;
+
+    OpNode* ptrNameOp = getItem(opNode->args, PTR_VALUE_INDEX);
+    OpNode* indexOp = getItem(opNode->args, INDEX_VALUE_INDEX);
 
     reg ptr = generateBinaryOpCode(ptrNameOp, ctx);
     reg index = generateBinaryOpCode(indexOp, ctx);
@@ -395,13 +412,24 @@ reg generateIndexOpCode(OpNode* opNode, ExprContext* ctx)
     reg dest = allocateRegister(ctx->state->allocator);
     Variable* var = findVariable(ptrNameOp->value, ctx->state);
     //getTypeSize(var->type);
-    switch (getTypeSize(var->type))
-    {
-    case 1: {
 
+    if (var->type->kind == TYPE_KIND_ARRAY) {
+        ValueType* itemVType = var->type->array.of;
+        size_t itemSize = getSizeOfType(itemVType);
+        switch (itemSize)
+        {
+        case SIZE_OF_CHAR: {
+            I_LOAD8(dest, ptr, index, ctx->instructions);
+        }
+        case SIZE_OF_INT: {
+            I_LOAD32(dest, ptr, index, ctx->instructions);
+        }
+        default:
+            break;
+        }
     }
-    default:
-        break;
+    else {
+        collectError(ST_COMPILE, "variable is not array", opNode->ast->token, opNode->ast->line);
     }
 
     return dest;

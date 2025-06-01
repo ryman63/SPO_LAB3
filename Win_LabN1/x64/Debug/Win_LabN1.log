@@ -1,72 +1,108 @@
-﻿  ControlFlowCompiler.c
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\cfg.h(29,2): warning C4091: typedef : пропускается слева от "OpType", когда ни одна переменная не объявлена
-  (компиляция исходного файла "../Nix_LabN1/src/ControlFlowCompiler.c")
-  
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\SymbolTable.h(21,2): warning C4091: typedef : пропускается слева от "SymbolLocation", когда ни одна переменная не объявлена
-  (компиляция исходного файла "../Nix_LabN1/src/ControlFlowCompiler.c")
-  
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\Instruction.h(59,22): warning C4115: reg: определение именованного типа в круглых скобках
-  (компиляция исходного файла "../Nix_LabN1/src/ControlFlowCompiler.c")
-  
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(38,59): warning C4267: +=: преобразование из "size_t" в "int"; возможна потеря данных
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(47,10): warning C4459: объявление "visited" скрывает глобальное объявление
-      C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\cfg.h(15,13):
-       см. объявление "visited"
-  
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(115,20): warning C4456: объявление "symbol" скрывает предыдущее локальное объявление
-      C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(113,16):
-       см. объявление "symbol"
-  
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(122,20): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(90,58): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(154,17): warning C4033: "bfsCfg" должен возвращать значение
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(156,10): warning C4459: объявление "visited" скрывает глобальное объявление
-      C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\cfg.h(15,13):
-       см. объявление "visited"
-  
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(393,9): warning C4189: index: локальная переменная инициализирована, но не использована
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(392,9): warning C4189: ptr: локальная переменная инициализирована, но не использована
-  main.c
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\cfg.h(29,2): warning C4091: typedef : пропускается слева от "OpType", когда ни одна переменная не объявлена
-  (компиляция исходного файла "../Nix_LabN1/src/main.c")
-  
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\libantlr3c-3.4\include\antlr3convertutf.h(121,9): warning C4005: false: изменение макроопределения
-  (компиляция исходного файла "../Nix_LabN1/src/main.c")
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\stdbool.h(16,9):
-      см. предыдущее определение "false"
-  
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\libantlr3c-3.4\include\antlr3convertutf.h(122,9): warning C4005: true: изменение макроопределения
-  (компиляция исходного файла "../Nix_LabN1/src/main.c")
-      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.42.34433\include\stdbool.h(17,9):
-      см. предыдущее определение "true"
-  
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\SymbolTable.h(21,2): warning C4091: typedef : пропускается слева от "SymbolLocation", когда ни одна переменная не объявлена
-  (компиляция исходного файла "../Nix_LabN1/src/main.c")
-  
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\Instruction.h(59,22): warning C4115: reg: определение именованного типа в круглых скобках
-  (компиляция исходного файла "../Nix_LabN1/src/main.c")
-  
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\main.c(14,57): warning C4459: объявление "visited" скрывает глобальное объявление
-      C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\cfg.h(15,13):
-       см. объявление "visited"
-  
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\main.c(31,21): warning C4553: "==": результат выражения не используется; вы хотели использовать "="?
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\main.c(50,13): warning C4047: функция: "FILE **" отличается по уровням косвенного обращения от "FILE *"
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\main.c(50,13): warning C4024: freopen_s: различные типы для формального и фактического параметров 1
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\main.c(62,11): warning C4047: функция: "const char *const " отличается по уровням косвенного обращения от "errno_t"
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\main.c(62,11): warning C4024: printf: различные типы для формального и фактического параметров 1
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\main.c(85,7): warning C4459: объявление "visited" скрывает глобальное объявление
-      C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\cfg.h(15,13):
-       см. объявление "visited"
-  
-  Создание кода...
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(385,1): warning C4715: generateOpTreeCode: значение возвращается не при всех путях выполнения
-C:\Users\TBG\source\repos\SPO_LAB3\Nix_LabN1\src\ControlFlowCompiler.c(210,1): warning C4715: bfsCfg: значение возвращается не при всех путях выполнения
-  antlr3c.lib(antlr3lexer.obj) : найден .netmodule MSIL или модуль, откомпилированный с параметром /GL; перезапускается компоновка с параметром /LTCG; добавьте /LTCG в командную строку компоновки для повышения производительности компоновщика
-LINK : warning LNK4075: не учитывается "/INCREMENTAL" из-за спецификации "/LTCG"
-     Создается библиотека C:\Users\TBG\source\repos\SPO_LAB3\x64\Debug\Win_LabN3.lib и объект C:\Users\TBG\source\repos\SPO_LAB3\x64\Debug\Win_LabN3.exp
-LINK : warning LNK4098: библиотека по умолчанию "LIBCMTD" конфликтует с использованием других библиотек; используйте /NODEFAULTLIB:library
-LINK : warning LNK4098: библиотека по умолчанию "MSVCRT" конфликтует с использованием других библиотек; используйте /NODEFAULTLIB:library
-  Создание кода
-  Создание кода завершено
-  Win_LabN1.vcxproj -> C:\Users\TBG\source\repos\SPO_LAB3\x64\Debug\Win_LabN3.exe
+﻿Сборка начата 02.06.2025 0:57:26.
+Уровень детализации журнала: Normal.     1>Проект "C:\SPO_LAB3\Win_LabN1\Win_LabN1.vcxproj" в узле 2 (целевые объекты Build).
+     1>PrepareForBuild:
+         Структурированный вывод включен. Форматирование диагностики компилятора будет отражать иерархию ошибок. Подробнее см. https://aka.ms/cpp/structured-output.
+       InitializeBuildStatus:
+         Создание "x64\Debug\Win_LabN3.tlog\unsuccessfulbuild", так как было задано "AlwaysCreate".
+         Обращение к "x64\Debug\Win_LabN3.tlog\unsuccessfulbuild".
+       ClCompile:
+         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\bin\HostX64\x64\CL.exe /c /I"C:\SPO_LAB3\packages\libxml2-vc140-static-32_64.2.9.4.1\build\native\..\..\lib\native\include\\" /I"C:\SPO_LAB3\Win_LabN1\\..\Nix_LabN1\libantlr3c-3.4\include" /ZI /JMC /nologo /W4 /WX- /diagnostics:column /sdl /Od /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /std:c11 /permissive- /Fo"x64\Debug\\" /Fd"x64\Debug\vc143.pdb" /external:W4 /Gd /TC /FC /errorReport:prompt ..\Nix_LabN1\src\FlowGraphBuilder.c
+         FlowGraphBuilder.c
+     1>C:\SPO_LAB3\Nix_LabN1\libantlr3c-3.4\include\antlr3convertutf.h(121,1): warning C4005: false: изменение макроопределения
+         (компиляция исходного файла "../Nix_LabN1/src/FlowGraphBuilder.c")
+             C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\stdbool.h(16,1):
+             см. предыдущее определение "false"
+         
+     1>C:\SPO_LAB3\Nix_LabN1\libantlr3c-3.4\include\antlr3convertutf.h(122,1): warning C4005: true: изменение макроопределения
+         (компиляция исходного файла "../Nix_LabN1/src/FlowGraphBuilder.c")
+             C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\include\stdbool.h(17,1):
+             см. предыдущее определение "true"
+         
+     1>C:\SPO_LAB3\Nix_LabN1\src\SymbolTable.h(22,2): warning C4091: typedef : пропускается слева от "SymbolLocation", когда ни одна переменная не объявлена
+         (компиляция исходного файла "../Nix_LabN1/src/FlowGraphBuilder.c")
+         
+     1>C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(35,35): warning C4459: объявление "programUnitStorage" скрывает глобальное объявление
+             C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.h(11,8):
+              см. объявление "programUnitStorage"
+         
+     1>C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(79,4): warning C4033: "analysis" должен возвращать значение
+     1>C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(88,15): warning C4456: объявление "i" скрывает предыдущее локальное объявление
+             C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(58,14):
+              см. объявление "i"
+         
+     1>C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(103,15): warning C4456: объявление "i" скрывает предыдущее локальное объявление
+             C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(58,14):
+              см. объявление "i"
+         
+     1>C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(119,9): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
+     1>C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(301,19): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
+     1>C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(356,19): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
+     1>C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(412,19): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
+     1>C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(58): warning C4702: недостижимый код
+     1>C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(139): warning C4715: analysis: значение возвращается не при всех путях выполнения
+     1>C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(742): warning C4715: builtInTypeIdentify: значение возвращается не при всех путях выполнения
+       Link:
+         C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.38.33130\bin\HostX64\x64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\SPO_LAB3\x64\Debug\Win_LabN3.exe" /INCREMENTAL /ILK:"x64\Debug\Win_LabN3.ilk" /NOLOGO /LIBPATH:"C:\SPO_LAB3\packages\libxml2-vc140-static-32_64.2.9.4.1\build\native\..\..\lib\native\libs\x64\static\Debug" /LIBPATH:"C:\SPO_LAB3\Win_LabN1\\..\Nix_LabN1\libantlr3c-3.4\x64\Release" libxml2.lib antlr3c.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\SPO_LAB3\x64\Debug\Win_LabN3.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\SPO_LAB3\x64\Debug\Win_LabN3.lib" /MACHINE:X64 x64\Debug\Array.obj
+         x64\Debug\ast.obj
+         x64\Debug\BuiltInFunc.obj
+         x64\Debug\CallGraph.obj
+         x64\Debug\cfg.obj
+         x64\Debug\CodeGenerator.obj
+         x64\Debug\ControlFlowCompiler.obj
+         x64\Debug\custom_langLexer.obj
+         x64\Debug\custom_langParser.obj
+         x64\Debug\ErrorCollector.obj
+         x64\Debug\FlowGraphBuilder.obj
+         x64\Debug\Instruction.obj
+         x64\Debug\main.obj
+         x64\Debug\Module.obj
+         x64\Debug\myParser.obj
+         x64\Debug\ProgramUnit.obj
+         x64\Debug\SourceFile.obj
+         x64\Debug\StringPool.obj
+         x64\Debug\SymbolTable.obj
+         x64\Debug\ValueType.obj
+         x64\Debug\Variable.obj
+         antlr3c.lib(antlr3lexer.obj) : найден .netmodule MSIL или модуль, откомпилированный с параметром /GL; перезапускается компоновка с параметром /LTCG; добавьте /LTCG в командную строку компоновки для повышения производительности компоновщика
+     1>LINK : warning LNK4075: не учитывается "/INCREMENTAL" из-за спецификации "/LTCG"
+            Создается библиотека C:\SPO_LAB3\x64\Debug\Win_LabN3.lib и объект C:\SPO_LAB3\x64\Debug\Win_LabN3.exp
+     1>LINK : warning LNK4098: библиотека по умолчанию "LIBCMTD" конфликтует с использованием других библиотек; используйте /NODEFAULTLIB:library
+     1>LINK : warning LNK4098: библиотека по умолчанию "MSVCRT" конфликтует с использованием других библиотек; используйте /NODEFAULTLIB:library
+         Создание кода
+         Создание кода завершено
+         Win_LabN1.vcxproj -> C:\SPO_LAB3\x64\Debug\Win_LabN3.exe
+       FinalizeBuildStatus:
+         Файл "x64\Debug\Win_LabN3.tlog\unsuccessfulbuild" удаляется.
+         Обращение к "x64\Debug\Win_LabN3.tlog\Win_LabN3.lastbuildstate".
+     1>Сборка проекта "C:\SPO_LAB3\Win_LabN1\Win_LabN1.vcxproj" завершена (целевые объекты Build).
+
+Сборка успешно завершена.
+
+       "C:\SPO_LAB3\Win_LabN1\Win_LabN1.vcxproj" (целевой объект Build ) (1) ->
+       (Целевой объект ClCompile) -> 
+         C:\SPO_LAB3\Nix_LabN1\libantlr3c-3.4\include\antlr3convertutf.h(121,1): warning C4005: false: изменение макроопределения
+         C:\SPO_LAB3\Nix_LabN1\libantlr3c-3.4\include\antlr3convertutf.h(122,1): warning C4005: true: изменение макроопределения
+         C:\SPO_LAB3\Nix_LabN1\src\SymbolTable.h(22,2): warning C4091: typedef : пропускается слева от "SymbolLocation", когда ни одна переменная не объявлена
+         C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(35,35): warning C4459: объявление "programUnitStorage" скрывает глобальное объявление
+         C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(79,4): warning C4033: "analysis" должен возвращать значение
+         C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(88,15): warning C4456: объявление "i" скрывает предыдущее локальное объявление
+         C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(103,15): warning C4456: объявление "i" скрывает предыдущее локальное объявление
+         C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(119,9): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
+         C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(301,19): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
+         C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(356,19): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
+         C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(412,19): warning C4267: функция: преобразование из "size_t" в "int"; возможна потеря данных
+         C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(58): warning C4702: недостижимый код
+         C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(139): warning C4715: analysis: значение возвращается не при всех путях выполнения
+         C:\SPO_LAB3\Nix_LabN1\src\FlowGraphBuilder.c(742): warning C4715: builtInTypeIdentify: значение возвращается не при всех путях выполнения
+
+
+       "C:\SPO_LAB3\Win_LabN1\Win_LabN1.vcxproj" (целевой объект Build ) (1) ->
+       (Целевой объект Link) -> 
+         LINK : warning LNK4075: не учитывается "/INCREMENTAL" из-за спецификации "/LTCG"
+         LINK : warning LNK4098: библиотека по умолчанию "LIBCMTD" конфликтует с использованием других библиотек; используйте /NODEFAULTLIB:library
+         LINK : warning LNK4098: библиотека по умолчанию "MSVCRT" конфликтует с использованием других библиотек; используйте /NODEFAULTLIB:library
+
+    Предупреждений: 17
+    Ошибок: 0
+
+Прошло времени 00:00:01.14

@@ -1,5 +1,6 @@
 #include "SymbolTable.h"
 
+
 // Инициализация таблицы символов
 void initSymbolTable(SymbolTable* table) {
     table->size = 0;
@@ -12,7 +13,7 @@ void initSymbolTable(SymbolTable* table) {
 }
 
 // Добавление символа в таблицу
-void addSymbol(SymbolTable* table, const char* name, SymbolType type, int address, enum ValueType valueType) {
+void addSymbol(SymbolTable* table, const char* name, SymbolType type, int address, ValueType* valueType) {
     // Проверка на переполнение
     if (table->size >= table->capacity) {
         table->capacity *= 2;

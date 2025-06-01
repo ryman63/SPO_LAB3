@@ -21,6 +21,7 @@
     <ClCompile Include="src\CodeGenerator.c" />
     <ClCompile Include="src\StringPool.c" />
     <ClCompile Include="src\ErrorCollector.c" />
+    <ClCompile Include="src\BuiltInFunc.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Array.h" />
@@ -285,6 +286,7 @@
     <ClInclude Include="src\CodeGenerator.h" />
     <ClInclude Include="src\StringPool.h" />
     <ClInclude Include="src\ErrorCollector.h" />
+    <ClInclude Include="src\BuiltInFunc.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />

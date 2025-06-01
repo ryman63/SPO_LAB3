@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
   <Nodes>
-    <Node Id="8" Label="set"/>
-    <Node Id="9" Label="b"/>
-    <Node Id="10" Label="const"/>
-    <Node Id="11" Label="10"/>
+    <Node Id="8" Label="call"/>
+    <Node Id="9" Label="input"/>
+    <Node Id="10" Label="read"/>
+    <Node Id="11" Label="a"/>
   </Nodes>
   <Links>
     <Link Source="8" Target="9"/>

@@ -16,6 +16,12 @@
     <Filter Include="StdLib">
       <UniqueIdentifier>{f0bc1b13-d7eb-4296-8aa3-f5d57970e25c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Output">
+      <UniqueIdentifier>{a73e6651-6161-4808-b3b3-f394850a18b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserInput">
+      <UniqueIdentifier>{482dfa6d-ee94-42fa-a95e-b85b520bd5a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -23,6 +29,15 @@
     <None Include="ast.dgml" />
     <None Include="CallGraph\output.dgml" />
     <None Include="..\StdLib\iostream.asm">
+      <Filter>StdLib</Filter>
+    </None>
+    <None Include="program.asm">
+      <Filter>Output</Filter>
+    </None>
+    <None Include="convert.asm">
+      <Filter>Исходные файлы</Filter>
+    </None>
+    <None Include="..\stdlib\convert.asm">
       <Filter>StdLib</Filter>
     </None>
   </ItemGroup>
@@ -82,6 +97,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="..\Nix_LabN1\src\ErrorCollector.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Nix_LabN1\src\BuiltInFunc.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -146,10 +164,22 @@
     <ClCompile Include="..\Nix_LabN1\src\ErrorCollector.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="..\Nix_LabN1\src\BuiltInFunc.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\user\src\input.txt" />
-    <Text Include="..\user\src\input2.txt" />
-    <Text Include="..\user\src\73gmcz2w.txt" />
+    <Text Include="..\user\src\73gmcz2w.txt">
+      <Filter>UserInput</Filter>
+    </Text>
+    <Text Include="..\user\src\input.txt">
+      <Filter>UserInput</Filter>
+    </Text>
+    <Text Include="..\user\src\input2.txt">
+      <Filter>UserInput</Filter>
+    </Text>
+    <Text Include="..\user\src\input3.txt">
+      <Filter>UserInput</Filter>
+    </Text>
   </ItemGroup>
 </Project>

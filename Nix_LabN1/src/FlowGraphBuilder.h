@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ProgramUnit.h"
+#include "BuiltInFunc.h"
 #include "myParser.h"
 #include "CallGraph.h"
 #include "SymbolTable.h"
@@ -12,7 +12,7 @@ Array* programUnitStorage;
 
 CallGraphNode* analysis(Array* srcFiles, char* outputDir, Array* astList);
 
-ValueType getType(AstNode* rootAstNode);
+ValueType* getType(AstNode* rootAstNode);
 
 FuncSignature* buildFuncSignature(AstNode* rootFuncAst);
 
@@ -50,3 +50,5 @@ OpNode* handleCallOp(AstNode* opNodeAst);
 OpNode* handleSliceOp(AstNode* opNodeAst);
 
 OpNode* handleMultiDimSlice(Array* dimensions, OpNode* identifierOp);
+
+ValueType* builtInTypeIdentify(AstNode* astNode);

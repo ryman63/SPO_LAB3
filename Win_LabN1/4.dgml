@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="0" Label="def main()"/>
+    <Node Id="2" Label="print(&quot;input a: &quot;);"/>
+    <Node Id="3" Label="a = &quot;&quot;;"/>
+    <Node Id="4" Label="input(a);"/>
+    <Node Id="5" Label="print(&quot;input b: &quot;);"/>
+    <Node Id="6" Label="b = &quot;&quot;;"/>
+    <Node Id="7" Label="input(b);"/>
+    <Node Id="8" Label="print(&quot;input number of op, 1 - sum, 2 - sub, 3 - mul, 4 - div: &quot;);"/>
+    <Node Id="9" Label="op = &quot;&quot;;"/>
+    <Node Id="10" Label="input(op);"/>
+    <Node Id="11" Label="c = atoi(op);"/>
+    <Node Id="12" Label="f = 0;"/>
+    <Node Id="13" Label="left = atoi(a);"/>
+    <Node Id="14" Label="right = atoi(b);"/>
+    <Node Id="15" Label="if c == 1 then"/>
+    <Node Id="17" Label="f = sum_2(left, right);"/>
+    <Node Id="16" Label="joinBlock"/>
+    <Node Id="18" Label="if c == 2 then"/>
+    <Node Id="20" Label="f = sub_2(left, right);"/>
+    <Node Id="19" Label="joinBlock"/>
+    <Node Id="21" Label="if c == 3 then"/>
+    <Node Id="23" Label="f = mul_2(left, right);"/>
+    <Node Id="22" Label="joinBlock"/>
+    <Node Id="24" Label="if c == 4 then"/>
+    <Node Id="26" Label="f = div_2(left, right);"/>
+    <Node Id="25" Label="joinBlock"/>
+    <Node Id="27" Label="resultBuff = &quot;&quot;;"/>
+    <Node Id="28" Label="itoa(f, resultBuff);"/>
+    <Node Id="29" Label="print(resultBuff);"/>
+    <Node Id="1" Label="function exit"/>
+  </Nodes>
+  <Links>
+    <Link Source="0" Target="2"/>
+    <Link Source="2" Target="3"/>
+    <Link Source="3" Target="4"/>
+    <Link Source="4" Target="5"/>
+    <Link Source="5" Target="6"/>
+    <Link Source="6" Target="7"/>
+    <Link Source="7" Target="8"/>
+    <Link Source="8" Target="9"/>
+    <Link Source="9" Target="10"/>
+    <Link Source="10" Target="11"/>
+    <Link Source="11" Target="12"/>
+    <Link Source="12" Target="13"/>
+    <Link Source="13" Target="14"/>
+    <Link Source="14" Target="15"/>
+    <Link Source="15" Target="17"/>
+    <Link Source="17" Target="16"/>
+    <Link Source="16" Target="18"/>
+    <Link Source="18" Target="20"/>
+    <Link Source="20" Target="19"/>
+    <Link Source="19" Target="21"/>
+    <Link Source="21" Target="23"/>
+    <Link Source="23" Target="22"/>
+    <Link Source="22" Target="24"/>
+    <Link Source="24" Target="26"/>
+    <Link Source="26" Target="25"/>
+    <Link Source="25" Target="27"/>
+    <Link Source="27" Target="28"/>
+    <Link Source="28" Target="29"/>
+    <Link Source="29" Target="1"/>
+    <Link Source="24" Target="25"/>
+    <Link Source="21" Target="22"/>
+    <Link Source="18" Target="19"/>
+    <Link Source="15" Target="16"/>
+  </Links>
+</DirectedGraph>

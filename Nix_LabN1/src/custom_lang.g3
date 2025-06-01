@@ -33,13 +33,20 @@ CALL_EXPR: 'call';
 SLICE_EXPR: 'slice';
 PLACE_EXPR: 'place';
 LITERAL_EXPR: 'literal';
-BOOL : 'true' | 'false' ;
-IDENTIFIER : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
-STRING : '"' ( ~('\\'|'"') | '\\' . )* '"' ;
-CHAR : '\'' (~'\'') '\'' ;
-HEX : '0' ('x'|'X') ('0'..'9'|'A'..'F'|'a'..'f')+ ;
-BITS : '0' ('b'|'B') ('0'|'1')+ ;
-DEC : ('0'..'9')+;
+BOOL: 'bool';
+IDENTIFIER: 'identifier';
+STRING: 'string';
+CHAR: 'char';
+HEX: 'hex';
+BITS: 'bits';
+DEC: 'dec';
+BOOL_TOKEN : 'true' | 'false' ;
+IDENTIFIER_TOKEN : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')*;
+STRING_TOKEN : '"' ( ~('\\'|'"') | '\\' . )* '"' ;
+CHAR_TOKEN : '\'' (~'\'') '\'' ;
+HEX_TOKEN : '0' ('x'|'X') ('0'..'9'|'A'..'F'|'a'..'f')+ ;
+BITS_TOKEN : '0' ('b'|'B') ('0'|'1')+ ;
+DEC_TOKEN : ('0'..'9')+;
 
 WS : (' '|'\t'|'\n')+ { $channel=HIDDEN; } ;
 
@@ -80,8 +87,8 @@ basicType
     | 'long' -> ^(BUILTIN 'long')
     | 'ulong' -> ^(BUILTIN 'ulong')
     | 'char' -> ^(BUILTIN 'char')
-    | 'string' -> ^(BUILTIN 'string')
-    | IDENTIFIER -> ^(CUSTOM IDENTIFIER)
+    | 'string' -> ^(ARRAY 'string')
+    | IDENTIFIER_TOKEN -> ^(CUSTOM IDENTIFIER_TOKEN)
     ;
 
 typeRef
@@ -90,11 +97,11 @@ typeRef
     ;
 
 arrayType
-    : type 'array' ('[' DEC ']') -> ^(ARRAY type DEC)
+    : type 'array' ('[' DEC_TOKEN ']') -> ^(ARRAY type DEC_TOKEN)
     ;
 
 funcSignature
-    : IDENTIFIER '(' argList ')' ('of' typeRef)? -> ^(FUNC_SIGNATURE IDENTIFIER argList typeRef?)
+    : IDENTIFIER_TOKEN '(' argList ')' ('of' typeRef)? -> ^(FUNC_SIGNATURE IDENTIFIER_TOKEN argList typeRef?)
     ;
 
 argList
@@ -102,7 +109,7 @@ argList
     ;
 
 arg
-    : IDENTIFIER ('of' typeRef)? -> ^(ARG IDENTIFIER typeRef?)
+    : IDENTIFIER_TOKEN ('of' typeRef)? -> ^(ARG IDENTIFIER_TOKEN typeRef?)
     ;
 
 funcDef
@@ -190,8 +197,8 @@ unary_operator
     ;
 
 primary_expression
-    : IDENTIFIER
-    | literal
+    : IDENTIFIER_TOKEN -> ^(IDENTIFIER IDENTIFIER_TOKEN)
+    | literal -> ^(LITERAL_EXPR literal)
     | '('! assignment_expression ')'!
     ;
 
@@ -264,13 +271,12 @@ shift_expression
     : additive_expression (('<<'|'>>')^ additive_expression)*
     ;
 
-
 slice
     : '[' rangeList ']' -> ^(SLICE_EXPR rangeList)
     ;
 
 place
-    : IDENTIFIER -> ^(PLACE_EXPR IDENTIFIER)
+    : IDENTIFIER_TOKEN -> ^(PLACE_EXPR IDENTIFIER_TOKEN)
     ;
 
 rangeList
@@ -282,12 +288,12 @@ range
     ;
 
 literal
-    : BOOL -> ^(LITERAL_EXPR BOOL)
-    | STRING -> ^(LITERAL_EXPR STRING)
-    | CHAR -> ^(LITERAL_EXPR CHAR)
-    | HEX -> ^(LITERAL_EXPR HEX)
-    | BITS -> ^(LITERAL_EXPR BITS)
-    | DEC -> ^(LITERAL_EXPR DEC)
+    : BOOL_TOKEN -> ^(BOOL BOOL_TOKEN)
+    | STRING_TOKEN -> ^(STRING STRING_TOKEN)
+    | CHAR_TOKEN -> ^(CHAR CHAR_TOKEN)
+    | HEX_TOKEN -> ^(HEX HEX_TOKEN)
+    | BITS_TOKEN -> ^(BITS BITS_TOKEN)
+    | DEC_TOKEN -> ^(DEC DEC_TOKEN)
     ;
 
 binOp

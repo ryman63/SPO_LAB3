@@ -3,12 +3,36 @@
   <Nodes>
     <Node Id="0" Label="main"/>
     <Node Id="1" Label="print"/>
-    <Node Id="2" Label="print"/>
-    <Node Id="3" Label="sum"/>
+    <Node Id="2" Label="itoa"/>
+    <Node Id="3" Label="div_2"/>
+    <Node Id="4" Label="mul_2"/>
+    <Node Id="5" Label="sub_2"/>
+    <Node Id="6" Label="sum_2"/>
+    <Node Id="7" Label="atoi"/>
+    <Node Id="8" Label="atoi"/>
+    <Node Id="9" Label="atoi"/>
+    <Node Id="10" Label="input"/>
+    <Node Id="11" Label="print"/>
+    <Node Id="12" Label="input"/>
+    <Node Id="13" Label="print"/>
+    <Node Id="14" Label="input"/>
+    <Node Id="15" Label="print"/>
   </Nodes>
   <Links>
     <Link Source="0" Target="1"/>
     <Link Source="0" Target="2"/>
     <Link Source="0" Target="3"/>
+    <Link Source="0" Target="4"/>
+    <Link Source="0" Target="5"/>
+    <Link Source="0" Target="6"/>
+    <Link Source="0" Target="7"/>
+    <Link Source="0" Target="8"/>
+    <Link Source="0" Target="9"/>
+    <Link Source="0" Target="10"/>
+    <Link Source="0" Target="11"/>
+    <Link Source="0" Target="12"/>
+    <Link Source="0" Target="13"/>
+    <Link Source="0" Target="14"/>
+    <Link Source="0" Target="15"/>
   </Links>
 </DirectedGraph>

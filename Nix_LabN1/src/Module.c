@@ -39,16 +39,19 @@ RegisterAllocator* createRegAllocator()
 	return allocator;
 }
 
-void createVariable(MachineState* state, const char* name, ValueType type, size_t size) {
+size_t createVariable(MachineState* state, const char* name, ValueType* valueType) {
 	Variable varParam;
 	varParam.address = state->offset;
 	varParam.name = strCpy(name);
-	varParam.type = type;
-	varParam.size = size;
+	varParam.type = valueType;
 	varParam.isInit = false;
 	state->localVars[state->countLocalVars] = varParam;
-	state->offset -= size;
 	state->countLocalVars++;
+
+	size_t sizeOfType = getSizeOfType(valueType);
+	state->offset -= sizeOfType;
+	
+	return sizeOfType;
 }
 
 Variable* findVariable(char* name, MachineState* state) {

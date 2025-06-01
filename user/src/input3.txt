@@ -1,0 +1,31 @@
+
+def main()
+{
+	a = 5;
+	i = 0;
+	b = 10;
+	while i < 4 
+	{
+		a = a + a;
+		b = b + 2;
+		i = i + 1;
+	} end
+	c = 15;
+	d = 20;
+	e = 25;
+	l = "success";
+	f = sum(a + 1, b);
+	
+	if f == 99 then
+		print(l);
+	else
+		print("error");
+	f = f + e;
+}
+end
+
+def sum(a of int, b of int) of int
+{
+	c = a + b;
+}
+end

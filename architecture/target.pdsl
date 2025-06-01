@@ -153,7 +153,7 @@ architecture DynamicVM {
             PC = PC +  7;
         };
 
-        instruction store8 = { 0100 0000 0001, reg as src, reg as dest, reg as off } {
+        instruction store8 = { 0110 0001 0001, reg as src, reg as dest, reg as off } {
             data_bank:1[(dest + off) & 0xFFFFFFFF] = src;
             PC = PC + 3;
         };
@@ -206,7 +206,7 @@ architecture DynamicVM {
                 ZeroFlag = 1;
             if result < 0 then
                 NegativeFlag = 1;
-            PC = PC + 2;
+            PC = PC + 3;
         };
 
         instruction div = { 0000 0110 0000, reg as dest, reg as src1, reg as src2 } {
@@ -216,7 +216,17 @@ architecture DynamicVM {
                 ZeroFlag = 1;
             if result < 0 then
                 NegativeFlag = 1;
-            PC = PC + 2;
+            PC = PC + 3;
+        };
+
+        instruction mod = { 0000 0110 0001, reg as dest, reg as src1, reg as src2 } {
+            let result = (src1 % src2) & 0xFFFFFFFF;
+            dest = result;
+            if result == 0 then
+                ZeroFlag = 1;
+            if result < 0 then
+                NegativeFlag = 1;
+            PC = PC + 3;
         };
 
         instruction subi = { 1100, reg as dest, reg as src1, 0000, imm32 as value } {
@@ -228,8 +238,6 @@ architecture DynamicVM {
                 NegativeFlag = 1;
             PC = PC + 6;
         };
-
-        
 
         instruction jmp = { 0101 0000, imm32 as address } {
             PC = address;
@@ -299,7 +307,7 @@ architecture DynamicVM {
             PC = PC + 1;
         };
 
-        instruction in = { 000 0000 1110 0100, in_out as dest } {
+        instruction in = {  0000 1110 0100, reg as dest } {
             dest = iv;
             PC = PC + 2;
         };
@@ -357,9 +365,9 @@ architecture DynamicVM {
         mnemonic load for load_off_minus(dest, src, off) reg_reg_off_minus when r_data,
                                         (dest, src, off) "{1}, const[{2} - {3}]" when r_const;
         
-        mnemonic load8(src, dest, off) reg_reg_off_plus when r_data,
+        mnemonic load8(dest, src, off) reg_reg_off_plus when r_data,
                                         (dest, src, off) "{1}, const[{2} + {3}]" when r_const;
-        mnemonic load32(src, dest, off) reg_reg_off_plus when r_data,
+        mnemonic load32(dest, src, off) reg_reg_off_plus when r_data,
                                         (dest, src, off) "{1}, const[{2} + {3}]" when r_const;
 
         mnemonic store(src, dest) reg_label;
@@ -376,6 +384,7 @@ architecture DynamicVM {
         mnemonic sub(dest, src1, src2) reg_reg_reg;
         mnemonic mul(dest, src1, src2) reg_reg_reg;
         mnemonic div(dest, src1, src2) reg_reg_reg;
+        mnemonic mod(dest, src1, src2) reg_reg_reg;
         mnemonic subi(dest, src1, value) reg_reg_imm;
         mnemonic jmp(address) imm_only;
         mnemonic je(address) imm_only;

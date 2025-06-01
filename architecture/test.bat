@@ -106,7 +106,7 @@ IF "%~1" neq "" (
 	)
 
 	IF "%~1" == "run" (
-		Portable.RemoteTasks.Manager.exe -w -id -s ExecuteBinaryWithInteractiveInput asmListing !asmListing! definitionFile !defFile! binaryFileToRun util/assmfile archName !archName! finishMnemonicName hlt codeRamBankName code ipRegStorageName PC stdinRegStName IN stdoutRegStName OUT > util\tmp.txt 
+		Portable.RemoteTasks.Manager.exe -w -id -s ExecuteBinaryWithInteractiveInput definitionFile !defFile! binaryFileToRun util/assmfile archName !archName! finishMnemonicName hlt codeRamBankName code dataRamBankName data_bank ipRegStorageName PC stdinRegStName IN stdoutRegStName OUT > util\tmp.txt 
 		for /F %%i in (util\tmp.txt) do set id=%%i
 
 		Portable.RemoteTasks.Manager.exe -g !id!

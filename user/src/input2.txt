@@ -1,30 +1,50 @@
 def main()
-{
-	a = 5;
-	i = 0;
-	b = 10;
-	while i < 4 
-	{
-		a = a + a;
-		b = b + 2;
-		i = i + 1;
-	} end
-	c = 15;
-	d = 20;
-	e = 25;
-	l = "success";
-	f = sum(a + 1, b);
-	
-	if f == 99 then
-		print(l);
-	else
-		print("error");
-	f = f + e;
-}
-end
+{	
+	print("input a: ");
+	a = "";
+	input(a);
+	print("input b: ");
+	b = "";
+	input(b);
 
-def sum(a of int, b of int) of int
-{
+	print("input number of op, 1 - sum, 2 - sub, 3 - mul, 4 - div: ");
+
+	op = "";
+	input(op);
+	
+	c = atoi(op);
+
+	f = 0;
+
+	left = atoi(a);
+	right = atoi(b);
+
+	if c == 1 then
+		f = sum_2(left, right);
+	if c == 2 then
+		f = sub_2(left, right);
+	if c == 3 then
+		f = mul_2(left, right);
+	if c == 4 then
+		f = div_2(left, right);
+
+	resultBuff = "";
+	itoa(f, resultBuff);
+	print(resultBuff);
+} end
+
+def sum_2(a of int, b of int) of int {
 	c = a + b;
-}
-end
+} end
+
+def sub_2(a of int, b of int) of int {
+	c = a - b;
+} end
+
+def mul_2(a of int, b of int) of int {
+	c = a * b;
+} end
+
+def div_2(a of int, b of int) of int {
+	c = a / b;
+} end

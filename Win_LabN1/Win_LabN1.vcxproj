@@ -137,14 +137,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="..\Nix_LabN1\src\custom_lang.tokens" />
+    <None Include="..\stdlib\convert.asm" />
     <None Include="..\StdLib\iostream.asm" />
     <None Include="ast.dgml" />
     <None Include="CallGraph\output.dgml" />
+    <None Include="convert.asm" />
     <None Include="packages.config" />
+    <None Include="program.asm" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Nix_LabN1\src\Array.h" />
     <ClInclude Include="..\Nix_LabN1\src\ast.h" />
+    <ClInclude Include="..\Nix_LabN1\src\BuiltInFunc.h" />
     <ClInclude Include="..\Nix_LabN1\src\CallGraph.h" />
     <ClInclude Include="..\Nix_LabN1\src\cfg.h" />
     <ClInclude Include="..\Nix_LabN1\src\CodeGenerator.h" />
@@ -166,6 +170,7 @@
   <ItemGroup>
     <ClCompile Include="..\Nix_LabN1\src\Array.c" />
     <ClCompile Include="..\Nix_LabN1\src\ast.c" />
+    <ClCompile Include="..\Nix_LabN1\src\BuiltInFunc.c" />
     <ClCompile Include="..\Nix_LabN1\src\CallGraph.c" />
     <ClCompile Include="..\Nix_LabN1\src\cfg.c" />
     <ClCompile Include="..\Nix_LabN1\src\CodeGenerator.c" />
@@ -189,6 +194,7 @@
     <Text Include="..\user\src\73gmcz2w.txt" />
     <Text Include="..\user\src\input.txt" />
     <Text Include="..\user\src\input2.txt" />
+    <Text Include="..\user\src\input3.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

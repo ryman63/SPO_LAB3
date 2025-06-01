@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "ValueType.h"
 
 // Максимальная длина имени символа
 #define MAX_NAME_LENGTH 64
@@ -26,7 +27,7 @@ typedef struct Symbol {
     enum SymbolType type;            // Тип символа
 //    int scope;                  // Уровень области видимости
     int address;                // Адрес или смещение в памяти
-    enum ValueType valueType; // Тип данных (например, int, float)
+    ValueType* valueType; // Тип данных (например, int, float)
     enum SymbolLocation location;
 } Symbol;
 
@@ -38,6 +39,6 @@ typedef struct SymbolTable {
 } SymbolTable;
 
 void initSymbolTable(SymbolTable* table);
-void addSymbol(SymbolTable* table, const char* name, SymbolType type, int address, enum ValueType valueType);
+void addSymbol(SymbolTable* table, const char* name, SymbolType type, int address, ValueType* valueType);
 Symbol* findSymbol(SymbolTable* table, const char* name);
 void freeSymbolTable(SymbolTable* table);
