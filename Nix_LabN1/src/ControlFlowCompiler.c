@@ -395,6 +395,8 @@ reg generateOpTreeCode(OpNode* opNode, ExprContext* ctx) {
         break;
     case OT_INDEX: return generateIndexOpCode(opNode, ctx);
         break;
+    case OT_ARRAY: return generateArrayOpCode(opNode, ctx);
+    default: collectError(ST_COMPILE, "unsupported operation", opNode->value, opNode->ast->line);
     }
 }
 
@@ -432,6 +434,12 @@ reg generateIndexOpCode(OpNode* opNode, ExprContext* ctx)
         collectError(ST_COMPILE, "variable is not array", opNode->ast->token, opNode->ast->line);
     }
 
+    return dest;
+}
+
+reg generateArrayOpCode(OpNode* opNode, ExprContext* ctx) {
+    reg dest = allocateRegister(ctx->state->allocator);
+    I_MOV(dest, sp, ctx->instructions);
     return dest;
 }
 

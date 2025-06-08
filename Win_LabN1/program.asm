@@ -37,114 +37,115 @@ jmp .cnd_7
 movi gp0, str_2
 push gp0
 call print
-jmp .cnd_8
+jmp .cnd_9
 .cnd_8:
+.cnd_9:
 mov gp0, sp
 store gp0, [bp - 516]
-jmp .cnd_9
-.cnd_9:
-load gp0, [bp - 516]
-push gp0
-call input
 jmp .cnd_10
 .cnd_10:
 load gp0, [bp - 516]
 push gp0
-call atoi
-store tmp, [bp - 772]
+call input
 jmp .cnd_11
 .cnd_11:
-movi gp0, 0
-store gp0, [bp - 776]
+load gp0, [bp - 516]
+push gp0
+call atoi
+store tmp, [bp - 772]
 jmp .cnd_12
 .cnd_12:
+movi gp0, 0
+store gp0, [bp - 776]
+jmp .cnd_13
+.cnd_13:
 load gp0, [bp - 4]
 push gp0
 call atoi
 store tmp, [bp - 780]
-jmp .cnd_13
-.cnd_13:
+jmp .cnd_14
+.cnd_14:
 load gp0, [bp - 260]
 push gp0
 call atoi
 store tmp, [bp - 784]
-jmp .cnd_14
-.cnd_14:
+jmp .cnd_15
+.cnd_15:
 load gp1, [bp - 772]
 movi gp2, 1
 cmp gp1, gp2
-je .cnd_16
-jmp .cnd_17
-.cnd_15:
+je .cnd_17
+jmp .cnd_18
 .cnd_16:
+.cnd_17:
 load gp0, [bp - 784]
 push gp0
 load gp1, [bp - 780]
 push gp1
 call sum_2
 store tmp, [bp - 776]
-jmp .cnd_17
-.cnd_17:
+jmp .cnd_18
+.cnd_18:
 load gp1, [bp - 772]
 movi gp2, 2
 cmp gp1, gp2
-je .cnd_19
-jmp .cnd_20
-.cnd_18:
+je .cnd_20
+jmp .cnd_21
 .cnd_19:
+.cnd_20:
 load gp0, [bp - 784]
 push gp0
 load gp1, [bp - 780]
 push gp1
 call sub_2
 store tmp, [bp - 776]
-jmp .cnd_20
-.cnd_20:
+jmp .cnd_21
+.cnd_21:
 load gp1, [bp - 772]
 movi gp2, 3
 cmp gp1, gp2
-je .cnd_22
-jmp .cnd_23
-.cnd_21:
+je .cnd_23
+jmp .cnd_24
 .cnd_22:
+.cnd_23:
 load gp0, [bp - 784]
 push gp0
 load gp1, [bp - 780]
 push gp1
 call mul_2
 store tmp, [bp - 776]
-jmp .cnd_23
-.cnd_23:
+jmp .cnd_24
+.cnd_24:
 load gp1, [bp - 772]
 movi gp2, 4
 cmp gp1, gp2
-je .cnd_25
-jmp .cnd_26
-.cnd_24:
+je .cnd_26
+jmp .cnd_27
 .cnd_25:
+.cnd_26:
 load gp0, [bp - 784]
 push gp0
 load gp1, [bp - 780]
 push gp1
 call div_2
 store tmp, [bp - 776]
-jmp .cnd_26
-.cnd_26:
-mov gp0, sp
-store gp0, [bp - 788]
 jmp .cnd_27
 .cnd_27:
+mov gp0, sp
+store gp0, [bp - 788]
+jmp .cnd_28
+.cnd_28:
 load gp0, [bp - 788]
 push gp0
 load gp1, [bp - 776]
 push gp1
 call itoa
-jmp .cnd_28
-.cnd_28:
+jmp .cnd_29
+.cnd_29:
 load gp0, [bp - 788]
 push gp0
 call print
-.cnd_29:
+.cnd_30:
 ;epilogue
 mov tmp, tmp
 hlt
@@ -159,13 +160,13 @@ push bp
 mov bp, sp
 subi sp, sp, 4
 ;expressions
-.cnd_30:
 .cnd_31:
+.cnd_32:
 load gp1, [bp + 8]
 load gp2, [bp + 12]
 div gp0, gp1, gp2
 store gp0, [bp - 4]
-.cnd_32:
+.cnd_33:
 ;epilogue
 mov tmp, gp0
 mov sp, bp
@@ -179,13 +180,13 @@ push bp
 mov bp, sp
 subi sp, sp, 4
 ;expressions
-.cnd_33:
 .cnd_34:
+.cnd_35:
 load gp1, [bp + 8]
 load gp2, [bp + 12]
 mul gp0, gp1, gp2
 store gp0, [bp - 4]
-.cnd_35:
+.cnd_36:
 ;epilogue
 mov tmp, gp0
 mov sp, bp
@@ -199,13 +200,13 @@ push bp
 mov bp, sp
 subi sp, sp, 4
 ;expressions
-.cnd_36:
 .cnd_37:
+.cnd_38:
 load gp1, [bp + 8]
 load gp2, [bp + 12]
 sub gp0, gp1, gp2
 store gp0, [bp - 4]
-.cnd_38:
+.cnd_39:
 ;epilogue
 mov tmp, gp0
 mov sp, bp
@@ -219,13 +220,13 @@ push bp
 mov bp, sp
 subi sp, sp, 4
 ;expressions
-.cnd_39:
 .cnd_40:
+.cnd_41:
 load gp1, [bp + 8]
 load gp2, [bp + 12]
 add gp0, gp1, gp2
 store gp0, [bp - 4]
-.cnd_41:
+.cnd_42:
 ;epilogue
 mov tmp, gp0
 mov sp, bp

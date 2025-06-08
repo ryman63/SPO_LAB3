@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="120" Label="call"/>
+    <Node Id="121" Label="itoa"/>
+    <Node Id="122" Label="read"/>
+    <Node Id="123" Label="f"/>
+    <Node Id="124" Label="read"/>
+    <Node Id="125" Label="resultBuff"/>
+  </Nodes>
+  <Links>
+    <Link Source="120" Target="121"/>
+    <Link Source="120" Target="122"/>
+    <Link Source="122" Target="123"/>
+    <Link Source="120" Target="124"/>
+    <Link Source="124" Target="125"/>
+  </Links>
+</DirectedGraph>

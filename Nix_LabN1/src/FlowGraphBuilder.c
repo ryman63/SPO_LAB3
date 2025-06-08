@@ -493,7 +493,10 @@ OpNode* handleExpression(AstNode* exprNode) {
 		return handleCallOp(exprNode);
 	}
 	else if (!strcmp(firstToken, "SLICE_EXPR")) {
-		return handleSliceOp(exprNode);
+		return handleIndexOp(exprNode);
+	}
+	else if (!strcmp(firstToken, "ARRAY")) {
+		return handleArrayVarOp(exprNode);
 	}
 	else if (!strcmp(firstToken, "IDENTIFIER")) {
 		return handleVarOp(exprNode);
@@ -514,7 +517,7 @@ OpNode* handleSet(AstNode* opNodeAst) {
 
 	OpNode* lValueOp = NULL;
 	if (!strcmp(lValue->token, "SLICE_EXPR"))
-		lValueOp = handleSliceOp(lValue);
+		lValueOp = handleIndexOp(lValue);
 	else
 		lValueOp = createOpNode(strCpy(lValue->token), OT_PLACE, opNodeAst);
 
@@ -642,37 +645,25 @@ OpNode* handleCallOp(AstNode* opNodeAst) {
 	return resultOp;
 }
 
-OpNode* handleSliceOp(AstNode* opNodeAst) {
+OpNode* handleIndexOp(AstNode* opNodeAst) {
 	OpNode* resultOp = createOpNode("index", OT_INDEX, opNodeAst);
-	
-	AstNode* sliceNameAst = getItem(opNodeAst->children, 1);
-	AstNode* rangeListAst = getItem(opNodeAst->children, 0);
-	OpNode* identifierOp = NULL;
-	if (!strcmp(sliceNameAst->token, "SLICE_EXPR")) {
-		identifierOp = handleSliceOp(sliceNameAst);
-	}
-	else {
-		identifierOp = createOpNode(strCpy(sliceNameAst->token), OT_PLACE, sliceNameAst);
+	AstNode* rangeNodeAst = getItem(opNodeAst->children, 1);
+	AstNode* arrayIdentifierAst = getItem(opNodeAst->children, 0);
+
+	OpNode* identifierOp = createOpNode(strCpy(arrayIdentifierAst->token), OT_PLACE, arrayIdentifierAst);
+
+	pushBack(resultOp->args, identifierOp);
+
+	for (size_t i = 0; i < rangeNodeAst->children->size; i++) {
+		AstNode* currNodeAst = getItem(rangeNodeAst->children, i);
+		OpNode* currExpressionOp = handleExpression(currNodeAst);
+		pushBack(resultOp->args, currExpressionOp);
 	}
 
-	Array* rangeList = rangeListAst->children;
-	Array dimensions = *rangeList;
-
-	AstNode* lastDim = popBack(&dimensions);
-	OpNode* lastDimOp = handleExpression(lastDim);
-
-	OpNode* resultIndexOp = NULL;
-
-	if (dimensions.size > 1) {
-		resultIndexOp = handleMultiDimSlice(&dimensions, identifierOp);
+	OpNode* item = getItem(resultOp->args, 1);
+	if (item) {
+		resultOp->valueType = item->valueType;
 	}
-	else {
-		resultIndexOp = identifierOp;
-	}
-	
-	
-	pushBack(resultOp->args, resultIndexOp);
-	pushBack(resultOp->args, lastDimOp);
 	
 	return resultOp;
 }
@@ -739,4 +730,24 @@ ValueType* builtInTypeIdentify(AstNode* astNode) {
 		// обработка ошибки
 		return NULL;
 	}
+}
+
+OpNode* handleArrayVarOp(AstNode* opNodeAst) {
+	OpNode* resultOp = createOpNode("array", OT_ARRAY, opNodeAst);
+
+	AstNode* rangeListAst = getItem(opNodeAst->children, 0);
+
+	for (size_t i = 0; i < rangeListAst->children->size; i++) {
+		AstNode* currRangeAst = getItem(rangeListAst->children, i);
+		OpNode* currRangeOp = handleExpression(currRangeAst);
+		pushBack(resultOp->args, currRangeOp);
+	}
+
+	OpNode* item = getItem(resultOp->args, 0);
+
+	if (item)
+		resultOp->valueType = createBuiltInArray(item->valueType->builtin.type, rangeListAst->children->size, opNodeAst);
+	else
+		collectError(ST_ANALYZE, "unsupported array", opNodeAst->token, opNodeAst->line);
+	return resultOp;
 }

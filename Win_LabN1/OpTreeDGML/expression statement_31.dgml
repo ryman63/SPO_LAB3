@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
   <Nodes>
-    <Node Id="110" Label="set"/>
-    <Node Id="111" Label="resultBuff"/>
-    <Node Id="112" Label="const"/>
-    <Node Id="113" Label="&quot;&quot;"/>
+    <Node Id="95" Label="set"/>
+    <Node Id="96" Label="f"/>
+    <Node Id="97" Label="call"/>
+    <Node Id="98" Label="mul_2"/>
+    <Node Id="99" Label="read"/>
+    <Node Id="100" Label="left"/>
+    <Node Id="101" Label="read"/>
+    <Node Id="102" Label="right"/>
   </Nodes>
   <Links>
-    <Link Source="110" Target="111"/>
-    <Link Source="110" Target="112"/>
-    <Link Source="112" Target="113"/>
+    <Link Source="95" Target="96"/>
+    <Link Source="95" Target="97"/>
+    <Link Source="97" Target="98"/>
+    <Link Source="97" Target="99"/>
+    <Link Source="99" Target="100"/>
+    <Link Source="97" Target="101"/>
+    <Link Source="101" Target="102"/>
   </Links>
 </DirectedGraph>

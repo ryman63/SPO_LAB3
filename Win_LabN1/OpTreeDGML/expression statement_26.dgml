@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
   <Nodes>
-    <Node Id="90" Label="set"/>
-    <Node Id="91" Label="f"/>
-    <Node Id="92" Label="call"/>
-    <Node Id="93" Label="div_2"/>
-    <Node Id="94" Label="read"/>
-    <Node Id="95" Label="a"/>
-    <Node Id="96" Label="read"/>
-    <Node Id="97" Label="b"/>
+    <Node Id="65" Label="set"/>
+    <Node Id="66" Label="f"/>
+    <Node Id="67" Label="call"/>
+    <Node Id="68" Label="sum_2"/>
+    <Node Id="69" Label="read"/>
+    <Node Id="70" Label="left"/>
+    <Node Id="71" Label="read"/>
+    <Node Id="72" Label="right"/>
   </Nodes>
   <Links>
-    <Link Source="90" Target="91"/>
-    <Link Source="90" Target="92"/>
-    <Link Source="92" Target="93"/>
-    <Link Source="92" Target="94"/>
-    <Link Source="94" Target="95"/>
-    <Link Source="92" Target="96"/>
-    <Link Source="96" Target="97"/>
+    <Link Source="65" Target="66"/>
+    <Link Source="65" Target="67"/>
+    <Link Source="67" Target="68"/>
+    <Link Source="67" Target="69"/>
+    <Link Source="69" Target="70"/>
+    <Link Source="67" Target="71"/>
+    <Link Source="71" Target="72"/>
   </Links>
 </DirectedGraph>

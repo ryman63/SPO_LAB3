@@ -25,7 +25,8 @@ typedef enum OpType {
 	OT_BINARY,
 	OT_UNARY,
 	OT_CALL,
-	OT_CONST
+	OT_CONST,
+	OT_ARRAY,
 } OpType;
 
 typedef struct OpNode {

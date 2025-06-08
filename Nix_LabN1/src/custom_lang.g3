@@ -6,6 +6,10 @@ options {
     backtrack=true;
 }
 
+tokens {
+    ARRAY_INIT;
+}
+
 // Лексические правила (tokens)
 TYPE_REF: 'typeRef';
 FUNC_SIGNATURE: 'funcSignature';
@@ -31,6 +35,7 @@ UNARY_EXPR: 'unary';
 BRACES_EXPR: 'braces';
 CALL_EXPR: 'call';
 SLICE_EXPR: 'slice';
+INDEX_EXPR: 'index';
 PLACE_EXPR: 'place';
 LITERAL_EXPR: 'literal';
 BOOL: 'bool';
@@ -126,6 +131,7 @@ statement
     | loopStatement          -> ^(LOOP_STATEMENT loopStatement)
     | breakStatement         -> ^(BREAK_STATEMENT breakStatement)
     | expressionStatement    -> ^(EXPRESSION_STATEMENT expressionStatement)
+    | IDENTIFIER_TOKEN '='^ expression
     | blockStatement         -> ^(BLOCK_STATEMENT blockStatement)
     ;
 
@@ -179,12 +185,21 @@ unary_expression
 
 postfix_expression
     : primary_expression '(' (argument_expression_list) ')' -> ^(CALL_EXPR primary_expression argument_expression_list)
+    | primary_expression slice -> ^(SLICE_EXPR primary_expression slice)
     |   primary_expression
-		(     slice^
-			| ('(' ')')!
+		(
+		    ('(' ')')!
 			| '++'
 			| '--'
         )*
+    ;
+
+array_expression
+    :  '['! primary_expression_list* ']'!
+    ;
+
+primary_expression_list
+    : additive_expression (',' additive_expression)*
     ;
 
 unary_operator
@@ -200,6 +215,7 @@ primary_expression
     : IDENTIFIER_TOKEN -> ^(IDENTIFIER IDENTIFIER_TOKEN)
     | literal -> ^(LITERAL_EXPR literal)
     | '('! assignment_expression ')'!
+    | array_expression -> ^(ARRAY_INIT array_expression)
     ;
 
 /////
@@ -272,7 +288,7 @@ shift_expression
     ;
 
 slice
-    : '[' rangeList ']' -> ^(SLICE_EXPR rangeList)
+    : '['! rangeList ']'!
     ;
 
 place

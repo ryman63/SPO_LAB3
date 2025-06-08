@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
   <Nodes>
-    <Node Id="36" Label="def mul_2(a of int, b of int) of int {"/>
-    <Node Id="38" Label="c = a * b;"/>
-    <Node Id="37" Label="function exit"/>
+    <Node Id="37" Label="def mul_2(a of int, b of int) of int {"/>
+    <Node Id="39" Label="c = a * b;"/>
+    <Node Id="38" Label="function exit"/>
   </Nodes>
   <Links>
-    <Link Source="36" Target="38"/>
-    <Link Source="38" Target="37"/>
+    <Link Source="37" Target="39"/>
+    <Link Source="39" Target="38"/>
   </Links>
 </DirectedGraph>

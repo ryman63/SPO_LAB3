@@ -47,8 +47,10 @@ OpNode* handleVarOp(AstNode* varOrLit);
 
 OpNode* handleCallOp(AstNode* opNodeAst);
 
-OpNode* handleSliceOp(AstNode* opNodeAst);
+OpNode* handleIndexOp(AstNode* opNodeAst);
 
 OpNode* handleMultiDimSlice(Array* dimensions, OpNode* identifierOp);
+
+OpNode* handleArrayVarOp(AstNode* opNodeAst);
 
 ValueType* builtInTypeIdentify(AstNode* astNode);

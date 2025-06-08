@@ -1,5 +1,7 @@
 def main()
-{	
+{
+	arr= [1,2];
+
 	print("input a: ");
 	a = "";
 	input(a);
@@ -8,6 +10,8 @@ def main()
 	input(b);
 
 	print("input number of op, 1 - sum, 2 - sub, 3 - mul, 4 - div: ");
+
+
 
 	op = "";
 	input(op);
@@ -19,9 +23,9 @@ def main()
 	left = atoi(a);
 	right = atoi(b);
 
-	if c == 1 then
+	if c == arr[0] then
 		f = sum_2(left, right);
-	if c == 2 then
+	if c == arr[1] then
 		f = sub_2(left, right);
 	if c == 3 then
 		f = mul_2(left, right);
