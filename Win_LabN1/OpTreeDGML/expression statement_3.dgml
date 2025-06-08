@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
   <Nodes>
-    <Node Id="0" Label="call"/>
-    <Node Id="1" Label="print"/>
-    <Node Id="2" Label="const"/>
-    <Node Id="3" Label="&quot;input a: &quot;"/>
+    <Node Id="0" Label="set"/>
+    <Node Id="1" Label="arr"/>
+    <Node Id="2" Label="array"/>
+    <Node Id="3" Label="const"/>
+    <Node Id="4" Label="1"/>
+    <Node Id="5" Label="const"/>
+    <Node Id="6" Label="2"/>
+    <Node Id="7" Label="const"/>
+    <Node Id="8" Label="3"/>
+    <Node Id="9" Label="const"/>
+    <Node Id="10" Label="4"/>
   </Nodes>
   <Links>
     <Link Source="0" Target="1"/>
     <Link Source="0" Target="2"/>
     <Link Source="2" Target="3"/>
+    <Link Source="3" Target="4"/>
+    <Link Source="2" Target="5"/>
+    <Link Source="5" Target="6"/>
+    <Link Source="2" Target="7"/>
+    <Link Source="7" Target="8"/>
+    <Link Source="2" Target="9"/>
+    <Link Source="9" Target="10"/>
   </Links>
 </DirectedGraph>

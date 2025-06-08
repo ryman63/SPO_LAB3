@@ -183,7 +183,7 @@ void I_MOV(enum reg dest, enum reg src, Array* instrArray) {
 
 void I_MOVI(enum reg dest, char* immediate, Array* instrArray) {
 
-    Instruction* instr = createInstruction(OC_MOVI, dest, 0, 0, immediate);
+    Instruction* instr = createInstruction(OC_MOVI, dest, 0, 0, strCpy(immediate));
 
     pushBack(instrArray, instr);
 }

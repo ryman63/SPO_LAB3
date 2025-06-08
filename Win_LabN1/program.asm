@@ -2,147 +2,182 @@
 
 main:
 ;prologue
-subi sp, sp, 1040
+subi sp, sp, 1056
 ;expressions
 .cnd_0:
 .cnd_1:
+movi gp1, 16
+sub gp0, bp, gp1
+movi gp2, 1
+movi gp3, 0
+store32 gp2, [gp0 + gp3]
+movi gp2, 2
+movi gp3, 4
+store32 gp2, [gp0 + gp3]
+movi gp2, 3
+movi gp3, 8
+store32 gp2, [gp0 + gp3]
+movi gp2, 4
+movi gp3, 12
+store32 gp2, [gp0 + gp3]
+jmp .cnd_2
+.cnd_2:
 movi gp0, str_0
 push gp0
 call print
-jmp .cnd_2
-.cnd_2:
-mov gp0, sp
-store gp0, [bp - 4]
 jmp .cnd_3
 .cnd_3:
-load gp0, [bp - 4]
-push gp0
-call input
+mov gp0, sp
+store gp0, [bp - 20]
 jmp .cnd_4
 .cnd_4:
+load gp0, [bp - 20]
+push gp0
+call input
+jmp .cnd_5
+.cnd_5:
 movi gp0, str_1
 push gp0
 call print
-jmp .cnd_5
-.cnd_5:
-mov gp0, sp
-store gp0, [bp - 260]
 jmp .cnd_6
 .cnd_6:
-load gp0, [bp - 260]
-push gp0
-call input
+mov gp0, sp
+store gp0, [bp - 276]
 jmp .cnd_7
 .cnd_7:
+load gp0, [bp - 276]
+push gp0
+call input
+jmp .cnd_8
+.cnd_8:
 movi gp0, str_2
 push gp0
 call print
 jmp .cnd_9
-.cnd_8:
 .cnd_9:
 mov gp0, sp
-store gp0, [bp - 516]
+store gp0, [bp - 532]
 jmp .cnd_10
 .cnd_10:
-load gp0, [bp - 516]
+load gp0, [bp - 532]
 push gp0
 call input
 jmp .cnd_11
 .cnd_11:
-load gp0, [bp - 516]
+load gp0, [bp - 532]
 push gp0
 call atoi
-store tmp, [bp - 772]
+store tmp, [bp - 788]
 jmp .cnd_12
 .cnd_12:
 movi gp0, 0
-store gp0, [bp - 776]
+store gp0, [bp - 792]
 jmp .cnd_13
 .cnd_13:
-load gp0, [bp - 4]
+load gp0, [bp - 20]
 push gp0
 call atoi
-store tmp, [bp - 780]
+store tmp, [bp - 796]
 jmp .cnd_14
 .cnd_14:
-load gp0, [bp - 260]
+load gp0, [bp - 276]
 push gp0
 call atoi
-store tmp, [bp - 784]
+store tmp, [bp - 800]
 jmp .cnd_15
 .cnd_15:
-load gp1, [bp - 772]
-movi gp2, 1
-cmp gp1, gp2
+load gp1, [bp - 788]
+movi gp3, 16
+sub gp2, bp, gp3
+movi gp4, 0
+movi gp6, 4
+mul gp4, gp4, gp6
+load32 gp5, [gp2 + gp4]
+cmp gp1, gp5
 je .cnd_17
 jmp .cnd_18
 .cnd_16:
 .cnd_17:
-load gp0, [bp - 784]
+load gp0, [bp - 800]
 push gp0
-load gp1, [bp - 780]
+load gp1, [bp - 796]
 push gp1
 call sum_2
-store tmp, [bp - 776]
+store tmp, [bp - 792]
 jmp .cnd_18
 .cnd_18:
-load gp1, [bp - 772]
-movi gp2, 2
-cmp gp1, gp2
+load gp1, [bp - 788]
+movi gp3, 16
+sub gp2, bp, gp3
+movi gp4, 1
+movi gp6, 4
+mul gp4, gp4, gp6
+load32 gp5, [gp2 + gp4]
+cmp gp1, gp5
 je .cnd_20
 jmp .cnd_21
 .cnd_19:
 .cnd_20:
-load gp0, [bp - 784]
+load gp0, [bp - 800]
 push gp0
-load gp1, [bp - 780]
+load gp1, [bp - 796]
 push gp1
 call sub_2
-store tmp, [bp - 776]
+store tmp, [bp - 792]
 jmp .cnd_21
 .cnd_21:
-load gp1, [bp - 772]
-movi gp2, 3
-cmp gp1, gp2
+load gp1, [bp - 788]
+movi gp3, 16
+sub gp2, bp, gp3
+movi gp4, 2
+movi gp6, 4
+mul gp4, gp4, gp6
+load32 gp5, [gp2 + gp4]
+cmp gp1, gp5
 je .cnd_23
 jmp .cnd_24
 .cnd_22:
 .cnd_23:
-load gp0, [bp - 784]
+load gp0, [bp - 800]
 push gp0
-load gp1, [bp - 780]
+load gp1, [bp - 796]
 push gp1
 call mul_2
-store tmp, [bp - 776]
+store tmp, [bp - 792]
 jmp .cnd_24
 .cnd_24:
-load gp1, [bp - 772]
-movi gp2, 4
-cmp gp1, gp2
+load gp1, [bp - 788]
+movi gp3, 16
+sub gp2, bp, gp3
+movi gp4, 3
+movi gp6, 4
+mul gp4, gp4, gp6
+load32 gp5, [gp2 + gp4]
+cmp gp1, gp5
 je .cnd_26
 jmp .cnd_27
 .cnd_25:
 .cnd_26:
-load gp0, [bp - 784]
+load gp0, [bp - 800]
 push gp0
-load gp1, [bp - 780]
+load gp1, [bp - 796]
 push gp1
 call div_2
-store tmp, [bp - 776]
+store tmp, [bp - 792]
 jmp .cnd_27
 .cnd_27:
 mov gp0, sp
-store gp0, [bp - 788]
+store gp0, [bp - 804]
 jmp .cnd_28
 .cnd_28:
-load gp0, [bp - 788]
+load gp0, [bp - 804]
 push gp0
-load gp1, [bp - 776]
+load gp1, [bp - 792]
 push gp1
 call itoa
 jmp .cnd_29
 .cnd_29:
-load gp0, [bp - 788]
+load gp0, [bp - 804]
 push gp0
 call print
 .cnd_30:

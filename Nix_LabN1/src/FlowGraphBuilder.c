@@ -495,7 +495,7 @@ OpNode* handleExpression(AstNode* exprNode) {
 	else if (!strcmp(firstToken, "SLICE_EXPR")) {
 		return handleIndexOp(exprNode);
 	}
-	else if (!strcmp(firstToken, "ARRAY")) {
+	else if (!strcmp(firstToken, "ARRAY_INIT")) {
 		return handleArrayVarOp(exprNode);
 	}
 	else if (!strcmp(firstToken, "IDENTIFIER")) {
@@ -649,8 +649,9 @@ OpNode* handleIndexOp(AstNode* opNodeAst) {
 	OpNode* resultOp = createOpNode("index", OT_INDEX, opNodeAst);
 	AstNode* rangeNodeAst = getItem(opNodeAst->children, 1);
 	AstNode* arrayIdentifierAst = getItem(opNodeAst->children, 0);
+	AstNode* realIdentifierAst = getItem(arrayIdentifierAst->children, 0);
 
-	OpNode* identifierOp = createOpNode(strCpy(arrayIdentifierAst->token), OT_PLACE, arrayIdentifierAst);
+	OpNode* identifierOp = createOpNode(strCpy(realIdentifierAst->token), OT_PLACE, realIdentifierAst);
 
 	pushBack(resultOp->args, identifierOp);
 
@@ -735,10 +736,8 @@ ValueType* builtInTypeIdentify(AstNode* astNode) {
 OpNode* handleArrayVarOp(AstNode* opNodeAst) {
 	OpNode* resultOp = createOpNode("array", OT_ARRAY, opNodeAst);
 
-	AstNode* rangeListAst = getItem(opNodeAst->children, 0);
-
-	for (size_t i = 0; i < rangeListAst->children->size; i++) {
-		AstNode* currRangeAst = getItem(rangeListAst->children, i);
+	for (size_t i = 0; i < opNodeAst->children->size; i++) {
+		AstNode* currRangeAst = getItem(opNodeAst->children, i);
 		OpNode* currRangeOp = handleExpression(currRangeAst);
 		pushBack(resultOp->args, currRangeOp);
 	}
@@ -746,7 +745,7 @@ OpNode* handleArrayVarOp(AstNode* opNodeAst) {
 	OpNode* item = getItem(resultOp->args, 0);
 
 	if (item)
-		resultOp->valueType = createBuiltInArray(item->valueType->builtin.type, rangeListAst->children->size, opNodeAst);
+		resultOp->valueType = createBuiltInArray(item->valueType->builtin.type, opNodeAst->children->size, opNodeAst);
 	else
 		collectError(ST_ANALYZE, "unsupported array", opNodeAst->token, opNodeAst->line);
 	return resultOp;

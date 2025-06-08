@@ -158,7 +158,7 @@ architecture DynamicVM {
             PC = PC + 3;
         };
 
-        instruction store32 = { 0100 0000 0010, reg as src, reg as dest, reg as off } {
+        instruction store32 = { 0100 1010 0010, reg as src, reg as dest, reg as off } {
             data_bank:4[(dest + off) & 0xFFFFFFFF] = src;
             PC = PC + 3;
         };

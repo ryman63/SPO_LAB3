@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
   <Nodes>
-    <Node Id="14" Label="call"/>
-    <Node Id="15" Label="print"/>
-    <Node Id="16" Label="const"/>
-    <Node Id="17" Label="&quot;input b: &quot;"/>
+    <Node Id="23" Label="call"/>
+    <Node Id="24" Label="print"/>
+    <Node Id="25" Label="const"/>
+    <Node Id="26" Label="&quot;input b: &quot;"/>
   </Nodes>
   <Links>
-    <Link Source="14" Target="15"/>
-    <Link Source="14" Target="16"/>
-    <Link Source="16" Target="17"/>
+    <Link Source="23" Target="24"/>
+    <Link Source="23" Target="25"/>
+    <Link Source="25" Target="26"/>
   </Links>
 </DirectedGraph>

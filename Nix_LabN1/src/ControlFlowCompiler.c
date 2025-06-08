@@ -316,7 +316,13 @@ reg generateSetOpCode(OpNode* opNode, ExprContext* ctx) {
     OpNode* lValueOpNode = getItem(opNode->args, L_VALUE_INDEX);
     OpNode* rValueOpNode = getItem(opNode->args, R_VALUE_INDEX);
 
-    reg rValueReg = generateOpTreeCode(rValueOpNode, ctx);
+    reg rValueReg = -1;
+
+    if (rValueOpNode->opType == OT_ARRAY)
+        return generateArrayOpCode(rValueOpNode, lValueOpNode->value, ctx);
+    else
+        rValueReg = generateOpTreeCode(rValueOpNode, ctx);
+
     int32_t reg3 = allocateRegister(ctx->state->allocator);
 
     if (lValueOpNode->opType == OT_PLACE) {
@@ -395,7 +401,6 @@ reg generateOpTreeCode(OpNode* opNode, ExprContext* ctx) {
         break;
     case OT_INDEX: return generateIndexOpCode(opNode, ctx);
         break;
-    case OT_ARRAY: return generateArrayOpCode(opNode, ctx);
     default: collectError(ST_COMPILE, "unsupported operation", opNode->value, opNode->ast->line);
     }
 }
@@ -408,16 +413,37 @@ reg generateIndexOpCode(OpNode* opNode, ExprContext* ctx)
     OpNode* ptrNameOp = getItem(opNode->args, PTR_VALUE_INDEX);
     OpNode* indexOp = getItem(opNode->args, INDEX_VALUE_INDEX);
 
-    reg ptr = generateBinaryOpCode(ptrNameOp, ctx);
-    reg index = generateBinaryOpCode(indexOp, ctx);
+ /* reg ptr = generateOpTreeCode(ptrNameOp, ctx);*/
+    reg ptr = allocateRegister(ctx->state->allocator);
+
+    Variable* var = findVariable(ptrNameOp->value, ctx->state);
+    Variable* ptrVar = findVariable(ptrNameOp->value, ctx->state);
+    ValueType* itemVType = var->type->array.of;
+    size_t itemSize = getSizeOfType(itemVType);
+
+    int address = ptrVar->type->array.size * itemSize;
+    reg bpOffset = allocateRegister(ctx->state->allocator);
+    char buff[32];
+    _itoa_s(address, buff, 32, 10);
+    I_MOVI(bpOffset, buff, ctx->instructions);
+    I_SUB(ptr, bp, bpOffset, ctx->instructions);
+
+    reg index = generateOpTreeCode(indexOp, ctx);
 
     reg dest = allocateRegister(ctx->state->allocator);
-    Variable* var = findVariable(ptrNameOp->value, ctx->state);
+
     //getTypeSize(var->type);
 
     if (var->type->kind == TYPE_KIND_ARRAY) {
-        ValueType* itemVType = var->type->array.of;
-        size_t itemSize = getSizeOfType(itemVType);
+        
+
+        reg itemSizeReg = allocateRegister(ctx->state->allocator);
+        char buff[32];
+        _itoa_s(itemSize, buff, 32, 10);
+        I_MOVI(itemSizeReg, buff, ctx->instructions);
+
+        I_MUL(index, index, itemSizeReg, ctx->instructions);
+
         switch (itemSize)
         {
         case SIZE_OF_CHAR: {
@@ -429,6 +455,8 @@ reg generateIndexOpCode(OpNode* opNode, ExprContext* ctx)
         default:
             break;
         }
+
+        freeRegister(ctx->state->allocator, itemSizeReg);
     }
     else {
         collectError(ST_COMPILE, "variable is not array", opNode->ast->token, opNode->ast->line);
@@ -437,9 +465,41 @@ reg generateIndexOpCode(OpNode* opNode, ExprContext* ctx)
     return dest;
 }
 
-reg generateArrayOpCode(OpNode* opNode, ExprContext* ctx) {
+reg generateArrayOpCode(OpNode* opNode, char* arrayName, ExprContext* ctx) {
     reg dest = allocateRegister(ctx->state->allocator);
-    I_MOV(dest, sp, ctx->instructions);
+    Variable* ptrVar = findVariable(arrayName, ctx->state);
+
+    ValueType* valueType = ptrVar->type->array.of;
+    int address = ptrVar->type->array.size * valueType->builtin.size;
+    reg bpOffset = allocateRegister(ctx->state->allocator);
+    char buff[32];
+    _itoa_s(address, buff, 32, 10);
+    I_MOVI(bpOffset, buff, ctx->instructions);
+    I_SUB(dest, bp, bpOffset, ctx->instructions);
+
+    for (size_t i = 0; i < opNode->args->size; i++) {
+        OpNode* currItemOp = getItem(opNode->args, i);
+        reg currItemReg = generateOpTreeCode(currItemOp, ctx);
+        size_t sizeOfItem = getSizeOfType(currItemOp->valueType);
+        
+        reg offset = allocateRegister(ctx->state->allocator);
+        char buff[32];
+        _itoa_s(i * sizeOfItem, buff, 32, 10);
+        I_MOVI(offset, buff, ctx->instructions);
+
+        switch (sizeOfItem) 
+        {
+        case SIZE_OF_CHAR: I_STORE8(dest, currItemReg, offset, ctx->instructions); break;
+        case SIZE_OF_INT: I_STORE32(dest, currItemReg, offset, ctx->instructions); break;
+        default:
+            collectError(ST_COMPILE, "unsupported array item", currItemOp->ast->token, currItemOp->ast->line);
+            break;
+        }
+
+        freeRegister(ctx->state->allocator, offset);
+        freeRegister(ctx->state->allocator, currItemReg);
+    }
+
     return dest;
 }
 

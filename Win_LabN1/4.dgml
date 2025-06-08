@@ -2,7 +2,7 @@
 <DirectedGraph xmlns="http://schemas.microsoft.com/vs/2009/dgml">
   <Nodes>
     <Node Id="0" Label="def main()"/>
-    <Node Id="2" Label="arr= [1,2];"/>
+    <Node Id="2" Label="arr = [1, 2, 3, 4];"/>
     <Node Id="3" Label="print(&quot;input a: &quot;);"/>
     <Node Id="4" Label="a = &quot;&quot;;"/>
     <Node Id="5" Label="input(a);"/>
@@ -22,10 +22,10 @@
     <Node Id="19" Label="if c == arr[1] then"/>
     <Node Id="21" Label="f = sub_2(left, right);"/>
     <Node Id="20" Label="joinBlock"/>
-    <Node Id="22" Label="if c == 3 then"/>
+    <Node Id="22" Label="if c == arr[2] then"/>
     <Node Id="24" Label="f = mul_2(left, right);"/>
     <Node Id="23" Label="joinBlock"/>
-    <Node Id="25" Label="if c == 4 then"/>
+    <Node Id="25" Label="if c == arr[3] then"/>
     <Node Id="27" Label="f = div_2(left, right);"/>
     <Node Id="26" Label="joinBlock"/>
     <Node Id="28" Label="resultBuff = &quot;&quot;;"/>

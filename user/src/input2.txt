@@ -1,6 +1,6 @@
 def main()
 {
-	arr= [1,2];
+	arr = [1, 2, 3, 4];
 
 	print("input a: ");
 	a = "";
@@ -27,9 +27,9 @@ def main()
 		f = sum_2(left, right);
 	if c == arr[1] then
 		f = sub_2(left, right);
-	if c == 3 then
+	if c == arr[2] then
 		f = mul_2(left, right);
-	if c == 4 then
+	if c == arr[3] then
 		f = div_2(left, right);
 
 	resultBuff = "";
